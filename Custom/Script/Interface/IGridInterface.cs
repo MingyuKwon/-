@@ -20,7 +20,7 @@ public interface IGridInterface
     /// <summary>
     /// 지정된 위치에 total을 seperate로 바꿔주는 함수
     /// </summary>
-    public void UpdateSeperateNum(int[,] bombNumArray, int[,] treasureNumArray, Vector2Int position);
+    public void UpdateSeperateNum(int[,] bombNumArray, int[,] treasureNumArray, Vector3Int position);
 
     
 }

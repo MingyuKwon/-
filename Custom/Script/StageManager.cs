@@ -81,18 +81,22 @@ public class StageManager : MonoBehaviour, IStageManager
     }
 
     private void Update() {
-        if (Input.GetMouseButtonDown(0))
+        if(Input.GetMouseButtonDown(0))
         {
             Vector3 worldPos = camera.ScreenToWorldPoint(Input.mousePosition);
             Vector3Int cellPos = grid.obstacleTilemap.WorldToCell(worldPos);
             RemoveObstacle(cellPos);
+        }else if(Input.GetMouseButtonDown(2))
+        {
+            Vector3 worldPos = camera.ScreenToWorldPoint(Input.mousePosition);
+            Vector3Int cellPos = grid.obstacleTilemap.WorldToCell(worldPos);
+            ChangeTotalToSeperate(cellPos);
         }
     }
 
     private void RemoveObstacle(Vector3Int cellPos)
     {
         Vector3Int arrayPos = new Vector3Int(cellPos.x + startX , startY - cellPos.y, cellPos.z);
-        Debug.Log(cellPos);
         if (grid.obstacleTilemap.HasTile(cellPos))  // 해당 위치에 타일이 있는지 확인
         {
             if(mineTreasureArray[arrayPos.y, arrayPos.x] == -1) // 지뢰
@@ -126,6 +130,16 @@ public class StageManager : MonoBehaviour, IStageManager
         }
     }
 
+    private void ChangeTotalToSeperate(Vector3Int cellPos)
+    {
+        Vector3Int arrayPos = new Vector3Int(cellPos.x + startX , startY - cellPos.y, cellPos.z);
+        if(grid.obstacleTilemap.HasTile(cellPos)) return; // 해당 위치에 장애물 타일이 있으면 그 자리에서 반환
+        if(totalNumArray[arrayPos.y, arrayPos.x] == 0) return; // 만약 해당 위치가 0이어도 반환 (써도 의미가 없음)
+
+        totalNumMask[arrayPos.y, arrayPos.x] = true;
+        grid.UpdateSeperateNum(mineNumArray, treasureNumArray, cellPos);
+    }
+
     [Button]
     public void StageInitialize(int width = 16, int height = 30, Difficulty difficulty = Difficulty.Hard)
     {
@@ -144,10 +158,14 @@ public class StageManager : MonoBehaviour, IStageManager
         MakeMineTreasureArray(width, height, difficulty);
 
         UpdateArrayNum(NumMode.Total);
+        UpdateArrayNum(NumMode.Mine);
+        UpdateArrayNum(NumMode.Treasure);
 
         grid.ShowEnvironment(width, height);
         grid.ShowTotalNum(totalNumArray, totalNumMask);
         grid.ShowMineTreasure(mineTreasureArray);
+
+        RemoveObstacle(new Vector3Int(0,0,0));
     }
 
     [Button]

@@ -114,7 +114,7 @@ public class TileGrid : MonoBehaviour, IGridInterface
     }
 
     [Button]
-    public void UpdateSeperateNum(int[,] bombNumArray, int[,] treasureNumArray, Vector2Int position)
+    public void UpdateSeperateNum(int[,] bombNumArray, int[,] treasureNumArray, Vector3Int position)
     {
         int height = bombNumArray.GetLength(0);
         int width = bombNumArray.GetLength(1);
@@ -126,9 +126,12 @@ public class TileGrid : MonoBehaviour, IGridInterface
 
         CalcBoxStart(width, height, out groundstartX, out groundendX, out groundstartY, out groundendY);
 
-        tilemaps[2].SetTile(new Vector3Int(position.x + groundstartX,-position.y + groundendY,0) , null);
-        tilemaps[3].SetTile(new Vector3Int(position.x + groundstartX,-position.y + groundendY,0) , mineNum[bombNumArray[position.y,position.x]]);
-        tilemaps[4].SetTile(new Vector3Int(position.x + groundstartX,-position.y + groundendY,0) , treasureNum[treasureNumArray[position.y,position.x]]);
+        int x = position.x - groundstartX;
+        int y = -position.y + groundendY;
+
+        tilemaps[2].SetTile(new Vector3Int(position.x,position.y,0) , null);
+        tilemaps[3].SetTile(new Vector3Int(position.x,position.y,0) , mineNum[bombNumArray[y,x]]);
+        tilemaps[4].SetTile(new Vector3Int(position.x,position.y,0) , treasureNum[treasureNumArray[y,x]]);
 
         // 만약 전체 필드를 다 보여주고 싶다면
         // for(int i=0; i<height; i++)
