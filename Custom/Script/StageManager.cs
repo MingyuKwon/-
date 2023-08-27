@@ -46,21 +46,100 @@ public class StageManager : MonoBehaviour, IStageManager
 
     int[,] mineTreasureArray; // -2 : treausre, -1 : mine, 1 : Start Safe Area
 
-    int[,] totalNumArray;
-    bool[,] totalNumMask;
+    int[,] totalNumArray = null;
+    bool[,] totalNumMask = null;
 
-    int[,] mineNumArray;
-    int[,] treasureNumArray;
+    int[,] mineNumArray = null;
+    int[,] treasureNumArray = null;
+
+
+    private int[] aroundX = {-1,0,1 };
+    private int[] aroundY = {-1,0,1 };
 
     public void StageInitialize(int width, int height, Difficulty difficulty)
     {
         MakeMineTreasureArray(width, height, difficulty);
+
+        UpdateTotalNumArray();
+        UpdateMineNumArray();
+        UpdateTreasureNumArray();
+        
         grid.ShowEnvironment(width, height);
         grid.ShowTotalNum(totalNumArray, totalNumMask);
     }
 
     [Button]
-    void MakeMineTreasureArray(int width = 10, int height = 10, Difficulty difficulty = Difficulty.Easy)
+    void UpdateTotalNumArray()
+    {
+        int height = mineTreasureArray.GetLength(0);
+        int width = mineTreasureArray.GetLength(1);
+
+        if(totalNumArray == null)
+        {
+            totalNumArray = new int[height, width];
+        }else
+        {
+            if(height != totalNumArray.GetLength(0) || 
+                width != totalNumArray.GetLength(1))
+            {
+                Debug.LogError(" mineTreasureArray size and totalNumArray size dont match! ");
+            }
+        }
+
+        for(int i=0; i<height; i++)
+        {
+            for(int j=0; j<width; j++)
+            {
+                if(mineTreasureArray[i,j] < 0) // 함정이거나, 보물인 경우
+                {
+                    for(int aroundI =0; aroundI < aroundY.Length; aroundI++)
+                    {
+                        for(int aroundJ =0; aroundJ < aroundX.Length; aroundJ++)
+                        {
+                            if(aroundX[aroundJ] == 0 && aroundY[aroundI] == 0) continue;
+
+                            int x = j+ aroundX[aroundJ];
+                            int y = i+ aroundY[aroundI];
+
+                            if(x > -1 && x < width 
+                            && y > -1 && y < height
+                            && mineTreasureArray[y,x] > -1)
+                            {
+                                totalNumArray[y,x]++;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        String str = "";
+        for(int i=0; i< height; i++)
+        {
+            for(int j=0; j< width; j++)
+            {
+                str += totalNumArray[i, j].ToString();
+                str += "  ";
+            }
+
+            str += "\n";
+        }
+
+        Debug.Log(str);
+
+    }
+    void UpdateMineNumArray()
+    {
+        
+    }
+    void UpdateTreasureNumArray()
+    {
+        
+    }
+
+
+    [Button]
+    public void MakeMineTreasureArray(int width = 10, int height = 10, Difficulty difficulty = Difficulty.Easy)
     {
         mineTreasureArray = new int[height, width];
         int totalBockNum = height * width;
