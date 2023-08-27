@@ -49,7 +49,7 @@ public class TileGrid : MonoBehaviour, IGridInterface
     }
 
     [Button]
-    public void ShowTotalNum(int[,] totalNumArray)
+    public void ShowTotalNum(int[,] totalNumArray, bool[,] totalNumMask)
     {
         tilemaps[2].ClearAllTiles();
 
@@ -59,6 +59,13 @@ public class TileGrid : MonoBehaviour, IGridInterface
             { 5, 0, 7, 8 },
             { 0, 1, 3, 0 }
         };
+        totalNumMask =  new bool[3, 4]
+        {
+            { true, true, false, true },
+            { true, false, true, false },
+            { false, true, true, false }
+        };
+
         int height = totalNumArray.GetLength(0);
         int width = totalNumArray.GetLength(1);
         
@@ -70,13 +77,11 @@ public class TileGrid : MonoBehaviour, IGridInterface
         CalcBoxStart(width, height, out groundstartX, out groundendX, out groundstartY, out groundendY);
 
 
-        Debug.Log(groundstartX + " " + groundendY);
         for(int i=0; i<height; i++)
         {
             for(int j=0; j<width; j++)
             {
-                
-                if(totalNumArray[i,j] > 0 && totalNumArray[i,j] < 9)
+                if(totalNumArray[i,j] > 0 && totalNumArray[i,j] < 9 && totalNumMask[i,j])
                 {   
                     tilemaps[2].SetTile(new Vector3Int(j + groundstartX,-i + groundendY,0) , totalNum[totalNumArray[i,j]]);
                 }
@@ -85,10 +90,25 @@ public class TileGrid : MonoBehaviour, IGridInterface
     }
 
     [Button]
-    public void ShowSeperateNum(int[,] bombNumArray, int[,] treasureNumArray)
+    public void ShowSeperateNum(int[,] bombNumArray, int[,] treasureNumArray, Vector2Int position)
     {
-        int width = bombNumArray.GetLength(0);
-        int height = bombNumArray.GetLength(1);
+        bombNumArray =  new int[3, 4]
+        {
+            { 1, 2, -1, 4 },
+            { 5, -1, 1, 3 },
+            { 4, 0, 5, 0 } 
+        };
+
+        treasureNumArray =  new int[3, 4]
+        {
+            { 4, 5, 0, 1 },
+            { 3, 0, 3, 0 },
+            { 1, 0, 2, 0 }
+        };
+
+
+        int height = bombNumArray.GetLength(0);
+        int width = bombNumArray.GetLength(1);
         
         int groundstartX;
         int groundendX;
@@ -97,21 +117,26 @@ public class TileGrid : MonoBehaviour, IGridInterface
 
         CalcBoxStart(width, height, out groundstartX, out groundendX, out groundstartY, out groundendY);
 
-        for(int i=0; i<=height; i++)
-        {
-            for(int j=0; j<=width; j++)
-            {
-                if(bombNumArray[i,j] >= 0 && bombNumArray[i,j] < 9)
-                {   
-                    tilemaps[3].SetTile(new Vector3Int(i + groundstartX,j + groundendY,0) , totalNum[bombNumArray[i,j]]);
-                }
+        tilemaps[2].SetTile(new Vector3Int(position.x + groundstartX,-position.y + groundendY,0) , null);
+        tilemaps[3].SetTile(new Vector3Int(position.x + groundstartX,-position.y + groundendY,0) , mineNum[bombNumArray[position.y,position.x]]);
+        tilemaps[4].SetTile(new Vector3Int(position.x + groundstartX,-position.y + groundendY,0) , treasureNum[treasureNumArray[position.y,position.x]]);
 
-                if(treasureNumArray[i,j] >= 0 && treasureNumArray[i,j] < 9)
-                {   
-                    tilemaps[4].SetTile(new Vector3Int(i + groundstartX,j + groundendY,0) , totalNum[treasureNumArray[i,j]]);
-                }
-            }
-        }
+        // 만약 전체 필드를 다 보여주고 싶다면
+        // for(int i=0; i<height; i++)
+        // {
+        //     for(int j=0; j<width; j++)
+        //     {
+        //         if(bombNumArray[i,j] >= 0 && bombNumArray[i,j] < 9)
+        //         {   
+        //             tilemaps[3].SetTile(new Vector3Int(j + groundstartX,-i + groundendY,0) , mineNum[bombNumArray[i,j]]);
+        //         }
+
+        //         if(treasureNumArray[i,j] >= 0 && treasureNumArray[i,j] < 9)
+        //         {   
+        //             tilemaps[4].SetTile(new Vector3Int(j + groundstartX,-i + groundendY,0) , treasureNum[treasureNumArray[i,j]]);
+        //         }
+        //     }
+        // }
     }
 
     private void BoxFillCustom(Tilemap tilemap, TileBase tile, int startX, int startY, int endX, int endY)
@@ -148,7 +173,4 @@ public class TileGrid : MonoBehaviour, IGridInterface
             groundendY = (height/2);
         }
     }
-
-
-
 }
