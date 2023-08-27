@@ -9,6 +9,8 @@ public class TileGrid : MonoBehaviour, IGridInterface
     [Header("Environment")]
     [SerializeField] private TileBase BaseTile;
     [SerializeField] private TileBase BoundTile;
+    [SerializeField] private TileBase MineTile;
+    [SerializeField] private TileBase TreasureTile;
     [SerializeField] private TileBase ObstacleTile;
 
     [Space]
@@ -18,7 +20,7 @@ public class TileGrid : MonoBehaviour, IGridInterface
     [SerializeField] private TileBase[] treasureNum;
 
     [SerializeField] private Tilemap[] tilemaps; 
-    //0 : Base , 1: Bound , 2 : Total Num, 3 : Bomb Num, 4 : Treasure Num,5 : Obstacle 
+    //0 : Base , 1: Bound , 2 : Total Num, 3 : Bomb Num, 4 : Treasure Num,5 : Mine and Treasure ,6 : Obstacle 
 
     [Button]
     public void ShowEnvironment(int width = 10, int height = 10)
@@ -45,26 +47,13 @@ public class TileGrid : MonoBehaviour, IGridInterface
         BoxFillCustom(tilemaps[1], BoundTile, borderstartX, borderstartY, borderendX, groundstartY - 1);
         BoxFillCustom(tilemaps[1], BoundTile, borderstartX, groundendY + 1, borderendX, borderendY);
 
-        //BoxFillCustom(tilemaps[5], ObstacleTile, groundstartX, groundstartY, groundendX, groundendY);
+        //BoxFillCustom(tilemaps[6], ObstacleTile, groundstartX, groundstartY, groundendX, groundendY);
     }
 
     [Button]
     public void ShowTotalNum(int[,] totalNumArray, bool[,] totalNumMask)
     {
         tilemaps[2].ClearAllTiles();
-
-        totalNumArray =  new int[3, 4]
-        {
-            { 1, 2, 0, 4 },
-            { 5, 0, 7, 8 },
-            { 0, 1, 3, 0 }
-        };
-        totalNumMask =  new bool[3, 4]
-        {
-            { true, true, false, true },
-            { true, false, true, false },
-            { false, true, true, false }
-        };
 
         int height = totalNumArray.GetLength(0);
         int width = totalNumArray.GetLength(1);
@@ -81,7 +70,7 @@ public class TileGrid : MonoBehaviour, IGridInterface
         {
             for(int j=0; j<width; j++)
             {
-                if(totalNumArray[i,j] > 0 && totalNumArray[i,j] < 9 && totalNumMask[i,j])
+                if(totalNumArray[i,j] > 0 && totalNumArray[i,j] < 9 && !totalNumMask[i,j])
                 {   
                     tilemaps[2].SetTile(new Vector3Int(j + groundstartX,-i + groundendY,0) , totalNum[totalNumArray[i,j]]);
                 }
@@ -90,23 +79,36 @@ public class TileGrid : MonoBehaviour, IGridInterface
     }
 
     [Button]
-    public void ShowSeperateNum(int[,] bombNumArray, int[,] treasureNumArray, Vector2Int position)
+    public void ShowMineTreasure(int[,] mineTreasureArray)
     {
-        bombNumArray =  new int[3, 4]
+        tilemaps[5].ClearAllTiles();
+
+        int height = mineTreasureArray.GetLength(0);
+        int width = mineTreasureArray.GetLength(1);
+        
+        int groundstartX;
+        int groundendX;
+        int groundstartY;
+        int groundendY;
+
+        CalcBoxStart(width, height, out groundstartX, out groundendX, out groundstartY, out groundendY);
+
+
+        for(int i=0; i<height; i++)
         {
-            { 1, 2, -1, 4 },
-            { 5, -1, 1, 3 },
-            { 4, 0, 5, 0 } 
-        };
+            for(int j=0; j<width; j++)
+            {
+                if(mineTreasureArray[i,j] < 0)
+                {   
+                    tilemaps[5].SetTile(new Vector3Int(j + groundstartX,-i + groundendY,0) , (mineTreasureArray[i,j] == -1) ? MineTile : TreasureTile);
+                }
+            }
+        }
+    }
 
-        treasureNumArray =  new int[3, 4]
-        {
-            { 4, 5, 0, 1 },
-            { 3, 0, 3, 0 },
-            { 1, 0, 2, 0 }
-        };
-
-
+    [Button]
+    public void UpdateSeperateNum(int[,] bombNumArray, int[,] treasureNumArray, Vector2Int position)
+    {
         int height = bombNumArray.GetLength(0);
         int width = bombNumArray.GetLength(1);
         

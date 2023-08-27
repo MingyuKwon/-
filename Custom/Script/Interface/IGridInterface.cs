@@ -11,5 +11,5 @@ public interface IGridInterface
     /// 숫자를 그려주는 함수
     /// </summary>
     public void ShowTotalNum(int[,] totalNumArray, bool[,] totalNumMask);
-    public void ShowSeperateNum(int[,] bombNumArray, int[,] treasureNumArray, Vector2Int position);
+    public void UpdateSeperateNum(int[,] bombNumArray, int[,] treasureNumArray, Vector2Int position);
 }

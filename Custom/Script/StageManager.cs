@@ -14,9 +14,15 @@ public enum Difficulty{
     Professional = 3,
 }
 
+public enum NumMode{
+    Total = 0,
+    Mine = 1,
+    Treasure = 2,
+}
+
 public class StageManager : MonoBehaviour, IStageManager
 {   
-    [SerializeField] private IGridInterface grid;
+    [SerializeField] private TileGrid grid;
 
     private float easyMineRatio = 0.15f;
     private float normalMineRatio = 0.2f;
@@ -53,36 +59,79 @@ public class StageManager : MonoBehaviour, IStageManager
     int[,] treasureNumArray = null;
 
 
+    public delegate bool ConditionDelegate(int x);
+    List<ConditionDelegate> NumModeConditions = new List<ConditionDelegate>
+        {
+            (x) => x < 0 ,  // 토탈로 보면 0보다 작은 경우는 전부 센다
+            (x) => x == -1,  // 지뢰인 경우를 찾는다
+            (x) => x == -2  // 보물인 경우를 찾는다
+        };
     private int[] aroundX = {-1,0,1 };
     private int[] aroundY = {-1,0,1 };
 
+    [Button]
     public void StageInitialize(int width, int height, Difficulty difficulty)
     {
+        totalNumArray = null;
+        totalNumMask = null;
+
+        mineNumArray = null;
+        treasureNumArray = null;
+        
         MakeMineTreasureArray(width, height, difficulty);
 
-        UpdateTotalNumArray();
-        UpdateMineNumArray();
-        UpdateTreasureNumArray();
-        
+        UpdateArrayNum(NumMode.Total);
+
         grid.ShowEnvironment(width, height);
         grid.ShowTotalNum(totalNumArray, totalNumMask);
+        grid.ShowMineTreasure(mineTreasureArray);
     }
 
     [Button]
-    void UpdateTotalNumArray()
+    void UpdateArrayNum(NumMode numMode)
     {
         int height = mineTreasureArray.GetLength(0);
         int width = mineTreasureArray.GetLength(1);
 
-        if(totalNumArray == null)
+        int[,] targetNumArray = null;
+        switch(numMode)
         {
-            totalNumArray = new int[height, width];
+            case NumMode.Total :
+                targetNumArray = totalNumArray;
+                break;
+            case NumMode.Mine :
+                targetNumArray = mineNumArray;
+                break;
+            case NumMode.Treasure :
+                targetNumArray = treasureNumArray;
+                break;
+        }
+
+        if(targetNumArray == null)
+        {
+            switch(numMode)
+            {
+            case NumMode.Total :
+                totalNumArray = new int[height, width];
+                totalNumMask = new bool[height, width];
+                targetNumArray = totalNumArray;
+                break;
+            case NumMode.Mine :
+                mineNumArray = new int[height, width];
+                targetNumArray = mineNumArray;
+                break;
+            case NumMode.Treasure :
+                treasureNumArray = new int[height, width];
+                targetNumArray = treasureNumArray;
+                break;
+            }
+
         }else
         {
-            if(height != totalNumArray.GetLength(0) || 
-                width != totalNumArray.GetLength(1))
+            if(height != targetNumArray.GetLength(0) || 
+                width != targetNumArray.GetLength(1))
             {
-                Debug.LogError(" mineTreasureArray size and totalNumArray size dont match! ");
+                Debug.LogError(" mineTreasureArray size and targetNumArray size dont match! \n height : " + height + " width : " + width + " \n targetNumArray.GetLength(0) : " + targetNumArray.GetLength(0) + " targetNumArray.GetLength(1) :" + targetNumArray.GetLength(1));
             }
         }
 
@@ -90,7 +139,7 @@ public class StageManager : MonoBehaviour, IStageManager
         {
             for(int j=0; j<width; j++)
             {
-                if(mineTreasureArray[i,j] < 0) // 함정이거나, 보물인 경우
+                if(NumModeConditions[(int)numMode](mineTreasureArray[i,j])) // 모드에 따라 어떻게 판단 해야 할지 다르다
                 {
                     for(int aroundI =0; aroundI < aroundY.Length; aroundI++)
                     {
@@ -103,9 +152,9 @@ public class StageManager : MonoBehaviour, IStageManager
 
                             if(x > -1 && x < width 
                             && y > -1 && y < height
-                            && mineTreasureArray[y,x] > -1)
+                            && mineTreasureArray[y,x] != -1) // 이거 지뢰인 경우를 제외하고는 다 계산을 해줘야 한다
                             {
-                                totalNumArray[y,x]++;
+                                targetNumArray[y,x]++;
                             }
                         }
                     }
@@ -118,7 +167,7 @@ public class StageManager : MonoBehaviour, IStageManager
         {
             for(int j=0; j< width; j++)
             {
-                str += totalNumArray[i, j].ToString();
+                str += targetNumArray[i, j].ToString();
                 str += "  ";
             }
 
@@ -127,14 +176,6 @@ public class StageManager : MonoBehaviour, IStageManager
 
         Debug.Log(str);
 
-    }
-    void UpdateMineNumArray()
-    {
-        
-    }
-    void UpdateTreasureNumArray()
-    {
-        
     }
 
 
