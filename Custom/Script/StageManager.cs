@@ -22,13 +22,20 @@ public enum NumMode{
 
 public class StageManager : MonoBehaviour, IStageManager
 {   
+    [SerializeField] private Camera camera;
     [SerializeField] private TileGrid grid;
 
-    private float easyMineRatio = 0.15f;
-    private float normalMineRatio = 0.2f;
-    private float hardMineRatio = 0.3f;
-    private float professionalMineRatio = 0.35f;
+    private float easyMineRatio = 0.12f;
+    private float normalMineRatio = 0.15f;
+    private float hardMineRatio = 0.20f;
+    private float professionalMineRatio = 0.25f;
     private float mineToTreasureRatio = 0.3f;
+
+    int startX = -1;
+    int startY = -1;
+
+    int width = -1;
+    int height = -1;
 
     public int mineCount{
         get{
@@ -69,14 +76,70 @@ public class StageManager : MonoBehaviour, IStageManager
     private int[] aroundX = {-1,0,1 };
     private int[] aroundY = {-1,0,1 };
 
+    private void Start() {
+        StageInitialize();
+    }
+
+    private void Update() {
+        if (Input.GetMouseButtonDown(0))
+        {
+            Vector3 worldPos = camera.ScreenToWorldPoint(Input.mousePosition);
+            Vector3Int cellPos = grid.obstacleTilemap.WorldToCell(worldPos);
+            RemoveObstacle(cellPos);
+        }
+    }
+
+    private void RemoveObstacle(Vector3Int cellPos)
+    {
+        Vector3Int arrayPos = new Vector3Int(cellPos.x + startX , startY - cellPos.y, cellPos.z);
+        Debug.Log(cellPos);
+        if (grid.obstacleTilemap.HasTile(cellPos))  // 해당 위치에 타일이 있는지 확인
+        {
+            if(mineTreasureArray[arrayPos.y, arrayPos.x] == -1) // 지뢰
+            {
+                return;
+                
+            }else{ // 지뢰가 아닌 타일
+
+                grid.obstacleTilemap.SetTile(cellPos, null);  // 타일 변경
+
+                if(totalNumArray[arrayPos.y, arrayPos.x] == 0){ // 완전 빈 공간인 경우 사방 8개를 자동으로 다 연다
+                    for(int aroundI =0; aroundI < aroundY.Length; aroundI++)
+                        {
+                            for(int aroundJ =0; aroundJ < aroundX.Length; aroundJ++)
+                            {
+                                if(aroundX[aroundJ] == 0 && aroundY[aroundI] == 0) continue;
+
+                                int x = arrayPos.x + aroundX[aroundJ];
+                                int y = arrayPos.y + aroundY[aroundI];
+
+                                if(x > -1 && x < width 
+                                && y > -1 && y < height) 
+                                {
+                                    RemoveObstacle(new Vector3Int(x - startX, startY - y));
+                                }
+                            }
+                        }
+                }
+            }
+            
+        }
+    }
+
     [Button]
-    public void StageInitialize(int width, int height, Difficulty difficulty)
+    public void StageInitialize(int width = 16, int height = 30, Difficulty difficulty = Difficulty.Hard)
     {
         totalNumArray = null;
         totalNumMask = null;
 
         mineNumArray = null;
         treasureNumArray = null;
+
+        startX = -1;
+        startY = -1;
+
+        this.width = width;
+        this.height = height;
         
         MakeMineTreasureArray(width, height, difficulty);
 
@@ -162,19 +225,19 @@ public class StageManager : MonoBehaviour, IStageManager
             }
         }
 
-        String str = "";
-        for(int i=0; i< height; i++)
-        {
-            for(int j=0; j< width; j++)
-            {
-                str += targetNumArray[i, j].ToString();
-                str += "  ";
-            }
+        // String str = "";
+        // for(int i=0; i< height; i++)
+        // {
+        //     for(int j=0; j< width; j++)
+        //     {
+        //         str += targetNumArray[i, j].ToString();
+        //         str += "  ";
+        //     }
 
-            str += "\n";
-        }
+        //     str += "\n";
+        // }
 
-        Debug.Log(str);
+        // Debug.Log(str);
 
     }
 
@@ -205,9 +268,6 @@ public class StageManager : MonoBehaviour, IStageManager
         int totalCount = (int)(totalBockNum * mineRatio);
         mineCount = (int)(totalCount * (1 - mineToTreasureRatio));
         treasureCount = totalCount - mineCount;
-
-        int startX;
-        int startY;
 
         CalcStartArea(width, height, out startX, out startY);
 
@@ -266,24 +326,23 @@ public class StageManager : MonoBehaviour, IStageManager
             
         }
 
+        // String str = "";
+        // for(int i=0; i< height; i++)
+        // {
+        //     for(int j=0; j< width; j++)
+        //     {
+        //         str += mineTreasureArray[i, j].ToString();
+        //         str += "  ";
+        //     }
 
-        String str = "";
-        for(int i=0; i< height; i++)
-        {
-            for(int j=0; j< width; j++)
-            {
-                str += mineTreasureArray[i, j].ToString();
-                str += "  ";
-            }
+        //     str += "\n";
+        // }
 
-            str += "\n";
-        }
-
-        str += "\nmineCount : " + mineCount;
-        str += "\ntreasureCount : " + treasureCount;
+        // str += "\nmineCount : " + mineCount;
+        // str += "\ntreasureCount : " + treasureCount;
 
 
-        Debug.Log(str);
+        // Debug.Log(str);
 
     }
 

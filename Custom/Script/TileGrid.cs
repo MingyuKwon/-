@@ -22,6 +22,12 @@ public class TileGrid : MonoBehaviour, IGridInterface
     [SerializeField] private Tilemap[] tilemaps; 
     //0 : Base , 1: Bound , 2 : Total Num, 3 : Bomb Num, 4 : Treasure Num,5 : Mine and Treasure ,6 : Obstacle 
 
+    public Tilemap obstacleTilemap{
+        get{
+            return tilemaps[6];
+        }
+    }
+
     [Button]
     public void ShowEnvironment(int width = 10, int height = 10)
     {
@@ -47,8 +53,9 @@ public class TileGrid : MonoBehaviour, IGridInterface
         BoxFillCustom(tilemaps[1], BoundTile, borderstartX, borderstartY, borderendX, groundstartY - 1);
         BoxFillCustom(tilemaps[1], BoundTile, borderstartX, groundendY + 1, borderendX, borderendY);
 
-        //BoxFillCustom(tilemaps[6], ObstacleTile, groundstartX, groundstartY, groundendX, groundendY);
+        BoxFillCustom(tilemaps[6], ObstacleTile, groundstartX, groundstartY, groundendX, groundendY);
     }
+
 
     [Button]
     public void ShowTotalNum(int[,] totalNumArray, bool[,] totalNumMask)
