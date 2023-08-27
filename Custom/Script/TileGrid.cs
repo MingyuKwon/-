@@ -13,6 +13,11 @@ public class TileGrid : MonoBehaviour, IGridInterface
     [SerializeField] private TileBase TreasureTile;
     [SerializeField] private TileBase ObstacleTile;
 
+    [Header("Flag")]
+    [SerializeField] private TileBase TrapFlag;
+    [SerializeField] private TileBase TreasureFlag;
+    [SerializeField] private TileBase QuestionFlag;
+
     [Space]
     [Header("Num")]
     [SerializeField] private TileBase[] totalNum;
@@ -20,7 +25,7 @@ public class TileGrid : MonoBehaviour, IGridInterface
     [SerializeField] private TileBase[] treasureNum;
 
     [SerializeField] private Tilemap[] tilemaps; 
-    //0 : Base , 1: Bound , 2 : Total Num, 3 : Bomb Num, 4 : Treasure Num,5 : Mine and Treasure ,6 : Obstacle 
+    //0 : Base , 1: Bound , 2 : Total Num, 3 : Bomb Num, 4 : Treasure Num,5 : Mine and Treasure ,6 : Obstacle ,7 : Flag
 
     public Tilemap obstacleTilemap{
         get{
@@ -149,6 +154,26 @@ public class TileGrid : MonoBehaviour, IGridInterface
         //         }
         //     }
         // }
+    }
+
+    public void SetFlag(Vector3Int position , Flag flag)
+    {
+        switch(flag)
+        {
+            case Flag.None :
+                tilemaps[7].SetTile(position, null);
+                break;
+            case Flag.Question :
+                tilemaps[7].SetTile(position, QuestionFlag);
+                break;
+            case Flag.Mine :
+                tilemaps[7].SetTile(position, TrapFlag);
+                break;
+            case Flag.Treasure :
+                tilemaps[7].SetTile(position, TreasureFlag);
+                break;
+            
+        }
     }
 
     private void BoxFillCustom(Tilemap tilemap, TileBase tile, int startX, int startY, int endX, int endY)

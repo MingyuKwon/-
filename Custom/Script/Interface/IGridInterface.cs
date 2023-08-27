@@ -1,5 +1,16 @@
 using UnityEngine;
 
+/// <summary>
+/// Define in IGridInterface
+/// </summary>
+public enum Flag{
+    None = 0,
+    Question = 1,
+    Mine = 2,
+    Treasure = 3,
+    
+}
+
 public interface IGridInterface
 {
     /// <summary>
@@ -21,6 +32,11 @@ public interface IGridInterface
     /// 지정된 위치에 total을 seperate로 바꿔주는 함수
     /// </summary>
     public void UpdateSeperateNum(int[,] bombNumArray, int[,] treasureNumArray, Vector3Int position);
+
+    /// <summary>
+    /// 지정된 위치에 flag를 세우는 함수
+    /// </summary>
+    public void SetFlag(Vector3Int position, Flag flag);
 
     
 }

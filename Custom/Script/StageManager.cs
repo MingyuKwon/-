@@ -4,22 +4,6 @@ using System;
 using System.Linq;
 using Sirenix.OdinInspector;
 
-/// <summary>
-/// Define in StageManager
-/// </summary>
-public enum Difficulty{
-    Easy = 0,
-    Normal = 1,
-    Hard = 2,
-    Professional = 3,
-}
-
-public enum NumMode{
-    Total = 0,
-    Mine = 1,
-    Treasure = 2,
-}
-
 public class StageManager : MonoBehaviour, IStageManager
 {   
     [SerializeField] private Camera camera;
@@ -65,6 +49,8 @@ public class StageManager : MonoBehaviour, IStageManager
     int[,] mineNumArray = null;
     int[,] treasureNumArray = null;
 
+    int[,] flagArray = null;
+
 
     public delegate bool ConditionDelegate(int x);
     List<ConditionDelegate> NumModeConditions = new List<ConditionDelegate>
@@ -86,6 +72,11 @@ public class StageManager : MonoBehaviour, IStageManager
             Vector3 worldPos = camera.ScreenToWorldPoint(Input.mousePosition);
             Vector3Int cellPos = grid.obstacleTilemap.WorldToCell(worldPos);
             RemoveObstacle(cellPos);
+        }else if(Input.GetMouseButtonDown(1))
+        {
+            Vector3 worldPos = camera.ScreenToWorldPoint(Input.mousePosition);
+            Vector3Int cellPos = grid.obstacleTilemap.WorldToCell(worldPos);
+            SetFlag(cellPos);
         }else if(Input.GetMouseButtonDown(2))
         {
             Vector3 worldPos = camera.ScreenToWorldPoint(Input.mousePosition);
@@ -104,9 +95,9 @@ public class StageManager : MonoBehaviour, IStageManager
                 return;
                 
             }else{ // 지뢰가 아닌 타일
-
+                SetFlag(cellPos, true);
                 grid.obstacleTilemap.SetTile(cellPos, null);  // 타일 변경
-
+                
                 if(totalNumArray[arrayPos.y, arrayPos.x] == 0){ // 완전 빈 공간인 경우 사방 8개를 자동으로 다 연다
                     for(int aroundI =0; aroundI < aroundY.Length; aroundI++)
                         {
@@ -140,6 +131,25 @@ public class StageManager : MonoBehaviour, IStageManager
         grid.UpdateSeperateNum(mineNumArray, treasureNumArray, cellPos);
     }
 
+    private void SetFlag(Vector3Int cellPos, bool forceful = false)
+    {
+        Vector3Int arrayPos = new Vector3Int(cellPos.x + startX , startY - cellPos.y, cellPos.z);
+        if(!(grid.obstacleTilemap.HasTile(cellPos))) return; // 해당 위치에 장애물 타일이 없으면 무시
+
+        if(forceful)
+        {
+            flagArray[arrayPos.y, arrayPos.x] = 0;
+            grid.SetFlag(cellPos, Flag.None);
+        }else
+        {
+            Flag[] flagEnumArray = (Flag[]) Enum.GetValues(typeof(Flag));
+            flagArray[arrayPos.y, arrayPos.x] = (flagArray[arrayPos.y, arrayPos.x] + 1) % flagEnumArray.Length;
+            grid.SetFlag(cellPos, flagEnumArray[flagArray[arrayPos.y, arrayPos.x]]);
+        }
+        
+        
+    }
+
     [Button]
     public void StageInitialize(int width = 16, int height = 30, Difficulty difficulty = Difficulty.Hard)
     {
@@ -148,6 +158,8 @@ public class StageManager : MonoBehaviour, IStageManager
 
         mineNumArray = null;
         treasureNumArray = null;
+
+        flagArray = new int[height, width];
 
         startX = -1;
         startY = -1;
