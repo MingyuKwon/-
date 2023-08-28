@@ -38,5 +38,10 @@ public interface IGridInterface
     /// </summary>
     public void SetFlag(Vector3Int position, Flag flag);
 
+    /// <summary>
+    /// 지난 위치의 포커스를 지우고, 새로운 위치에 포커스를 그리는 함수
+    /// </summary>
+    public void SetFocus(Vector3Int previousPosition , Vector3Int newPosition);
+
     
 }

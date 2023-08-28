@@ -8,12 +8,13 @@ public class StageManager : MonoBehaviour, IStageManager
 {   
     [SerializeField] private Camera camera;
     [SerializeField] private TileGrid grid;
+    [SerializeField] private GameObject tempCanvas;
 
     private float easyMineRatio = 0.12f;
     private float normalMineRatio = 0.15f;
     private float hardMineRatio = 0.20f;
     private float professionalMineRatio = 0.25f;
-    private float mineToTreasureRatio = 0.3f;
+    private float mineToTreasureRatio = 0.4f;
 
     int startX = -1;
     int startY = -1;
@@ -51,6 +52,8 @@ public class StageManager : MonoBehaviour, IStageManager
 
     int[,] flagArray = null;
 
+    private Vector3Int currentFocusPosition = Vector3Int.zero;
+
 
     public delegate bool ConditionDelegate(int x);
     List<ConditionDelegate> NumModeConditions = new List<ConditionDelegate>
@@ -67,22 +70,42 @@ public class StageManager : MonoBehaviour, IStageManager
     }
 
     private void Update() {
+        
+        SetFocus();
+
         if(Input.GetMouseButtonDown(0))
         {
-            Vector3 worldPos = camera.ScreenToWorldPoint(Input.mousePosition);
-            Vector3Int cellPos = grid.obstacleTilemap.WorldToCell(worldPos);
-            RemoveObstacle(cellPos);
+            RemoveObstacle(currentFocusPosition);
         }else if(Input.GetMouseButtonDown(1))
         {
-            Vector3 worldPos = camera.ScreenToWorldPoint(Input.mousePosition);
-            Vector3Int cellPos = grid.obstacleTilemap.WorldToCell(worldPos);
-            SetFlag(cellPos);
+            SetFlag(currentFocusPosition);
         }else if(Input.GetMouseButtonDown(2))
         {
-            Vector3 worldPos = camera.ScreenToWorldPoint(Input.mousePosition);
-            Vector3Int cellPos = grid.obstacleTilemap.WorldToCell(worldPos);
-            ChangeTotalToSeperate(cellPos);
+            ChangeTotalToSeperate(currentFocusPosition);
         }
+    }
+
+    private void SetFocus()
+    {
+        Vector3 worldPos = camera.ScreenToWorldPoint(Input.mousePosition);
+        Vector3Int cellPos = grid.obstacleTilemap.WorldToCell(worldPos);
+
+        if(cellPos == currentFocusPosition) return; // 만약 포커스가 아직 바뀌지 않았다면 요청 무시
+        if(grid.boundTilemap.HasTile(cellPos))  return; // 해당 위치가 필드 바깥이면 무시
+
+        if(grid.obstacleTilemap.HasTile(cellPos))  // 해당 위치에 타일이 있는지 확인
+        { // 만약 타일이 있다면 상호작용이 가능한 놈만 포커스를 줘야 한다. 
+            // 그니까, 해당 타일의 상하좌우 4공간 상에 비어있는 곳이 하나라도 있다면 가능, 아니면 불가능
+            if( (grid.boundTilemap.HasTile(cellPos +  Vector3Int.up) || grid.obstacleTilemap.HasTile(cellPos +  Vector3Int.up)) &&
+                (grid.boundTilemap.HasTile(cellPos +  Vector3Int.down) || grid.obstacleTilemap.HasTile(cellPos +  Vector3Int.down)) &&
+                (grid.boundTilemap.HasTile(cellPos +  Vector3Int.right) || grid.obstacleTilemap.HasTile(cellPos +  Vector3Int.right)) &&
+                (grid.boundTilemap.HasTile(cellPos +  Vector3Int.left) || grid.obstacleTilemap.HasTile(cellPos +  Vector3Int.left)) 
+            ) return;
+            
+        }
+         
+        grid.SetFocus(currentFocusPosition, cellPos);
+        currentFocusPosition = cellPos;
     }
 
     private void RemoveObstacle(Vector3Int cellPos)
@@ -92,11 +115,16 @@ public class StageManager : MonoBehaviour, IStageManager
         {
             if(mineTreasureArray[arrayPos.y, arrayPos.x] == -1) // 지뢰
             {
+                GameOver();
                 return;
-                
             }else{ // 지뢰가 아닌 타일
                 SetFlag(cellPos, true);
                 grid.obstacleTilemap.SetTile(cellPos, null);  // 타일 변경
+
+                if(mineTreasureArray[arrayPos.y, arrayPos.x] == -2) //보물인 경우에는 추가 작업 해줘야 함
+                {
+                    
+                }
                 
                 if(totalNumArray[arrayPos.y, arrayPos.x] == 0){ // 완전 빈 공간인 경우 사방 8개를 자동으로 다 연다
                     for(int aroundI =0; aroundI < aroundY.Length; aroundI++)
@@ -176,6 +204,7 @@ public class StageManager : MonoBehaviour, IStageManager
         grid.ShowEnvironment(width, height);
         grid.ShowTotalNum(totalNumArray, totalNumMask);
         grid.ShowMineTreasure(mineTreasureArray);
+
 
         RemoveObstacle(new Vector3Int(0,0,0));
     }
@@ -374,6 +403,17 @@ public class StageManager : MonoBehaviour, IStageManager
 
         // Debug.Log(str);
 
+    }
+
+    private void GameOver()
+    {
+        tempCanvas.SetActive(true);
+    }
+
+    public void RestartTemp()
+    {
+        tempCanvas.SetActive(false);
+        StageInitialize();
     }
 
     void CalcStartArea(int width, int height, out int groundstartX,out int groundendY)

@@ -12,11 +12,13 @@ public class TileGrid : MonoBehaviour, IGridInterface
     [SerializeField] private TileBase MineTile;
     [SerializeField] private TileBase TreasureTile;
     [SerializeField] private TileBase ObstacleTile;
+    [SerializeField] private TileBase FocusTile;
 
     [Header("Flag")]
     [SerializeField] private TileBase TrapFlag;
     [SerializeField] private TileBase TreasureFlag;
     [SerializeField] private TileBase QuestionFlag;
+    
 
     [Space]
     [Header("Num")]
@@ -25,11 +27,17 @@ public class TileGrid : MonoBehaviour, IGridInterface
     [SerializeField] private TileBase[] treasureNum;
 
     [SerializeField] private Tilemap[] tilemaps; 
-    //0 : Base , 1: Bound , 2 : Total Num, 3 : Bomb Num, 4 : Treasure Num,5 : Mine and Treasure ,6 : Obstacle ,7 : Flag
+    //0 : Base , 1: Bound , 2 : Total Num, 3 : Bomb Num, 4 : Treasure Num,5 : Mine and Treasure ,6 : Obstacle ,7 : Flag, 8 : Focus
 
     public Tilemap obstacleTilemap{
         get{
             return tilemaps[6];
+        }
+    }
+
+    public Tilemap boundTilemap{
+        get{
+            return tilemaps[1];
         }
     }
 
@@ -38,6 +46,7 @@ public class TileGrid : MonoBehaviour, IGridInterface
     {
         tilemaps[0].ClearAllTiles();
         tilemaps[1].ClearAllTiles();
+        tilemaps[7].ClearAllTiles();
 
         int groundstartX;
         int groundendX;
@@ -174,6 +183,12 @@ public class TileGrid : MonoBehaviour, IGridInterface
                 break;
             
         }
+    }
+
+    public void SetFocus(Vector3Int previousPosition , Vector3Int newPosition)
+    {
+        tilemaps[8].SetTile(previousPosition, null);
+        tilemaps[8].SetTile(newPosition, FocusTile);
     }
 
     private void BoxFillCustom(Tilemap tilemap, TileBase tile, int startX, int startY, int endX, int endY)
