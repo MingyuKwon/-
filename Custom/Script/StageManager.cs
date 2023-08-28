@@ -82,6 +82,8 @@ public class StageManager : MonoBehaviour, IStageManager
         }else if(Input.GetMouseButtonDown(2))
         {
             ChangeTotalToSeperate(currentFocusPosition);
+        }else if(Input.GetMouseButton(3)) { 
+            BombObstacle(currentFocusPosition);
         }
     }
 
@@ -108,27 +110,50 @@ public class StageManager : MonoBehaviour, IStageManager
         currentFocusPosition = cellPos;
     }
 
-    private void RemoveObstacle(Vector3Int cellPos)
+    private void RemoveObstacle(Vector3Int cellPos, bool special = false) // Special은 보물을 찾거나 지뢰를 없애서 갱신되고 처음 도는 재귀를 의미. 
+                                                                            //이 경우에는 타일이 이미 지워져 있어도 다시 돌아야 한다
     {
         Vector3Int arrayPos = new Vector3Int(cellPos.x + startX , startY - cellPos.y, cellPos.z);
-        if (grid.obstacleTilemap.HasTile(cellPos))  // 해당 위치에 타일이 있는지 확인
+        if (special || grid.obstacleTilemap.HasTile(cellPos))  // 해당 위치에 타일이 있는지 확인
         {
+            SetFlag(cellPos, true);
+
             if(mineTreasureArray[arrayPos.y, arrayPos.x] == -1) // 지뢰
             {
                 GameOver();
                 return;
             }else{ // 지뢰가 아닌 타일
-                SetFlag(cellPos, true);
-                grid.obstacleTilemap.SetTile(cellPos, null);  // 타일 변경
+                
+                RemoveObstacleTile(cellPos);
 
                 if(mineTreasureArray[arrayPos.y, arrayPos.x] == -2) //보물인 경우에는 추가 작업 해줘야 함
                 {
                     mineTreasureArray[arrayPos.y, arrayPos.x] = 0; // 배열에서 보물을 지운다
                     UpdateArrayNum(NumMode.Total); // 갱신
                     UpdateArrayNum(NumMode.Treasure); // 갱신
-                    // 아직 타일에서 지우진 않았다
+                    // 아직 타일에서 보물을 지우진 않았다
                     grid.ShowTotalNum(totalNumArray, totalNumMask);
                     grid.ShowSeperateNum(mineNumArray, treasureNumArray, totalNumMask);
+
+                    for(int aroundI =0; aroundI < aroundY.Length; aroundI++)
+                        {
+                            for(int aroundJ =0; aroundJ < aroundX.Length; aroundJ++)
+                            {
+                                if(aroundX[aroundJ] == 0 && aroundY[aroundI] == 0) continue;
+
+                                int x = arrayPos.x + aroundX[aroundJ];
+                                int y = arrayPos.y + aroundY[aroundI];
+
+                                if(x > -1 && x < width 
+                                && y > -1 && y < height
+                                && (totalNumArray[y,x] == 0)
+                                && (mineTreasureArray[y,x] >= 0)
+                                ) 
+                                {
+                                    BombObstacle(new Vector3Int(x - startX, startY - y), true);
+                                }
+                            }
+                        }
                 }
                 
                 if(totalNumArray[arrayPos.y, arrayPos.x] == 0){ // 완전 빈 공간인 경우 사방 8개를 자동으로 다 연다
@@ -152,6 +177,82 @@ public class StageManager : MonoBehaviour, IStageManager
             }
             
         }
+    }
+
+    private void BombObstacle(Vector3Int cellPos, bool special = false) // Special은 보물을 찾거나 지뢰를 없애서 갱신되고 처음 도는 재귀를 의미. 
+                                                                        //이 경우에는 타일이 이미 지워져 있어도 다시 돌아야 한다
+    {
+        Vector3Int arrayPos = new Vector3Int(cellPos.x + startX , startY - cellPos.y, cellPos.z);
+        if (special || grid.obstacleTilemap.HasTile(cellPos))  // 해당 위치에 타일이 있는지 확인
+        {
+            SetFlag(cellPos, true);
+
+            if(mineTreasureArray[arrayPos.y, arrayPos.x] == -2) // 보물
+            {
+                GameOver();
+                return;
+            }else{ // 보물이 아님
+                
+                RemoveObstacleTile(cellPos, true);
+
+                if(mineTreasureArray[arrayPos.y, arrayPos.x] == -1) // 지뢰
+                {
+                    mineTreasureArray[arrayPos.y, arrayPos.x] = 0; // 배열에서 지뢰를 지운다
+                    UpdateArrayNum(NumMode.Total); // 갱신
+                    UpdateArrayNum(NumMode.Mine); // 갱신
+                    // 아직 타일에서 지뢰를 지우진 않았다
+                    grid.ShowTotalNum(totalNumArray, totalNumMask);
+                    grid.ShowSeperateNum(mineNumArray, treasureNumArray, totalNumMask);
+
+                    // 새로 갱신 후에는 , 갱신으로 인해 자기 주변에서 새로 0이 된 것이 없나 따로 확인 절차가 필요하다
+                    for(int aroundI =0; aroundI < aroundY.Length; aroundI++)
+                        {
+                            for(int aroundJ =0; aroundJ < aroundX.Length; aroundJ++)
+                            {
+                                if(aroundX[aroundJ] == 0 && aroundY[aroundI] == 0) continue;
+
+                                int x = arrayPos.x + aroundX[aroundJ];
+                                int y = arrayPos.y + aroundY[aroundI];
+
+                                if(x > -1 && x < width 
+                                && y > -1 && y < height
+                                && (totalNumArray[y,x] == 0)
+                                && (mineTreasureArray[y,x] >= 0)
+                                ) 
+                                {
+                                    BombObstacle(new Vector3Int(x - startX, startY - y), true);
+                                }
+                            }
+                        }
+
+                }
+
+                if(totalNumArray[arrayPos.y, arrayPos.x] == 0){ // 완전 빈 공간인 경우 사방 8개를 자동으로 다 연다
+                    for(int aroundI =0; aroundI < aroundY.Length; aroundI++)
+                        {
+                            for(int aroundJ =0; aroundJ < aroundX.Length; aroundJ++)
+                            {
+                                if(aroundX[aroundJ] == 0 && aroundY[aroundI] == 0) continue;
+
+                                int x = arrayPos.x + aroundX[aroundJ];
+                                int y = arrayPos.y + aroundY[aroundI];
+
+                                if(x > -1 && x < width 
+                                && y > -1 && y < height) 
+                                {
+                                    BombObstacle(new Vector3Int(x - startX, startY - y));
+                                }
+                            }
+                        }
+                }
+            }
+            
+        }
+    }
+
+    private void RemoveObstacleTile(Vector3Int cellPos, bool isBomb = false)
+    {
+        grid.obstacleTilemap.SetTile(cellPos, null);
     }
 
     private void ChangeTotalToSeperate(Vector3Int cellPos)
