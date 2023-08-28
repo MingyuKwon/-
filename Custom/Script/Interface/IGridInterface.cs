@@ -31,7 +31,12 @@ public interface IGridInterface
     /// <summary>
     /// 지정된 위치에 total을 seperate로 바꿔주는 함수
     /// </summary>
-    public void UpdateSeperateNum(int[,] bombNumArray, int[,] treasureNumArray, Vector3Int position);
+    public void UpdateSeperateNum(int[,] mineNumArray, int[,] treasureNumArray, Vector3Int position);
+
+    /// <summary>
+    /// seperate 가 띄워진 모든 타일을 갱신
+    /// </summary>
+    public void ShowSeperateNum(int[,] mineNumArray, int[,] treasureNumArray, bool[,] totalNumMask );
 
     /// <summary>
     /// 지정된 위치에 flag를 세우는 함수

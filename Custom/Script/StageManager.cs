@@ -123,7 +123,12 @@ public class StageManager : MonoBehaviour, IStageManager
 
                 if(mineTreasureArray[arrayPos.y, arrayPos.x] == -2) //보물인 경우에는 추가 작업 해줘야 함
                 {
-                    
+                    mineTreasureArray[arrayPos.y, arrayPos.x] = 0; // 배열에서 보물을 지운다
+                    UpdateArrayNum(NumMode.Total); // 갱신
+                    UpdateArrayNum(NumMode.Treasure); // 갱신
+                    // 아직 타일에서 지우진 않았다
+                    grid.ShowTotalNum(totalNumArray, totalNumMask);
+                    grid.ShowSeperateNum(mineNumArray, treasureNumArray, totalNumMask);
                 }
                 
                 if(totalNumArray[arrayPos.y, arrayPos.x] == 0){ // 완전 빈 공간인 경우 사방 8개를 자동으로 다 연다
@@ -254,6 +259,14 @@ public class StageManager : MonoBehaviour, IStageManager
                 width != targetNumArray.GetLength(1))
             {
                 Debug.LogError(" mineTreasureArray size and targetNumArray size dont match! \n height : " + height + " width : " + width + " \n targetNumArray.GetLength(0) : " + targetNumArray.GetLength(0) + " targetNumArray.GetLength(1) :" + targetNumArray.GetLength(1));
+            }
+
+            for(int i=0; i<height; i++)
+            {
+                for(int j=0; j<width; j++)
+                {
+                    targetNumArray[i,j] = 0;
+                }
             }
         }
 

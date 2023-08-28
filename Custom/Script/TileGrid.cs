@@ -46,6 +46,8 @@ public class TileGrid : MonoBehaviour, IGridInterface
     {
         tilemaps[0].ClearAllTiles();
         tilemaps[1].ClearAllTiles();
+        tilemaps[3].ClearAllTiles();
+        tilemaps[4].ClearAllTiles();
         tilemaps[7].ClearAllTiles();
 
         int groundstartX;
@@ -128,10 +130,10 @@ public class TileGrid : MonoBehaviour, IGridInterface
     }
 
     [Button]
-    public void UpdateSeperateNum(int[,] bombNumArray, int[,] treasureNumArray, Vector3Int position)
+    public void UpdateSeperateNum(int[,] mineNumArray, int[,] treasureNumArray, Vector3Int position)
     {
-        int height = bombNumArray.GetLength(0);
-        int width = bombNumArray.GetLength(1);
+        int height = mineNumArray.GetLength(0);
+        int width = mineNumArray.GetLength(1);
         
         int groundstartX;
         int groundendX;
@@ -144,7 +146,7 @@ public class TileGrid : MonoBehaviour, IGridInterface
         int y = -position.y + groundendY;
 
         tilemaps[2].SetTile(new Vector3Int(position.x,position.y,0) , null);
-        tilemaps[3].SetTile(new Vector3Int(position.x,position.y,0) , mineNum[bombNumArray[y,x]]);
+        tilemaps[3].SetTile(new Vector3Int(position.x,position.y,0) , mineNum[mineNumArray[y,x]]);
         tilemaps[4].SetTile(new Vector3Int(position.x,position.y,0) , treasureNum[treasureNumArray[y,x]]);
 
         // 만약 전체 필드를 다 보여주고 싶다면
@@ -163,6 +165,32 @@ public class TileGrid : MonoBehaviour, IGridInterface
         //         }
         //     }
         // }
+    }
+
+    public void ShowSeperateNum(int[,] mineNumArray, int[,] treasureNumArray, bool[,] totalNumMask)
+    {
+        int height = mineNumArray.GetLength(0);
+        int width = mineNumArray.GetLength(1);
+        
+        int groundstartX;
+        int groundendX;
+        int groundstartY;
+        int groundendY;
+
+        CalcBoxStart(width, height, out groundstartX, out groundendX, out groundstartY, out groundendY);
+
+        for(int i=0; i<height; i++)
+        {
+            for(int j=0; j<width; j++)
+            {
+                if(totalNumMask[i,j]) // 여기가 true로 되어 있으면 아이템으로 토탈 지움 -> seperate 띄워저 있음
+                {   
+                    tilemaps[3].SetTile(new Vector3Int(j + groundstartX,-i + groundendY,0) , mineNum[mineNumArray[i,j]]);
+                    tilemaps[4].SetTile(new Vector3Int(j + groundstartX,-i + groundendY,0) , treasureNum[treasureNumArray[i,j]]);
+                }
+            }
+        }
+        
     }
 
     public void SetFlag(Vector3Int position , Flag flag)
