@@ -11,6 +11,12 @@ public enum Flag{
     
 }
 
+public enum TreasureSearch{
+    None = 0,
+    Yes = 1,
+    No = 2,    
+}
+
 public interface IGridInterface
 {
     /// <summary>

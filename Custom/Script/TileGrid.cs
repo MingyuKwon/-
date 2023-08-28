@@ -13,6 +13,8 @@ public class TileGrid : MonoBehaviour, IGridInterface
     [SerializeField] private TileBase TreasureTile;
     [SerializeField] private TileBase ObstacleTile;
     [SerializeField] private TileBase FocusTile;
+    [SerializeField] private TileBase TreasureYesTile;
+    [SerializeField] private TileBase TreasureFalseTile;
 
     [Header("Flag")]
     [SerializeField] private TileBase TrapFlag;
@@ -27,7 +29,7 @@ public class TileGrid : MonoBehaviour, IGridInterface
     [SerializeField] private TileBase[] treasureNum;
 
     [SerializeField] private Tilemap[] tilemaps; 
-    //0 : Base , 1: Bound , 2 : Total Num, 3 : Bomb Num, 4 : Treasure Num,5 : Mine and Treasure ,6 : Obstacle ,7 : Flag, 8 : Focus
+    //0 : Base , 1: Bound , 2 : Total Num, 3 : Bomb Num, 4 : Treasure Num,5 : Mine and Treasure ,6 : Obstacle ,7 : treasure search ,8 : Flag, 9 : Focus
 
     public Tilemap obstacleTilemap{
         get{
@@ -49,6 +51,7 @@ public class TileGrid : MonoBehaviour, IGridInterface
         tilemaps[3].ClearAllTiles();
         tilemaps[4].ClearAllTiles();
         tilemaps[7].ClearAllTiles();
+        tilemaps[8].ClearAllTiles();
 
         int groundstartX;
         int groundendX;
@@ -198,25 +201,41 @@ public class TileGrid : MonoBehaviour, IGridInterface
         switch(flag)
         {
             case Flag.None :
-                tilemaps[7].SetTile(position, null);
+                tilemaps[8].SetTile(position, null);
                 break;
             case Flag.Question :
-                tilemaps[7].SetTile(position, QuestionFlag);
+                tilemaps[8].SetTile(position, QuestionFlag);
                 break;
             case Flag.Mine :
-                tilemaps[7].SetTile(position, TrapFlag);
+                tilemaps[8].SetTile(position, TrapFlag);
                 break;
             case Flag.Treasure :
-                tilemaps[7].SetTile(position, TreasureFlag);
+                tilemaps[8].SetTile(position, TreasureFlag);
                 break;
             
         }
     }
 
+    public void SetTreasureSearch(Vector3Int position , TreasureSearch flag)
+    {
+        switch(flag)
+        {
+            case TreasureSearch.None :
+                tilemaps[7].SetTile(position, null);
+                break;
+            case TreasureSearch.Yes :
+                tilemaps[7].SetTile(position, TreasureYesTile);
+                break;
+            case TreasureSearch.No :
+                tilemaps[7].SetTile(position, TreasureFalseTile);
+                break;
+        }
+    }
+
     public void SetFocus(Vector3Int previousPosition , Vector3Int newPosition)
     {
-        tilemaps[8].SetTile(previousPosition, null);
-        tilemaps[8].SetTile(newPosition, FocusTile);
+        tilemaps[9].SetTile(previousPosition, null);
+        tilemaps[9].SetTile(newPosition, FocusTile);
     }
 
     private void BoxFillCustom(Tilemap tilemap, TileBase tile, int startX, int startY, int endX, int endY)

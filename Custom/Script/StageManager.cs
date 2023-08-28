@@ -10,10 +10,10 @@ public class StageManager : MonoBehaviour, IStageManager
     [SerializeField] private TileGrid grid;
     [SerializeField] private GameObject tempCanvas;
 
-    private float easyMineRatio = 0.12f;
-    private float normalMineRatio = 0.15f;
-    private float hardMineRatio = 0.20f;
-    private float professionalMineRatio = 0.25f;
+    private float easyMineRatio = 0.15f;
+    private float normalMineRatio = 0.18f;
+    private float hardMineRatio = 0.23f;
+    private float professionalMineRatio = 0.28f;
     private float mineToTreasureRatio = 0.4f;
 
     int startX = -1;
@@ -84,6 +84,8 @@ public class StageManager : MonoBehaviour, IStageManager
             ChangeTotalToSeperate(currentFocusPosition);
         }else if(Input.GetMouseButton(3)) { 
             BombObstacle(currentFocusPosition);
+        }else if(Input.GetMouseButton(4)) { 
+            SetTreasureSearch(currentFocusPosition);
         }
     }
 
@@ -117,6 +119,7 @@ public class StageManager : MonoBehaviour, IStageManager
         if (special || grid.obstacleTilemap.HasTile(cellPos))  // 해당 위치에 타일이 있는지 확인
         {
             SetFlag(cellPos, true);
+            SetTreasureSearch(cellPos, true);
 
             if(mineTreasureArray[arrayPos.y, arrayPos.x] == -1) // 지뢰
             {
@@ -186,6 +189,7 @@ public class StageManager : MonoBehaviour, IStageManager
         if (special || grid.obstacleTilemap.HasTile(cellPos))  // 해당 위치에 타일이 있는지 확인
         {
             SetFlag(cellPos, true);
+            SetTreasureSearch(cellPos, true);
 
             if(mineTreasureArray[arrayPos.y, arrayPos.x] == -2) // 보물
             {
@@ -280,9 +284,30 @@ public class StageManager : MonoBehaviour, IStageManager
             flagArray[arrayPos.y, arrayPos.x] = (flagArray[arrayPos.y, arrayPos.x] + 1) % flagEnumArray.Length;
             grid.SetFlag(cellPos, flagEnumArray[flagArray[arrayPos.y, arrayPos.x]]);
         }
-        
-        
     }
+
+    private void SetTreasureSearch(Vector3Int cellPos, bool forceful = false)
+    {
+        Vector3Int arrayPos = new Vector3Int(cellPos.x + startX , startY - cellPos.y, cellPos.z);
+        if(!(grid.obstacleTilemap.HasTile(cellPos))) return; // 해당 위치에 장애물 타일이 없으면 무시
+
+        if(forceful)
+        {
+            grid.SetTreasureSearch(cellPos, TreasureSearch.None);
+        }else
+        {
+            if(mineTreasureArray[arrayPos.y, arrayPos.x] == -2) // 보물
+            {
+                // 보물이 맞다고 해당 장애물 위에 띄움
+                grid.SetTreasureSearch(cellPos, TreasureSearch.Yes);
+            }else
+            {
+                // 보물이 아니라고 해당 장애물 위에 띄움
+                grid.SetTreasureSearch(cellPos, TreasureSearch.No);
+            }
+        }
+    }
+
 
     [Button]
     public void StageInitialize(int width = 16, int height = 30, Difficulty difficulty = Difficulty.Hard)
