@@ -14,7 +14,10 @@ public class TileGrid : MonoBehaviour, IGridInterface
     [SerializeField] private TileBase ObstacleTile;
     [SerializeField] private TileBase FocusTile;
     [SerializeField] private TileBase TreasureYesTile;
-    [SerializeField] private TileBase TreasureFalseTile;
+    [SerializeField] private TileBase TreasureNoTile;
+
+    [SerializeField] private TileBase CrackTile;
+    [SerializeField] private TileBase BombTile;
 
     [Header("Flag")]
     [SerializeField] private TileBase TrapFlag;
@@ -29,7 +32,7 @@ public class TileGrid : MonoBehaviour, IGridInterface
     [SerializeField] private TileBase[] treasureNum;
 
     [SerializeField] private Tilemap[] tilemaps; 
-    //0 : Base , 1: Bound , 2 : Total Num, 3 : Bomb Num, 4 : Treasure Num,5 : Mine and Treasure ,6 : Obstacle ,7 : treasure search ,8 : Flag, 9 : Focus
+    //0 : Base , 1: Bound , 2 : Total Num, 3 : Bomb Num, 4 : Treasure Num,5 : Mine and Treasure ,6 : Obstacle ,7 : treasure search ,8 : Flag,9 : Crack, 10 : Focus
 
     public Tilemap obstacleTilemap{
         get{
@@ -52,6 +55,7 @@ public class TileGrid : MonoBehaviour, IGridInterface
         tilemaps[4].ClearAllTiles();
         tilemaps[7].ClearAllTiles();
         tilemaps[8].ClearAllTiles();
+        tilemaps[9].ClearAllTiles();
 
         int groundstartX;
         int groundendX;
@@ -196,6 +200,28 @@ public class TileGrid : MonoBehaviour, IGridInterface
         
     }
 
+    public void RemoveObstacleTile(Vector3Int cellPos, bool isBomb = false)
+    {
+        if(obstacleTilemap.HasTile(cellPos)) StartCoroutine(crackAnimation(cellPos, isBomb));
+    }
+
+    IEnumerator crackAnimation(Vector3Int cellPos, bool isBomb = false)
+    {
+        if(isBomb)
+        {
+            tilemaps[9].SetTile(cellPos, BombTile);
+        }else
+        {
+            tilemaps[9].SetTile(cellPos, CrackTile);
+        }
+
+        yield return new WaitForSeconds(0.2f);
+
+
+        obstacleTilemap.SetTile(cellPos, null);
+        tilemaps[9].SetTile(cellPos, null);
+    }
+
     public void SetFlag(Vector3Int position , Flag flag)
     {
         switch(flag)
@@ -227,15 +253,15 @@ public class TileGrid : MonoBehaviour, IGridInterface
                 tilemaps[7].SetTile(position, TreasureYesTile);
                 break;
             case TreasureSearch.No :
-                tilemaps[7].SetTile(position, TreasureFalseTile);
+                tilemaps[7].SetTile(position, TreasureNoTile);
                 break;
         }
     }
 
     public void SetFocus(Vector3Int previousPosition , Vector3Int newPosition)
     {
-        tilemaps[9].SetTile(previousPosition, null);
-        tilemaps[9].SetTile(newPosition, FocusTile);
+        tilemaps[10].SetTile(previousPosition, null);
+        tilemaps[10].SetTile(newPosition, FocusTile);
     }
 
     private void BoxFillCustom(Tilemap tilemap, TileBase tile, int startX, int startY, int endX, int endY)

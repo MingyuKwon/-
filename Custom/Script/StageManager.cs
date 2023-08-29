@@ -6,6 +6,10 @@ using Sirenix.OdinInspector;
 
 public class StageManager : MonoBehaviour, IStageManager
 {   
+    /// <summary>
+    /// 스테이지에 입력을 받을지 말지 정한다. 이게 false면 ui 입력 중이거나, 애니매이션 진행중이다
+    /// </summary>
+    static public bool stageInputOk = true; 
     [SerializeField] private Camera camera;
     [SerializeField] private TileGrid grid;
     [SerializeField] private GameObject tempCanvas;
@@ -52,8 +56,9 @@ public class StageManager : MonoBehaviour, IStageManager
 
     int[,] flagArray = null;
 
-    private Vector3Int currentFocusPosition = Vector3Int.zero;
+    bool[,] isObstacleRemoved = null;
 
+    private Vector3Int currentFocusPosition = Vector3Int.zero;
 
     public delegate bool ConditionDelegate(int x);
     List<ConditionDelegate> NumModeConditions = new List<ConditionDelegate>
@@ -71,6 +76,8 @@ public class StageManager : MonoBehaviour, IStageManager
 
     private void Update() {
         
+        if(!stageInputOk) return;
+
         SetFocus();
 
         if(Input.GetMouseButtonDown(0))
@@ -97,13 +104,13 @@ public class StageManager : MonoBehaviour, IStageManager
         if(cellPos == currentFocusPosition) return; // 만약 포커스가 아직 바뀌지 않았다면 요청 무시
         if(grid.boundTilemap.HasTile(cellPos))  return; // 해당 위치가 필드 바깥이면 무시
 
-        if(grid.obstacleTilemap.HasTile(cellPos))  // 해당 위치에 타일이 있는지 확인
+        if(CheckHasObstacle(cellPos))  // 해당 위치에 타일이 있는지 확인
         { // 만약 타일이 있다면 상호작용이 가능한 놈만 포커스를 줘야 한다. 
             // 그니까, 해당 타일의 상하좌우 4공간 상에 비어있는 곳이 하나라도 있다면 가능, 아니면 불가능
-            if( (grid.boundTilemap.HasTile(cellPos +  Vector3Int.up) || grid.obstacleTilemap.HasTile(cellPos +  Vector3Int.up)) &&
-                (grid.boundTilemap.HasTile(cellPos +  Vector3Int.down) || grid.obstacleTilemap.HasTile(cellPos +  Vector3Int.down)) &&
-                (grid.boundTilemap.HasTile(cellPos +  Vector3Int.right) || grid.obstacleTilemap.HasTile(cellPos +  Vector3Int.right)) &&
-                (grid.boundTilemap.HasTile(cellPos +  Vector3Int.left) || grid.obstacleTilemap.HasTile(cellPos +  Vector3Int.left)) 
+            if( (grid.boundTilemap.HasTile(cellPos +  Vector3Int.up) || CheckHasObstacle(cellPos +  Vector3Int.up)) &&
+                (grid.boundTilemap.HasTile(cellPos +  Vector3Int.down) || CheckHasObstacle(cellPos +  Vector3Int.down)) &&
+                (grid.boundTilemap.HasTile(cellPos +  Vector3Int.right) || CheckHasObstacle(cellPos +  Vector3Int.right)) &&
+                (grid.boundTilemap.HasTile(cellPos +  Vector3Int.left) || CheckHasObstacle(cellPos +  Vector3Int.left)) 
             ) return;
             
         }
@@ -115,8 +122,8 @@ public class StageManager : MonoBehaviour, IStageManager
     private void RemoveObstacle(Vector3Int cellPos, bool special = false) // Special은 보물을 찾거나 지뢰를 없애서 갱신되고 처음 도는 재귀를 의미. 
                                                                             //이 경우에는 타일이 이미 지워져 있어도 다시 돌아야 한다
     {
-        Vector3Int arrayPos = new Vector3Int(cellPos.x + startX , startY - cellPos.y, cellPos.z);
-        if (special || grid.obstacleTilemap.HasTile(cellPos))  // 해당 위치에 타일이 있는지 확인
+        Vector3Int arrayPos = ChangeCellPosToArrayPos(cellPos);
+        if (special || CheckHasObstacle(cellPos))  // 해당 위치에 타일이 있는지 확인
         {
             SetFlag(cellPos, true);
             SetTreasureSearch(cellPos, true);
@@ -127,8 +134,8 @@ public class StageManager : MonoBehaviour, IStageManager
                 return;
             }else{ // 지뢰가 아닌 타일
                 
-                RemoveObstacleTile(cellPos);
-
+                RemoveObstacleTile(cellPos); 
+                
                 if(mineTreasureArray[arrayPos.y, arrayPos.x] == -2) //보물인 경우에는 추가 작업 해줘야 함
                 {
                     mineTreasureArray[arrayPos.y, arrayPos.x] = 0; // 배열에서 보물을 지운다
@@ -185,8 +192,8 @@ public class StageManager : MonoBehaviour, IStageManager
     private void BombObstacle(Vector3Int cellPos, bool special = false) // Special은 보물을 찾거나 지뢰를 없애서 갱신되고 처음 도는 재귀를 의미. 
                                                                         //이 경우에는 타일이 이미 지워져 있어도 다시 돌아야 한다
     {
-        Vector3Int arrayPos = new Vector3Int(cellPos.x + startX , startY - cellPos.y, cellPos.z);
-        if (special || grid.obstacleTilemap.HasTile(cellPos))  // 해당 위치에 타일이 있는지 확인
+        Vector3Int arrayPos = ChangeCellPosToArrayPos(cellPos);
+        if (special || CheckHasObstacle(cellPos))  // 해당 위치에 타일이 있는지 확인
         {
             SetFlag(cellPos, true);
             SetTreasureSearch(cellPos, true);
@@ -253,16 +260,29 @@ public class StageManager : MonoBehaviour, IStageManager
             
         }
     }
+    private Vector3Int ChangeCellPosToArrayPos(Vector3Int cellPos)
+    {   
+        return new Vector3Int(cellPos.x + startX , startY - cellPos.y, cellPos.z);
+    }
+    private bool CheckHasObstacle(Vector3Int cellPos)
+    {
+        Vector3Int arrayPos = ChangeCellPosToArrayPos(cellPos);
+        if(arrayPos.x <0 || arrayPos.y < 0 || arrayPos.x >= width || arrayPos.y >= height) return false;
+
+        return !isObstacleRemoved[arrayPos.y, arrayPos.x];
+    }
 
     private void RemoveObstacleTile(Vector3Int cellPos, bool isBomb = false)
     {
-        grid.obstacleTilemap.SetTile(cellPos, null);
+        Vector3Int arrayPos = ChangeCellPosToArrayPos(cellPos);
+        isObstacleRemoved[arrayPos.y, arrayPos.x] = true;
+        grid.RemoveObstacleTile(cellPos, isBomb);
     }
 
     private void ChangeTotalToSeperate(Vector3Int cellPos)
     {
-        Vector3Int arrayPos = new Vector3Int(cellPos.x + startX , startY - cellPos.y, cellPos.z);
-        if(grid.obstacleTilemap.HasTile(cellPos)) return; // 해당 위치에 장애물 타일이 있으면 그 자리에서 반환
+        Vector3Int arrayPos = ChangeCellPosToArrayPos(cellPos);
+        if(CheckHasObstacle(cellPos)) return; // 해당 위치에 장애물 타일이 있으면 그 자리에서 반환
         if(totalNumArray[arrayPos.y, arrayPos.x] == 0) return; // 만약 해당 위치가 0이어도 반환 (써도 의미가 없음)
 
         totalNumMask[arrayPos.y, arrayPos.x] = true;
@@ -271,8 +291,8 @@ public class StageManager : MonoBehaviour, IStageManager
 
     private void SetFlag(Vector3Int cellPos, bool forceful = false)
     {
-        Vector3Int arrayPos = new Vector3Int(cellPos.x + startX , startY - cellPos.y, cellPos.z);
-        if(!(grid.obstacleTilemap.HasTile(cellPos))) return; // 해당 위치에 장애물 타일이 없으면 무시
+        Vector3Int arrayPos = ChangeCellPosToArrayPos(cellPos);
+        if(!(CheckHasObstacle(cellPos))) return; // 해당 위치에 장애물 타일이 없으면 무시
 
         if(forceful)
         {
@@ -288,8 +308,8 @@ public class StageManager : MonoBehaviour, IStageManager
 
     private void SetTreasureSearch(Vector3Int cellPos, bool forceful = false)
     {
-        Vector3Int arrayPos = new Vector3Int(cellPos.x + startX , startY - cellPos.y, cellPos.z);
-        if(!(grid.obstacleTilemap.HasTile(cellPos))) return; // 해당 위치에 장애물 타일이 없으면 무시
+        Vector3Int arrayPos = ChangeCellPosToArrayPos(cellPos);
+        if(!(CheckHasObstacle(cellPos))) return; // 해당 위치에 장애물 타일이 없으면 무시
 
         if(forceful)
         {
@@ -319,6 +339,7 @@ public class StageManager : MonoBehaviour, IStageManager
         treasureNumArray = null;
 
         flagArray = new int[height, width];
+        isObstacleRemoved = new bool[height, width];
 
         startX = -1;
         startY = -1;
@@ -546,6 +567,7 @@ public class StageManager : MonoBehaviour, IStageManager
 
     private void GameOver()
     {
+        stageInputOk = false;
         tempCanvas.SetActive(true);
     }
 
@@ -553,6 +575,7 @@ public class StageManager : MonoBehaviour, IStageManager
     {
         tempCanvas.SetActive(false);
         StageInitialize();
+        stageInputOk = true;
     }
 
     void CalcStartArea(int width, int height, out int groundstartX,out int groundendY)
