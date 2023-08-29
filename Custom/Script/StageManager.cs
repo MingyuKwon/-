@@ -3,16 +3,32 @@ using System.Collections.Generic;
 using System;
 using System.Linq;
 using Sirenix.OdinInspector;
+using TMPro;
 
 public class StageManager : MonoBehaviour, IStageManager
 {   
     /// <summary>
-    /// 스테이지에 입력을 받을지 말지 정한다. 이게 false면 ui 입력 중이거나, 애니매이션 진행중이다
+    /// 스테이지에 입력을 받을지 말지 정한다. 이게 0이면 스테이지 인풋을 받고, 아니면 차단
     /// </summary>
-    static public bool stageInputOk = true; 
+    static public int stageInputBlock{
+        get{
+            return _stageInputBlock;
+        }
+
+        set{
+            _stageInputBlock =  value;
+            if(_stageInputBlock < 0) _stageInputBlock = 0;
+        }
+    }
+
+    static private int _stageInputBlock = 0; 
     [SerializeField] private Camera camera;
     [SerializeField] private TileGrid grid;
     [SerializeField] private GameObject tempCanvas;
+
+    [Space]
+    [Header("For Debug")]
+    [SerializeField] private TextMeshProUGUI tmp;
 
     private float easyMineRatio = 0.15f;
     private float normalMineRatio = 0.18f;
@@ -76,7 +92,17 @@ public class StageManager : MonoBehaviour, IStageManager
 
     private void Update() {
         
-        if(!stageInputOk) return;
+        if(stageInputBlock > 0) 
+        {
+            tmp.text = "Input DisAvailable";
+            tmp.color = Color.red;
+            return;
+        }
+        
+        
+
+        tmp.text = "Input Available";
+        tmp.color = Color.green;
 
         SetFocus();
 
@@ -567,7 +593,7 @@ public class StageManager : MonoBehaviour, IStageManager
 
     private void GameOver()
     {
-        stageInputOk = false;
+        stageInputBlock++;
         tempCanvas.SetActive(true);
     }
 
@@ -575,7 +601,7 @@ public class StageManager : MonoBehaviour, IStageManager
     {
         tempCanvas.SetActive(false);
         StageInitialize();
-        stageInputOk = true;
+        stageInputBlock =0;
     }
 
     void CalcStartArea(int width, int height, out int groundstartX,out int groundendY)

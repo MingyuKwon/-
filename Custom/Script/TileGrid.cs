@@ -207,6 +207,7 @@ public class TileGrid : MonoBehaviour, IGridInterface
 
     IEnumerator crackAnimation(Vector3Int cellPos, bool isBomb = false)
     {
+        StageManager.stageInputBlock++;
         if(isBomb)
         {
             tilemaps[9].SetTile(cellPos, BombTile);
@@ -220,6 +221,7 @@ public class TileGrid : MonoBehaviour, IGridInterface
 
         obstacleTilemap.SetTile(cellPos, null);
         tilemaps[9].SetTile(cellPos, null);
+        StageManager.stageInputBlock--;
     }
 
     public void SetFlag(Vector3Int position , Flag flag)
