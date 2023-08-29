@@ -167,7 +167,7 @@ public class StageManager : MonoBehaviour, IStageManager
                     mineTreasureArray[arrayPos.y, arrayPos.x] = 0; // 배열에서 보물을 지운다
                     UpdateArrayNum(NumMode.Total); // 갱신
                     UpdateArrayNum(NumMode.Treasure); // 갱신
-                    // 아직 타일에서 보물을 지우진 않았다
+                    grid.ReserveAnimation(cellPos, AnimationTileType.TreasureAppear);
                     grid.ShowTotalNum(totalNumArray, totalNumMask);
                     grid.ShowSeperateNum(mineNumArray, treasureNumArray, totalNumMask);
 
@@ -237,7 +237,7 @@ public class StageManager : MonoBehaviour, IStageManager
                     mineTreasureArray[arrayPos.y, arrayPos.x] = 0; // 배열에서 지뢰를 지운다
                     UpdateArrayNum(NumMode.Total); // 갱신
                     UpdateArrayNum(NumMode.Mine); // 갱신
-                    // 아직 타일에서 지뢰를 지우진 않았다
+                    grid.ReserveAnimation(cellPos, AnimationTileType.MineDisappear);
                     grid.ShowTotalNum(totalNumArray, totalNumMask);
                     grid.ShowSeperateNum(mineNumArray, treasureNumArray, totalNumMask);
 

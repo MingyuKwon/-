@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: b17d0beb13c30704d893dfe1d9ce86e1
+guid: f086a0b8c71ec704b9ca50ba0c774ad5
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -47,7 +47,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 24
+  spritePixelsToUnits: 20
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -63,7 +63,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
-  cookieLightType: 1
+  cookieLightType: 0
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -82,7 +82,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -94,7 +94,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -106,7 +106,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -117,12 +117,12 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: chest_05_16x32_0
+      name: trap_DISAPPEAR_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 18
+        width: 16
         height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -131,19 +131,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 83144b39536aa224f98eb3132a4c37ea
-      internalID: 2057461436
+      spriteID: 0afa5e23e2e7ff749b4922007018d5d9
+      internalID: -1118171068
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: chest_05_16x32_1
+      name: trap_DISAPPEAR_1
       rect:
         serializedVersion: 2
-        x: 18
+        x: 16
         y: 0
-        width: 18
+        width: 16
         height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -152,19 +152,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1979b14319a30ed4c891c2364006cc22
-      internalID: 1422658324
+      spriteID: fb8e42262b5b8ca42bb3853ff90881cc
+      internalID: 733737644
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: chest_05_16x32_2
+      name: trap_DISAPPEAR_2
       rect:
         serializedVersion: 2
-        x: 36
+        x: 32
         y: 0
-        width: 18
+        width: 16
         height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -173,19 +173,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3cade76a51349f6478bb091f83236e88
-      internalID: 22626641
+      spriteID: a9f333cd8c426e54ba40113af94b37a5
+      internalID: 237584314
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: chest_05_16x32_3
+      name: trap_DISAPPEAR_3
       rect:
         serializedVersion: 2
-        x: 54
+        x: 48
         y: 0
-        width: 18
+        width: 16
         height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -194,8 +194,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8eddbf4ccde2b7a4da6c13d4f540df8f
-      internalID: -800884406
+      spriteID: 2155f7029a0ce8c4e8578d2202ff711e
+      internalID: -1281916939
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: trap_DISAPPEAR_4
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 16
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: db14f39102c583744b23d88732beff52
+      internalID: -1114875074
       vertices: []
       indices: 
       edges: []
@@ -211,10 +232,11 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      chest_05_16x32_3: -800884406
-      chest_05_16x32_2: 22626641
-      chest_05_16x32_1: 1422658324
-      chest_05_16x32_0: 2057461436
+      trap_DISAPPEAR_1: 733737644
+      trap_DISAPPEAR_4: -1114875074
+      trap_DISAPPEAR_3: -1281916939
+      trap_DISAPPEAR_2: 237584314
+      trap_DISAPPEAR_0: -1118171068
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

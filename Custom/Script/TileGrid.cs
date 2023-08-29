@@ -10,6 +10,7 @@ public class TileGrid : MonoBehaviour, IGridInterface
     [SerializeField] private TileBase BaseTile;
     [SerializeField] private TileBase BoundTile;
     [SerializeField] private TileBase MineTile;
+    [SerializeField] private TileBase MineDisappearTile;
     [SerializeField] private TileBase TreasureTile;
     [SerializeField] private TileBase ObstacleTile;
     [SerializeField] private TileBase FocusTile;
@@ -202,12 +203,14 @@ public class TileGrid : MonoBehaviour, IGridInterface
 
     public void RemoveObstacleTile(Vector3Int cellPos, bool isBomb = false)
     {
-        if(obstacleTilemap.HasTile(cellPos)) StartCoroutine(crackAnimation(cellPos, isBomb));
+        if(obstacleTilemap.HasTile(cellPos)) {
+            StageManager.stageInputBlock++;
+            StartCoroutine(crackAnimation(cellPos, isBomb));
+        }
     }
 
     IEnumerator crackAnimation(Vector3Int cellPos, bool isBomb = false)
     {
-        StageManager.stageInputBlock++;
         if(isBomb)
         {
             tilemaps[9].SetTile(cellPos, BombTile);
@@ -221,6 +224,36 @@ public class TileGrid : MonoBehaviour, IGridInterface
 
         obstacleTilemap.SetTile(cellPos, null);
         tilemaps[9].SetTile(cellPos, null);
+        StageManager.stageInputBlock--;
+    }
+
+    public void ReserveAnimation(Vector3Int cellPos, AnimationTileType tileType)
+    {
+        StartCoroutine(SetAnimationTile(cellPos, tileType));
+    }
+
+    IEnumerator SetAnimationTile(Vector3Int cellPos, AnimationTileType tileType)
+    {
+        while(StageManager.stageInputBlock != 0){
+            yield return null;
+        }
+        StageManager.stageInputBlock++;
+
+        yield return new WaitForEndOfFrame();
+
+        switch(tileType)
+        {
+            case AnimationTileType.MineDisappear :
+                tilemaps[5].SetTile(cellPos , MineDisappearTile); // 이거 지뢰 사라지는 걸로 바꿔줘야 함
+                break;
+            case AnimationTileType.TreasureAppear :
+                tilemaps[5].SetTile(cellPos , TreasureTile);
+                break;
+        }
+
+        yield return new WaitForSeconds(0.5f);
+        tilemaps[5].SetTile(cellPos , null);
+
         StageManager.stageInputBlock--;
     }
 
