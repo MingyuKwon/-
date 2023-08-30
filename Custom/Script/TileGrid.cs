@@ -47,6 +47,14 @@ public class TileGrid : MonoBehaviour, IGridInterface
         }
     }
 
+    private void OnEnable() {
+        EventManager.instance.SetAnimationTileEvent += ReserveAnimation;
+    }
+
+    private void OnDisable() {
+        EventManager.instance.SetAnimationTileEvent -= ReserveAnimation;
+    }
+
     [Button]
     public void ShowEnvironment(int width = 10, int height = 10)
     {
@@ -227,26 +235,26 @@ public class TileGrid : MonoBehaviour, IGridInterface
         StageManager.stageInputBlock--;
     }
 
-    public void ReserveAnimation(Vector3Int cellPos, AnimationTileType tileType)
+    public void ReserveAnimation(EventType tileType, Vector3Int cellPos )
     {
         StartCoroutine(SetAnimationTile(cellPos, tileType));
     }
 
-    IEnumerator SetAnimationTile(Vector3Int cellPos, AnimationTileType tileType)
+    IEnumerator SetAnimationTile(Vector3Int cellPos, EventType tileType)
     {
         while(StageManager.stageInputBlock != 0){
-            yield return null;
+            yield return new WaitForEndOfFrame();
         }
         StageManager.stageInputBlock++;
 
-        yield return new WaitForEndOfFrame();
+        yield return null;
 
         switch(tileType)
         {
-            case AnimationTileType.MineDisappear :
-                tilemaps[5].SetTile(cellPos , MineDisappearTile); // 이거 지뢰 사라지는 걸로 바꿔줘야 함
+            case EventType.MineDisappear :
+                tilemaps[5].SetTile(cellPos , MineDisappearTile);
                 break;
-            case AnimationTileType.TreasureAppear :
+            case EventType.TreasureAppear :
                 tilemaps[5].SetTile(cellPos , TreasureTile);
                 break;
         }

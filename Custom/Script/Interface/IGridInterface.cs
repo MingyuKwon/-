@@ -17,13 +17,6 @@ public enum TreasureSearch{
     No = 2,    
 }
 
-public enum AnimationTileType{
-    None = 0,
-    MineDisappear = 1,
-    TreasureAppear = 2,
-    
-}
-
 public interface IGridInterface
 {
     /// <summary>

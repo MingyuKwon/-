@@ -13,15 +13,11 @@ MonoBehaviour:
   m_Name: Mine Disappear
   m_EditorClassIdentifier: 
   m_AnimatedSprites:
-  - {fileID: -918986550, guid: aa3fe3e5e9c926e49a618dee172fc618, type: 3}
-  - {fileID: 1801981954, guid: aa3fe3e5e9c926e49a618dee172fc618, type: 3}
   - {fileID: -1281916939, guid: f086a0b8c71ec704b9ca50ba0c774ad5, type: 3}
-  - {fileID: -1118171068, guid: f086a0b8c71ec704b9ca50ba0c774ad5, type: 3}
+  - {fileID: 237584314, guid: f086a0b8c71ec704b9ca50ba0c774ad5, type: 3}
   - {fileID: 733737644, guid: f086a0b8c71ec704b9ca50ba0c774ad5, type: 3}
-  - {fileID: -1118171068, guid: f086a0b8c71ec704b9ca50ba0c774ad5, type: 3}
-  - {fileID: -1118171068, guid: f086a0b8c71ec704b9ca50ba0c774ad5, type: 3}
-  m_MinSpeed: 5
-  m_MaxSpeed: 5
+  m_MinSpeed: 4
+  m_MaxSpeed: 4
   m_AnimationStartTime: 0
   m_AnimationStartFrame: 0
   m_TileColliderType: 0
