@@ -22,7 +22,6 @@ public class StageManager : MonoBehaviour, IStageManager
     }
 
     static private int _stageInputBlock = 0; 
-    [SerializeField] private Camera camera;
     [SerializeField] private TileGrid grid;
     [SerializeField] private GameObject tempCanvas;
 
@@ -124,7 +123,7 @@ public class StageManager : MonoBehaviour, IStageManager
 
     private void SetFocus()
     {
-        Vector3 worldPos = camera.ScreenToWorldPoint(Input.mousePosition);
+        Vector3 worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector3Int cellPos = grid.obstacleTilemap.WorldToCell(worldPos);
 
         if(cellPos == currentFocusPosition) return; // 만약 포커스가 아직 바뀌지 않았다면 요청 무시
@@ -356,7 +355,7 @@ public class StageManager : MonoBehaviour, IStageManager
 
 
     [Button]
-    public void StageInitialize(int width = 16, int height = 30, Difficulty difficulty = Difficulty.Hard)
+    public void StageInitialize(int width = 30, int height = 16, Difficulty difficulty = Difficulty.Hard)
     {
         totalNumArray = null;
         totalNumMask = null;
