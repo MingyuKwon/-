@@ -8,16 +8,20 @@ public enum EventType {
     MineDisappear = 1,
     TreasureAppear = 2,
     TreasureDisappear = 3,
+    Set_Width_Height = 3,
 }
 
 public class EventManager : MonoBehaviour
 {
     #region Event
     public Action<EventType, Vector3Int> SetAnimationTileEvent;
+    public Action<Vector2> Set_Width_Height_Event;
+    public Action<EventType, int> mine_treasure_count_Change_Event;
 
     #endregion
 
     public static EventManager instance = null;
+    public static bool isAnimationPlaying = false;
 
     private void Awake() {
         if(instance != null)
@@ -33,22 +37,22 @@ public class EventManager : MonoBehaviour
 
     public void InvokeEvent(EventType eventType, System.Object param1 = null)
     {
-        switch(eventType)
+        if(param1 is int)
         {
-            case EventType.MineAppear :
-            case EventType.MineDisappear :
-            case EventType.TreasureAppear :
-            case EventType.TreasureDisappear :
-                if(param1 is Vector3Int)
-                {
-                    SetAnimationTileEvent.Invoke(eventType, (Vector3Int)param1);
-                }else
-                {
-                    Debug.LogError("param1 is not a Vector3Int Type!");
-                }
-                
-                break;
+
+            mine_treasure_count_Change_Event.Invoke(eventType, (int)param1);
         }
+
+        if(param1 is Vector3Int)
+        {
+            SetAnimationTileEvent.Invoke(eventType, (Vector3Int)param1);
+        }
+
+        if(param1 is Vector2)
+        {
+            Set_Width_Height_Event.Invoke( (Vector2)param1);
+        }
+        
     }
 
 

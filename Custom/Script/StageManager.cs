@@ -7,8 +7,8 @@ using TMPro;
 
 public class StageManager : MonoBehaviour, IStageManager
 {   
-    const int DefaultX = 10;
-    const int DefaultY = 10;
+    const int DefaultX = 30;
+    const int DefaultY = 16;
 
     /// <summary>
     /// 스테이지에 입력을 받을지 말지 정한다. 이게 0이면 스테이지 인풋을 받고, 아니면 차단
@@ -22,6 +22,13 @@ public class StageManager : MonoBehaviour, IStageManager
             _stageInputBlock =  value;
             if(_stageInputBlock < 0) _stageInputBlock = 0;
         }
+    }
+
+    static public bool isStageInputBlocked{
+        get{
+            return stageInputBlock > 0 ;
+        }
+
     }
 
     static private int _stageInputBlock = 0; 
@@ -167,9 +174,11 @@ public class StageManager : MonoBehaviour, IStageManager
                 if(mineTreasureArray[arrayPos.y, arrayPos.x] == -2) //보물인 경우에는 추가 작업 해줘야 함
                 {
                     mineTreasureArray[arrayPos.y, arrayPos.x] = 0; // 배열에서 보물을 지운다
-                    UpdateArrayNum(NumMode.Total); // 갱신
-                    UpdateArrayNum(NumMode.Treasure); // 갱신
+                    treasureCount--;
+                    UpdateArrayNum(Total_Mine_Treasure.Total); // 갱신
+                    UpdateArrayNum(Total_Mine_Treasure.Treasure); // 갱신
                     EventManager.instance.InvokeEvent(EventType.TreasureAppear, cellPos);
+                    EventManager.instance.InvokeEvent(EventType.TreasureAppear, treasureCount);
                     grid.ShowTotalNum(totalNumArray, totalNumMask);
                     grid.ShowSeperateNum(mineNumArray, treasureNumArray, totalNumMask);
 
@@ -237,9 +246,11 @@ public class StageManager : MonoBehaviour, IStageManager
                 if(mineTreasureArray[arrayPos.y, arrayPos.x] == -1) // 지뢰
                 {
                     mineTreasureArray[arrayPos.y, arrayPos.x] = 0; // 배열에서 지뢰를 지운다
-                    UpdateArrayNum(NumMode.Total); // 갱신
-                    UpdateArrayNum(NumMode.Mine); // 갱신
+                    mineCount--;
+                    UpdateArrayNum(Total_Mine_Treasure.Total); // 갱신
+                    UpdateArrayNum(Total_Mine_Treasure.Mine); // 갱신
                     EventManager.instance.InvokeEvent(EventType.MineDisappear, cellPos);
+                    EventManager.instance.InvokeEvent(EventType.MineDisappear, mineCount);
                     grid.ShowTotalNum(totalNumArray, totalNumMask);
                     grid.ShowSeperateNum(mineNumArray, treasureNumArray, totalNumMask);
 
@@ -377,9 +388,9 @@ public class StageManager : MonoBehaviour, IStageManager
         
         MakeMineTreasureArray(width, height, difficulty);
 
-        UpdateArrayNum(NumMode.Total);
-        UpdateArrayNum(NumMode.Mine);
-        UpdateArrayNum(NumMode.Treasure);
+        UpdateArrayNum(Total_Mine_Treasure.Total);
+        UpdateArrayNum(Total_Mine_Treasure.Mine);
+        UpdateArrayNum(Total_Mine_Treasure.Treasure);
 
         grid.ShowEnvironment(width, height);
         grid.ShowTotalNum(totalNumArray, totalNumMask);
@@ -390,7 +401,7 @@ public class StageManager : MonoBehaviour, IStageManager
     }
 
     [Button]
-    void UpdateArrayNum(NumMode numMode)
+    void UpdateArrayNum(Total_Mine_Treasure numMode)
     {
         int height = mineTreasureArray.GetLength(0);
         int width = mineTreasureArray.GetLength(1);
@@ -398,13 +409,13 @@ public class StageManager : MonoBehaviour, IStageManager
         int[,] targetNumArray = null;
         switch(numMode)
         {
-            case NumMode.Total :
+            case Total_Mine_Treasure.Total :
                 targetNumArray = totalNumArray;
                 break;
-            case NumMode.Mine :
+            case Total_Mine_Treasure.Mine :
                 targetNumArray = mineNumArray;
                 break;
-            case NumMode.Treasure :
+            case Total_Mine_Treasure.Treasure :
                 targetNumArray = treasureNumArray;
                 break;
         }
@@ -413,16 +424,16 @@ public class StageManager : MonoBehaviour, IStageManager
         {
             switch(numMode)
             {
-            case NumMode.Total :
+            case Total_Mine_Treasure.Total :
                 totalNumArray = new int[height, width];
                 totalNumMask = new bool[height, width];
                 targetNumArray = totalNumArray;
                 break;
-            case NumMode.Mine :
+            case Total_Mine_Treasure.Mine :
                 mineNumArray = new int[height, width];
                 targetNumArray = mineNumArray;
                 break;
-            case NumMode.Treasure :
+            case Total_Mine_Treasure.Treasure :
                 treasureNumArray = new int[height, width];
                 targetNumArray = treasureNumArray;
                 break;
@@ -494,6 +505,8 @@ public class StageManager : MonoBehaviour, IStageManager
     {
         mineTreasureArray = new int[height, width];
         int totalBockNum = height * width;
+
+        EventManager.instance.InvokeEvent(EventType.Set_Width_Height, new Vector2(width, height));
         
         float mineRatio = 0;
         switch(difficulty)
@@ -515,6 +528,9 @@ public class StageManager : MonoBehaviour, IStageManager
         int totalCount = (int)(totalBockNum * mineRatio);
         mineCount = (int)(totalCount * (1 - mineToTreasureRatio));
         treasureCount = totalCount - mineCount;
+
+        EventManager.instance.InvokeEvent(EventType.MineAppear, mineCount);
+        EventManager.instance.InvokeEvent(EventType.TreasureAppear, treasureCount);
 
         CalcStartArea(width, height, out startX, out startY);
 

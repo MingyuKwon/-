@@ -1005,7 +1005,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 245927876}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1087791688}
+        m_TargetAssemblyTypeName: InGameUIAniimation, Assembly-CSharp
+        m_MethodName: ShowMinimap
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &245927876
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3061,6 +3073,8 @@ GameObject:
   - component: {fileID: 1087791683}
   - component: {fileID: 1087791682}
   - component: {fileID: 1087791687}
+  - component: {fileID: 1087791688}
+  - component: {fileID: 1087791689}
   m_Layer: 5
   m_Name: InGameStageUI
   m_TagString: Untagged
@@ -3171,6 +3185,34 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+--- !u!114 &1087791688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1087791681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71dd075d06e52484d8df54a8d2d1566a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1087791689
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1087791681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 069cdb6422f87b64a963b6fdbb3d7a35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  width: {fileID: 1847498863}
+  height: {fileID: 597823714}
+  mineCount: {fileID: 1354935202}
+  treasureCount: {fileID: 1505055050}
 --- !u!1 &1127217965
 GameObject:
   m_ObjectHideFlags: 0
@@ -4148,13 +4190,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 25
-  m_fontSizeBase: 25
+  m_fontSize: 35
+  m_fontSizeBase: 35
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -4521,13 +4563,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 25
-  m_fontSizeBase: 25
+  m_fontSize: 35
+  m_fontSizeBase: 35
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535

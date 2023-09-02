@@ -15,7 +15,7 @@ public enum Difficulty{
 /// <summary>
 /// Define in IStageManager
 /// </summary>
-public enum NumMode{
+public enum Total_Mine_Treasure{
     Total = 0,
     Mine = 1,
     Treasure = 2,
