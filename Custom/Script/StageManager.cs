@@ -7,6 +7,9 @@ using TMPro;
 
 public class StageManager : MonoBehaviour, IStageManager
 {   
+    const int DefaultX = 10;
+    const int DefaultY = 10;
+
     /// <summary>
     /// 스테이지에 입력을 받을지 말지 정한다. 이게 0이면 스테이지 인풋을 받고, 아니면 차단
     /// </summary>
@@ -355,7 +358,7 @@ public class StageManager : MonoBehaviour, IStageManager
 
 
     [Button]
-    public void StageInitialize(int width = 30, int height = 16, Difficulty difficulty = Difficulty.Hard)
+    public void StageInitialize(int width = DefaultX, int height = DefaultY, Difficulty difficulty = Difficulty.Hard)
     {
         totalNumArray = null;
         totalNumMask = null;

@@ -75,10 +75,12 @@ public class TileGrid : MonoBehaviour, IGridInterface
 
         BoxFillCustom(tilemaps[0], BaseTile, groundstartX-1, groundstartY-1, groundendX+1, groundendY+1);
 
-        int borderstartX = groundstartX - 5;
-        int borderendX = groundendX + 5;
-        int borderstartY = groundstartY - 5;
-        int borderendY = groundendY + 5;
+        int padding = 20;
+
+        int borderstartX = groundstartX - padding;
+        int borderendX = groundendX + padding;
+        int borderstartY = groundstartY - padding;
+        int borderendY = groundendY + padding;
 
         BoxFillCustom(tilemaps[1], BoundTile, borderstartX, borderstartY, groundstartX-1, borderendY);
         BoxFillCustom(tilemaps[1], BoundTile, groundendX + 1, borderstartY, borderendX, borderendY);
