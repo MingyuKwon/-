@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InGameUI : MonoBehaviour
 {
+    [Header("Texts")]
     public TextMeshProUGUI width;
     public TextMeshProUGUI height;
 
@@ -12,6 +14,23 @@ public class InGameUI : MonoBehaviour
     [Space]
     public TextMeshProUGUI mineCount;
     public TextMeshProUGUI treasureCount;
+
+    [Header("Heart Panel")]
+    public Sprite heartFill;
+    public Sprite heartEmpty;
+    public RectTransform[] heartPanels; 
+    private Image[] heartImages = new Image[9];
+
+    private void Awake() {
+        for(int i=0; i<3; i++)
+        {
+            for(int j=0; j<3; j++)
+            {
+                heartImages[i*3 + j] = heartPanels[i].GetChild(j).GetComponent<Image>();
+            }
+        }
+    }
+
 
     private void OnEnable() {
         EventManager.instance.mine_treasure_count_Change_Event += Change_Mine_Treasure_Count;
@@ -48,40 +67,42 @@ public class InGameUI : MonoBehaviour
         
     }
 
+
+    int changeSizeUnit = 3;
     IEnumerator changeTextColorShortly(TextMeshProUGUI textMeshProUGUI, Color standardColor, Color changeColor)
     {
         textMeshProUGUI.color = changeColor;
         yield return new WaitForSeconds(0.02f);
 
-        textMeshProUGUI.fontSize = textMeshProUGUI.fontSize - 2;
+        textMeshProUGUI.fontSize = textMeshProUGUI.fontSize - changeSizeUnit;
 
         yield return new WaitForSeconds(0.02f);
 
-        textMeshProUGUI.fontSize = textMeshProUGUI.fontSize - 2;
+        textMeshProUGUI.fontSize = textMeshProUGUI.fontSize - changeSizeUnit;
 
         yield return new WaitForSeconds(0.02f);
 
-        textMeshProUGUI.fontSize = textMeshProUGUI.fontSize - 2;
+        textMeshProUGUI.fontSize = textMeshProUGUI.fontSize - changeSizeUnit;
 
         yield return new WaitForSeconds(0.02f);
 
-        textMeshProUGUI.fontSize = textMeshProUGUI.fontSize - 2;
+        textMeshProUGUI.fontSize = textMeshProUGUI.fontSize - changeSizeUnit;
 
         yield return new WaitForSeconds(0.02f);
 
-        textMeshProUGUI.fontSize = textMeshProUGUI.fontSize + 2;
+        textMeshProUGUI.fontSize = textMeshProUGUI.fontSize + changeSizeUnit;
 
         yield return new WaitForSeconds(0.02f);
 
-        textMeshProUGUI.fontSize = textMeshProUGUI.fontSize + 2;
+        textMeshProUGUI.fontSize = textMeshProUGUI.fontSize + changeSizeUnit;
 
         yield return new WaitForSeconds(0.02f);
 
-        textMeshProUGUI.fontSize = textMeshProUGUI.fontSize + 2;
+        textMeshProUGUI.fontSize = textMeshProUGUI.fontSize + changeSizeUnit;
 
         yield return new WaitForSeconds(0.02f);
 
-        textMeshProUGUI.fontSize = textMeshProUGUI.fontSize + 2;
+        textMeshProUGUI.fontSize = textMeshProUGUI.fontSize + changeSizeUnit;
         textMeshProUGUI.color = standardColor;
     }
 

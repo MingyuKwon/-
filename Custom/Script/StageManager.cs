@@ -4,11 +4,12 @@ using System;
 using System.Linq;
 using Sirenix.OdinInspector;
 using TMPro;
+using UnityEngine.EventSystems;
 
 public class StageManager : MonoBehaviour, IStageManager
 {   
-    const int DefaultX = 30;
-    const int DefaultY = 16;
+    const int DefaultX = 20;
+    const int DefaultY = 10;
 
     /// <summary>
     /// 스테이지에 입력을 받을지 말지 정한다. 이게 0이면 스테이지 인풋을 받고, 아니면 차단
@@ -51,6 +52,26 @@ public class StageManager : MonoBehaviour, IStageManager
     int width = -1;
     int height = -1;
 
+    public int maxHeart{
+        get{
+            return _maxHeart;
+        }
+
+        set{
+            _maxHeart = value;
+        }
+    }
+
+    public int currentHeart{
+        get{
+            return _currentHeart;
+        }
+
+        set{
+            _currentHeart = value;
+        }
+    }
+
     public int mineCount{
         get{
             return _mineCount;
@@ -68,6 +89,8 @@ public class StageManager : MonoBehaviour, IStageManager
         }
     }
 
+    private int _maxHeart = 0;
+    private int _currentHeart = 0;
     private int _mineCount = 0;
     private int _treasureCount = 0;
 
@@ -108,10 +131,10 @@ public class StageManager : MonoBehaviour, IStageManager
             return;
         }
         
-        
-
         tmp.text = "Input Available";
         tmp.color = Color.green;
+
+        if(EventSystem.current.IsPointerOverGameObject()) return;
 
         SetFocus();
 
@@ -369,13 +392,16 @@ public class StageManager : MonoBehaviour, IStageManager
 
 
     [Button]
-    public void StageInitialize(int width = DefaultX, int height = DefaultY, Difficulty difficulty = Difficulty.Hard)
+    public void StageInitialize(int width = DefaultX, int height = DefaultY, int maxHeart = 3,  int currentHeart = 3, Difficulty difficulty = Difficulty.Hard)
     {
         totalNumArray = null;
         totalNumMask = null;
 
         mineNumArray = null;
         treasureNumArray = null;
+
+        this.maxHeart = maxHeart;
+        this.currentHeart = currentHeart;
 
         flagArray = new int[height, width];
         isObstacleRemoved = new bool[height, width];
