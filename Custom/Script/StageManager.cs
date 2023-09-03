@@ -11,6 +11,8 @@ public class StageManager : MonoBehaviour, IStageManager
     const int DefaultX = 20;
     const int DefaultY = 10;
 
+    static public bool isNowInitializing = false;
+
     /// <summary>
     /// 스테이지에 입력을 받을지 말지 정한다. 이게 0이면 스테이지 인풋을 받고, 아니면 차단
     /// </summary>
@@ -154,6 +156,14 @@ public class StageManager : MonoBehaviour, IStageManager
         }
     }
 
+    private void OnEnable() {
+        EventManager.instance.Game_Over_Event += GameOver;
+    }
+
+    private void OnDisable() {
+        EventManager.instance.Game_Over_Event -= GameOver;
+    }
+
     private void SetFocus()
     {
         Vector3 worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -188,9 +198,10 @@ public class StageManager : MonoBehaviour, IStageManager
 
             if(mineTreasureArray[arrayPos.y, arrayPos.x] == -1) // 지뢰
             {
-                GameOver();
+                EventManager.instance.InvokeEvent(EventType.MineAppear, mineCount);
+                HeartChange(-1); 
                 return;
-            }else{ // 지뢰가 아닌 타일
+            }else{ // 지뢰가 아닌 타일 
                 
                 RemoveObstacleTile(cellPos); 
                 
@@ -260,6 +271,7 @@ public class StageManager : MonoBehaviour, IStageManager
 
             if(mineTreasureArray[arrayPos.y, arrayPos.x] == -2) // 보물
             {
+                EventManager.instance.InvokeEvent(EventType.TreasureDisappear, treasureCount);
                 GameOver();
                 return;
             }else{ // 보물이 아님
@@ -392,8 +404,10 @@ public class StageManager : MonoBehaviour, IStageManager
 
 
     [Button]
-    public void StageInitialize(int width = DefaultX, int height = DefaultY, int maxHeart = 3,  int currentHeart = 3, Difficulty difficulty = Difficulty.Hard)
+    public void StageInitialize(int width = DefaultX, int height = DefaultY, int maxHeart = 9,  int currentHeart = 5, Difficulty difficulty = Difficulty.Hard)
     {
+        isNowInitializing = true;
+
         totalNumArray = null;
         totalNumMask = null;
 
@@ -402,6 +416,8 @@ public class StageManager : MonoBehaviour, IStageManager
 
         this.maxHeart = maxHeart;
         this.currentHeart = currentHeart;
+
+        EventManager.instance.InvokeEvent(EventType.Set_Heart, currentHeart, maxHeart);
 
         flagArray = new int[height, width];
         isObstacleRemoved = new bool[height, width];
@@ -424,6 +440,8 @@ public class StageManager : MonoBehaviour, IStageManager
 
 
         RemoveObstacle(new Vector3Int(0,0,0));
+
+        isNowInitializing = false;
     }
 
     [Button]
@@ -639,6 +657,19 @@ public class StageManager : MonoBehaviour, IStageManager
     {
         stageInputBlock++;
         tempCanvas.SetActive(true);
+    }
+
+    private void HeartChange(int changeValue)
+    {
+        currentHeart += changeValue;
+        if(currentHeart < 0) currentHeart = 0;
+
+        EventManager.instance.InvokeEvent(EventType.Set_Heart, currentHeart, maxHeart);
+
+        if(currentHeart == 0)
+        {
+            EventManager.instance.InvokeEvent(EventType.Game_Over);
+        }
     }
 
     public void RestartTemp()

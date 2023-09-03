@@ -18,6 +18,7 @@ public class InGameUI : MonoBehaviour
     [Header("Heart Panel")]
     public Sprite heartFill;
     public Sprite heartEmpty;
+    public Sprite heartNone;
     public RectTransform[] heartPanels; 
     private Image[] heartImages = new Image[9];
 
@@ -27,6 +28,7 @@ public class InGameUI : MonoBehaviour
             for(int j=0; j<3; j++)
             {
                 heartImages[i*3 + j] = heartPanels[i].GetChild(j).GetComponent<Image>();
+                heartImages[i*3 + j].sprite = heartNone;
             }
         }
     }
@@ -35,11 +37,13 @@ public class InGameUI : MonoBehaviour
     private void OnEnable() {
         EventManager.instance.mine_treasure_count_Change_Event += Change_Mine_Treasure_Count;
         EventManager.instance.Set_Width_Height_Event += Set_Width_Height;
+        EventManager.instance.Set_Heart_Event += Set_Heart;
     }
 
     private void OnDisable() {
         EventManager.instance.mine_treasure_count_Change_Event -= Change_Mine_Treasure_Count;
         EventManager.instance.Set_Width_Height_Event -= Set_Width_Height;
+        EventManager.instance.Set_Heart_Event -= Set_Heart;
     }
 
     private void Change_Mine_Treasure_Count(EventType eventType, int count)
@@ -106,9 +110,23 @@ public class InGameUI : MonoBehaviour
         textMeshProUGUI.color = standardColor;
     }
 
+    private void Set_Heart(int currentHeart, int maxHeart)
+    {
+        for(int i=0; i<maxHeart; i++)
+        {
+            heartImages[i].sprite = heartEmpty;
+        }
+
+        for(int i=0; i<currentHeart; i++)
+        {
+            heartImages[i].sprite = heartFill;
+        }
+    }
+
     private void Set_Width_Height(Vector2 vector2)
     {
         width.text = "Width : " + vector2.x.ToString();
         height.text = "Height : " + vector2.y.ToString();
     }
+
 }
