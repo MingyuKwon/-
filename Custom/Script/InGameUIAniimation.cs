@@ -62,6 +62,9 @@ public class InGameUIAniimation : MonoBehaviour
             case EventType.TreasureAppear :
                 animator.SetTrigger("Trea Find");
                 break;
+            case EventType.TreasureDisappear :
+                animator.SetTrigger("Trea Destroy");
+                break;
         }
     }
 }
