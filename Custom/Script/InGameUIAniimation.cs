@@ -109,6 +109,9 @@ public class InGameUIAniimation : MonoBehaviour
             case EventType.MineAppear :
                 animator.SetTrigger("Mine Find");
                 break;
+            case EventType.MineDisappear :
+                animator.SetTrigger("Mine Destroy");
+                break;
             case EventType.TreasureAppear :
                 animator.SetTrigger("Trea Find");
                 break;
