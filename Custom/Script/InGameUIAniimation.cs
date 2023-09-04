@@ -12,10 +12,12 @@ public class InGameUIAniimation : MonoBehaviour
 
     private void OnEnable() {
         EventManager.instance.Set_UI_Filter_Event += Set_UI_Filter;
+        EventManager.instance.Game_Over_Event += GameOverAnimation;
     }
 
     private void OnDisable() {
         EventManager.instance.Set_UI_Filter_Event -= Set_UI_Filter;
+        EventManager.instance.Game_Over_Event -= GameOverAnimation;
     }
 
     bool isShowingMinimap = false;
@@ -56,6 +58,17 @@ public class InGameUIAniimation : MonoBehaviour
             animator.SetTrigger("Menu Close");
         }
 
+    }
+
+    public void GameOverAnimation(bool isGameOver){
+        if(isGameOver)
+        {
+            animator.SetTrigger("Game Over");
+        }else
+        {
+            animator.SetTrigger("Restart");
+        }
+        
     }
 
     public void SetAnimationPlayingFlag(int flag)

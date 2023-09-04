@@ -29,7 +29,7 @@ public class StageManager : MonoBehaviour, IStageManager
 
     static public bool isStageInputBlocked{
         get{
-            return stageInputBlock > 0 ;
+            return (stageInputBlock > 0 || EventManager.isAnimationPlaying);
         }
 
     }
@@ -126,7 +126,7 @@ public class StageManager : MonoBehaviour, IStageManager
 
     private void Update() {
         
-        if(stageInputBlock > 0) 
+        if(isStageInputBlocked) 
         {
             tmp.text = "NO";
             tmp.color = Color.red;
@@ -274,7 +274,7 @@ public class StageManager : MonoBehaviour, IStageManager
             if(mineTreasureArray[arrayPos.y, arrayPos.x] == -2) // 보물
             {
                 EventManager.instance.InvokeEvent(EventType.TreasureDisappear, treasureCount);
-                GameOver();
+                EventManager.instance.InvokeEvent(EventType.Game_Over);
                 return;
             }else{ // 보물이 아님
                 
@@ -655,10 +655,22 @@ public class StageManager : MonoBehaviour, IStageManager
 
     }
 
-    private void GameOver()
+    private void GameOver(bool isGameOver)
     {
-        stageInputBlock++;
-        tempCanvas.SetActive(true);
+        if(isGameOver)
+        {
+            stageInputBlock++;
+        }else
+        {
+            StageInitialize();
+            stageInputBlock =0;
+        }
+        
+    }
+
+    public void RestartGame()
+    {
+        EventManager.instance.InvokeEvent(EventType.Game_Restart);
     }
 
     private void HeartChange(int changeValue)
@@ -672,13 +684,6 @@ public class StageManager : MonoBehaviour, IStageManager
         {
             EventManager.instance.InvokeEvent(EventType.Game_Over);
         }
-    }
-
-    public void RestartTemp()
-    {
-        tempCanvas.SetActive(false);
-        StageInitialize();
-        stageInputBlock =0;
     }
 
     void CalcStartArea(int width, int height, out int groundstartX,out int groundendY)

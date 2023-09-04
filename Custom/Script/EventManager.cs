@@ -11,6 +11,7 @@ public enum EventType {
     Set_Width_Height = 4,
     Set_Heart = 5,
     Game_Over = 6,
+    Game_Restart = 7,
 }
 
 public class EventManager : MonoBehaviour
@@ -22,7 +23,7 @@ public class EventManager : MonoBehaviour
     public Action<EventType, int> mine_treasure_count_Change_Event;
     public Action<EventType> Set_UI_Filter_Event;
 
-    public Action Game_Over_Event;
+    public Action<bool> Game_Over_Event;
 
     #endregion
 
@@ -45,7 +46,11 @@ public class EventManager : MonoBehaviour
     {
         if(eventType == EventType.Game_Over)
         {
-            Game_Over_Event.Invoke();
+            Game_Over_Event.Invoke(true);
+            return;
+        }else if(eventType == EventType.Game_Restart)
+        {
+            Game_Over_Event.Invoke(false);
             return;
         }
 

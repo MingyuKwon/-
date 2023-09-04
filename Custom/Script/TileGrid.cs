@@ -244,7 +244,7 @@ public class TileGrid : MonoBehaviour, IGridInterface
 
     IEnumerator SetAnimationTile(Vector3Int cellPos, EventType tileType)
     {
-        while(StageManager.stageInputBlock != 0){
+        while(StageManager.isStageInputBlocked){
             yield return new WaitForEndOfFrame();
         }
         StageManager.stageInputBlock++;
