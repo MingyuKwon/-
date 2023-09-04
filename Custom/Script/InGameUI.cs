@@ -19,6 +19,7 @@ public class InGameUI : MonoBehaviour
     public Sprite heartFill;
     public Sprite heartEmpty;
     public Sprite heartNone;
+    public Sprite[] heartReducingAnimationSprite;
     public RectTransform[] heartPanels; 
     private Image[] heartImages = new Image[9];
 
@@ -72,7 +73,7 @@ public class InGameUI : MonoBehaviour
     }
 
 
-    int changeSizeUnit = 3;
+    int changeSizeUnit = 5;
     IEnumerator changeTextColorShortly(TextMeshProUGUI textMeshProUGUI, Color standardColor, Color changeColor)
     {
         textMeshProUGUI.color = changeColor;
@@ -121,6 +122,34 @@ public class InGameUI : MonoBehaviour
         {
             heartImages[i].sprite = heartFill;
         }
+
+        if(StageManager.isNowInitializing) return;
+
+        StartCoroutine(heartReducing(currentHeart));
+    }
+
+    IEnumerator heartReducing(int index)
+    {
+        float changeUnit = 0.1f;
+        for(int i=0; i< 5; i++)
+        {
+            heartImages[index].gameObject.transform.localScale = new Vector3(1 + i * changeUnit,1 + i * changeUnit,1);
+            yield return new WaitForSeconds(0.02f);
+        }
+        
+        foreach(Sprite sprite in heartReducingAnimationSprite)
+        {
+            heartImages[index].sprite = sprite;
+            yield return new WaitForSeconds(0.05f);
+        }
+
+        for(int i=0; i< 5; i++)
+        {
+            heartImages[index].gameObject.transform.localScale = new Vector3(1 + (4 - i)* changeUnit,1 + (4 - i) * changeUnit,1);
+            yield return new WaitForSeconds(0.02f);
+        }
+
+        heartImages[index].gameObject.transform.localScale = Vector3.one;
     }
 
     private void Set_Width_Height(Vector2 vector2)

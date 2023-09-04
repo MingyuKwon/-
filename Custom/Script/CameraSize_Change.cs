@@ -5,10 +5,10 @@ using UnityEngine.Tilemaps;
 
 public class CameraSize_Change : MonoBehaviour
 {
-    private Grid Stage;
-    private Tilemap tilemap;
+    private static Grid Stage;
+    private static Tilemap tilemap;
 
-    private Camera camera;
+    private static Camera camera;
 
     private void Awake() {
         Stage = FindObjectOfType<Grid>();
@@ -16,7 +16,9 @@ public class CameraSize_Change : MonoBehaviour
         camera = GetComponent<Camera>();
     }
 
-    private void Start() {
-        camera.orthographicSize = tilemap.size.y /2 + 0.2f;
+    public static void ChangeCameraSizeFit()
+    {   
+        camera.orthographicSize = tilemap.cellBounds.size.y /2 + 0.2f;
     }
+
 }

@@ -38,6 +38,26 @@ public class InGameUIAniimation : MonoBehaviour
 
     }
 
+    bool isShowingMenu = false;
+    public void ShowMenu()
+    {
+        if(StageManager.isNowInitializing) return;
+        if(EventManager.isAnimationPlaying) return;
+
+        if(!isShowingMenu)
+        {
+            StageManager.stageInputBlock++;
+            isShowingMenu = true;
+            animator.SetTrigger("Menu Show");
+        }else
+        {
+            StageManager.stageInputBlock--;
+            isShowingMenu = false;
+            animator.SetTrigger("Menu Close");
+        }
+
+    }
+
     public void SetAnimationPlayingFlag(int flag)
     {
         if(flag == 0)

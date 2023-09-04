@@ -8,8 +8,8 @@ using UnityEngine.EventSystems;
 
 public class StageManager : MonoBehaviour, IStageManager
 {   
-    const int DefaultX = 20;
-    const int DefaultY = 10;
+    const int DefaultX = 30;
+    const int DefaultY = 18;
 
     static public bool isNowInitializing = false;
 
@@ -128,12 +128,12 @@ public class StageManager : MonoBehaviour, IStageManager
         
         if(stageInputBlock > 0) 
         {
-            tmp.text = "Input DisAvailable";
+            tmp.text = "NO";
             tmp.color = Color.red;
             return;
         }
         
-        tmp.text = "Input Available";
+        tmp.text = "OK";
         tmp.color = Color.green;
 
         if(EventSystem.current.IsPointerOverGameObject()) return;
@@ -196,14 +196,14 @@ public class StageManager : MonoBehaviour, IStageManager
             SetFlag(cellPos, true);
             SetTreasureSearch(cellPos, true);
 
+            RemoveObstacleTile(cellPos); 
+
             if(mineTreasureArray[arrayPos.y, arrayPos.x] == -1) // 지뢰
             {
                 EventManager.instance.InvokeEvent(EventType.MineAppear, mineCount);
                 HeartChange(-1); 
                 return;
             }else{ // 지뢰가 아닌 타일 
-                
-                RemoveObstacleTile(cellPos); 
                 
                 if(mineTreasureArray[arrayPos.y, arrayPos.x] == -2) //보물인 경우에는 추가 작업 해줘야 함
                 {
@@ -269,6 +269,8 @@ public class StageManager : MonoBehaviour, IStageManager
             SetFlag(cellPos, true);
             SetTreasureSearch(cellPos, true);
 
+            RemoveObstacleTile(cellPos, true);
+
             if(mineTreasureArray[arrayPos.y, arrayPos.x] == -2) // 보물
             {
                 EventManager.instance.InvokeEvent(EventType.TreasureDisappear, treasureCount);
@@ -276,8 +278,6 @@ public class StageManager : MonoBehaviour, IStageManager
                 return;
             }else{ // 보물이 아님
                 
-                RemoveObstacleTile(cellPos, true);
-
                 if(mineTreasureArray[arrayPos.y, arrayPos.x] == -1) // 지뢰
                 {
                     mineTreasureArray[arrayPos.y, arrayPos.x] = 0; // 배열에서 지뢰를 지운다
@@ -440,6 +440,8 @@ public class StageManager : MonoBehaviour, IStageManager
 
 
         RemoveObstacle(new Vector3Int(0,0,0));
+
+        CameraSize_Change.ChangeCameraSizeFit();
 
         isNowInitializing = false;
     }
