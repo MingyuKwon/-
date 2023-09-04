@@ -274,7 +274,7 @@ public class StageManager : MonoBehaviour, IStageManager
             if(mineTreasureArray[arrayPos.y, arrayPos.x] == -2) // 보물
             {
                 EventManager.instance.InvokeEvent(EventType.TreasureDisappear, treasureCount);
-                EventManager.instance.InvokeEvent(EventType.Game_Over);
+                EventManager.instance.InvokeEvent(EventType.Game_Over, GameOver_Reason.TreasureCrash);
                 return;
             }else{ // 보물이 아님
                 
@@ -655,7 +655,7 @@ public class StageManager : MonoBehaviour, IStageManager
 
     }
 
-    private void GameOver(bool isGameOver)
+    private void GameOver(bool isGameOver, GameOver_Reason reason)
     {
         if(isGameOver)
         {
@@ -682,7 +682,7 @@ public class StageManager : MonoBehaviour, IStageManager
 
         if(currentHeart == 0)
         {
-            EventManager.instance.InvokeEvent(EventType.Game_Over);
+            EventManager.instance.InvokeEvent(EventType.Game_Over, GameOver_Reason.Heart0);
         }
     }
 

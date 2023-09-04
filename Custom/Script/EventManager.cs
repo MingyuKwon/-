@@ -14,6 +14,13 @@ public enum EventType {
     Game_Restart = 7,
 }
 
+public enum GameOver_Reason {
+    None = 0,
+    Heart0 = 1,
+    TreasureCrash = 2,
+    TimeOver = 3,
+}
+
 public class EventManager : MonoBehaviour
 {
     #region Event
@@ -23,7 +30,7 @@ public class EventManager : MonoBehaviour
     public Action<EventType, int> mine_treasure_count_Change_Event;
     public Action<EventType> Set_UI_Filter_Event;
 
-    public Action<bool> Game_Over_Event;
+    public Action<bool, GameOver_Reason> Game_Over_Event;
 
     #endregion
 
@@ -46,11 +53,15 @@ public class EventManager : MonoBehaviour
     {
         if(eventType == EventType.Game_Over)
         {
-            Game_Over_Event.Invoke(true);
+            if(param1 is GameOver_Reason)
+            {
+                Game_Over_Event.Invoke(true, (GameOver_Reason)param1);
+            }
+            
             return;
         }else if(eventType == EventType.Game_Restart)
         {
-            Game_Over_Event.Invoke(false);
+            Game_Over_Event.Invoke(false, GameOver_Reason.None);
             return;
         }
 

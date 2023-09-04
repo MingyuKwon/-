@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class InGameUIAniimation : MonoBehaviour
 {
+    public TextMeshProUGUI gameOverReason;
     Animator animator;
 
     private void Awake() {
@@ -60,9 +62,24 @@ public class InGameUIAniimation : MonoBehaviour
 
     }
 
-    public void GameOverAnimation(bool isGameOver){
+    public void GameOverAnimation(bool isGameOver, GameOver_Reason reason){
         if(isGameOver)
         {
+            switch(reason)
+            {
+                case GameOver_Reason.Heart0 :
+                    gameOverReason.text = "HP ZERO";
+                    gameOverReason.color = Color.red;
+                    break;
+                case GameOver_Reason.TreasureCrash :
+                    gameOverReason.text = "Treasure Crash";
+                    gameOverReason.color = Color.yellow;
+                    break;
+                case GameOver_Reason.TimeOver :
+                    gameOverReason.text = "Time Over";
+                    gameOverReason.color = Color.green;
+                    break;
+            }
             animator.SetTrigger("Game Over");
         }else
         {
