@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,10 +11,17 @@ public class InGameUI : MonoBehaviour
     public TextMeshProUGUI width;
     public TextMeshProUGUI height;
 
+    [Space]
+    public TextMeshProUGUI[] usableItemExplain;
 
     [Space]
     public TextMeshProUGUI mineCount;
     public TextMeshProUGUI treasureCount;
+
+    [Space]
+    public TextMeshProUGUI potionCount;
+    public TextMeshProUGUI magGlassCount;
+    public TextMeshProUGUI holyWaterCount;
 
     [Header("Heart Panel")]
     public Sprite heartFill;
@@ -21,6 +29,13 @@ public class InGameUI : MonoBehaviour
     public Sprite heartNone;
     public Sprite[] heartReducingAnimationSprite;
     public RectTransform[] heartPanels; 
+
+    [Space]
+    [Header("Images")]
+    public Transform potionImage;
+    public Transform magGlassImage;
+    public Transform HolyWaterImage;
+
     private Image[] heartImages = new Image[9];
 
     private void Awake() {
@@ -32,6 +47,10 @@ public class InGameUI : MonoBehaviour
                 heartImages[i*3 + j].sprite = heartNone;
             }
         }
+
+        usableItemExplain[0].text = "Restores 1 unit of health";
+        usableItemExplain[1].text = "Displays numbers on the ground to distinguish between traps and treasures";
+        usableItemExplain[2].text = "When sprinkled on an obstacle, it reveals whether there's a treasure underneath or not";
     }
 
 
@@ -39,13 +58,92 @@ public class InGameUI : MonoBehaviour
         EventManager.instance.mine_treasure_count_Change_Event += Change_Mine_Treasure_Count;
         EventManager.instance.Set_Width_Height_Event += Set_Width_Height;
         EventManager.instance.Set_Heart_Event += Set_Heart;
+        EventManager.instance.Item_Count_Change_Event += Change_Item_Count;
     }
 
     private void OnDisable() {
         EventManager.instance.mine_treasure_count_Change_Event -= Change_Mine_Treasure_Count;
         EventManager.instance.Set_Width_Height_Event -= Set_Width_Height;
         EventManager.instance.Set_Heart_Event -= Set_Heart;
+        EventManager.instance.Item_Count_Change_Event -= Change_Item_Count;
     }
+
+    [Button]
+    private void Change_Item_Count(EventType eventType, UsableItem usableItem , int count)
+    {
+        bool flag = false;
+        
+        if(eventType == EventType.Item_Use)
+        {
+            flag = false;
+        }else if(eventType == EventType.Item_Obtain)
+        {
+            flag = true;
+        }
+
+        switch(usableItem)
+        {
+            case UsableItem.Potion :
+                potionCount.text = ": " + count.ToString();
+                StartCoroutine(changeItemSize(potionImage ,potionCount , flag));
+                break;
+            case UsableItem.Mag_Glass :
+                magGlassCount.text = ": " + count.ToString();
+                StartCoroutine(changeItemSize(magGlassImage , magGlassCount , flag));
+                break;
+            case UsableItem.Holy_Water :
+                holyWaterCount.text = ": " + count.ToString();
+                StartCoroutine(changeItemSize(HolyWaterImage , holyWaterCount , flag));
+                break;
+        }
+    }
+
+    IEnumerator changeItemSize(Transform imageTransform, TextMeshProUGUI count, bool goBigger)
+    {
+        float changeSizeUnit = 0.03f;
+        float C = (goBigger) ? 1 : -1;
+
+        if(goBigger)
+        {
+            count.color = Color.green;
+        }else
+        {
+            count.color = Color.red;
+        }
+
+        imageTransform.localScale = new Vector3(imageTransform.localScale.x + C * changeSizeUnit, imageTransform.localScale.y +  C *changeSizeUnit,0);
+        yield return new WaitForSeconds(0.02f);
+
+        imageTransform.localScale = new Vector3(imageTransform.localScale.x + C * changeSizeUnit, imageTransform.localScale.y +  C *changeSizeUnit,0);
+        yield return new WaitForSeconds(0.02f);
+
+        imageTransform.localScale = new Vector3(imageTransform.localScale.x + C * changeSizeUnit, imageTransform.localScale.y +  C *changeSizeUnit,0);
+        yield return new WaitForSeconds(0.02f);
+
+        imageTransform.localScale = new Vector3(imageTransform.localScale.x + C * changeSizeUnit, imageTransform.localScale.y +  C *changeSizeUnit,0);
+        yield return new WaitForSeconds(0.02f);
+
+        imageTransform.localScale = new Vector3(imageTransform.localScale.x + C * changeSizeUnit, imageTransform.localScale.y +  C *changeSizeUnit,0);
+        yield return new WaitForSeconds(0.02f);
+
+        imageTransform.localScale = new Vector3(imageTransform.localScale.x - C * changeSizeUnit, imageTransform.localScale.y -  C *changeSizeUnit,0);
+        yield return new WaitForSeconds(0.02f);
+
+        imageTransform.localScale = new Vector3(imageTransform.localScale.x - C * changeSizeUnit, imageTransform.localScale.y -  C *changeSizeUnit,0);
+        yield return new WaitForSeconds(0.02f);
+
+        imageTransform.localScale = new Vector3(imageTransform.localScale.x - C * changeSizeUnit, imageTransform.localScale.y -  C *changeSizeUnit,0);
+        yield return new WaitForSeconds(0.02f);
+
+        imageTransform.localScale = new Vector3(imageTransform.localScale.x - C * changeSizeUnit, imageTransform.localScale.y -  C *changeSizeUnit,0);
+        yield return new WaitForSeconds(0.02f);
+
+        imageTransform.localScale = new Vector3(imageTransform.localScale.x - C * changeSizeUnit, imageTransform.localScale.y -  C *changeSizeUnit,0);
+
+
+        count.color = Color.white;
+    }
+
 
     private void Change_Mine_Treasure_Count(EventType eventType, int count)
     {
@@ -68,14 +166,12 @@ public class InGameUI : MonoBehaviour
                 StartCoroutine(changeTextColorShortly(treasureCount, Color.yellow, Color.white));
                 break;
         }
-
-        
     }
 
-
-    int changeSizeUnit = 5;
     IEnumerator changeTextColorShortly(TextMeshProUGUI textMeshProUGUI, Color standardColor, Color changeColor)
     {
+        int changeSizeUnit = 5;
+
         textMeshProUGUI.color = changeColor;
         yield return new WaitForSeconds(0.02f);
 

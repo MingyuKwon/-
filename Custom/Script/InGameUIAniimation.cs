@@ -6,6 +6,7 @@ using UnityEngine;
 public class InGameUIAniimation : MonoBehaviour
 {
     public TextMeshProUGUI gameOverReason;
+
     Animator animator;
 
     private void Awake() {

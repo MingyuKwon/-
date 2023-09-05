@@ -12,6 +12,8 @@ public enum EventType {
     Set_Heart = 5,
     Game_Over = 6,
     Game_Restart = 7,
+    Item_Use = 8,
+    Item_Obtain = 9,
 }
 
 public enum GameOver_Reason {
@@ -19,6 +21,13 @@ public enum GameOver_Reason {
     Heart0 = 1,
     TreasureCrash = 2,
     TimeOver = 3,
+}
+
+public enum UsableItem {
+    None = 0,
+    Potion = 1,
+    Mag_Glass = 2,
+    Holy_Water = 3,
 }
 
 public class EventManager : MonoBehaviour
@@ -29,6 +38,8 @@ public class EventManager : MonoBehaviour
     public Action<int, int> Set_Heart_Event;
     public Action<EventType, int> mine_treasure_count_Change_Event;
     public Action<EventType> Set_UI_Filter_Event;
+
+    public Action<EventType,UsableItem, int> Item_Count_Change_Event;
 
     public Action<bool, GameOver_Reason> Game_Over_Event;
 
@@ -88,6 +99,11 @@ public class EventManager : MonoBehaviour
             Set_Width_Height_Event.Invoke( (Vector2)param1);
         }
         
+
+        if(param1 is UsableItem)
+        {
+            Item_Count_Change_Event.Invoke(eventType, (UsableItem)param1, (int)param2);
+        }
     }
 
 

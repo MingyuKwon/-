@@ -667,7 +667,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 50}
+  m_SizeDelta: {x: -40, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &65994599
 MonoBehaviour:
@@ -755,7 +755,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &65994600
@@ -2237,9 +2237,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: ': 99
-
-'
+  m_text: 10
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -4535,7 +4533,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 50}
+  m_SizeDelta: {x: -40, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &769028866
 MonoBehaviour:
@@ -4623,7 +4621,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &769028867
@@ -4670,7 +4668,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 50}
+  m_SizeDelta: {x: -40, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &773481711
 MonoBehaviour:
@@ -4758,7 +4756,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &773481712
@@ -5900,8 +5898,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   width: {fileID: 1847498863}
   height: {fileID: 597823714}
+  usableItemExplain:
+  - {fileID: 769028866}
+  - {fileID: 773481711}
+  - {fileID: 65994599}
   mineCount: {fileID: 1354935202}
   treasureCount: {fileID: 1505055050}
+  potionCount: {fileID: 436375962}
+  magGlassCount: {fileID: 1798754782}
+  holyWaterCount: {fileID: 615055679}
   heartFill: {fileID: 21300060, guid: df392e64d1e9a5a40bef90716d3e5281, type: 3}
   heartEmpty: {fileID: 21300068, guid: df392e64d1e9a5a40bef90716d3e5281, type: 3}
   heartNone: {fileID: 21300000, guid: 22e76bd62d7f7694586ec473089dcbb6, type: 3}
@@ -5916,6 +5921,9 @@ MonoBehaviour:
   - {fileID: 2143851174}
   - {fileID: 905056849}
   - {fileID: 1647112276}
+  potionImage: {fileID: 2086709181}
+  magGlassImage: {fileID: 2065012477}
+  HolyWaterImage: {fileID: 893193008}
 --- !u!1 &1127217965
 GameObject:
   m_ObjectHideFlags: 0
@@ -10287,7 +10295,7 @@ RectTransform:
   m_GameObject: {fileID: 2086709180}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 436375961}
