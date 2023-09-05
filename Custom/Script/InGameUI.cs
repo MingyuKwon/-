@@ -85,14 +85,17 @@ public class InGameUI : MonoBehaviour
         {
             case UsableItem.Potion :
                 potionCount.text = ": " + count.ToString();
+                if(StageManager.isNowInitializing) return;
                 StartCoroutine(changeItemSize(potionImage ,potionCount , flag));
                 break;
             case UsableItem.Mag_Glass :
                 magGlassCount.text = ": " + count.ToString();
+                if(StageManager.isNowInitializing) return;
                 StartCoroutine(changeItemSize(magGlassImage , magGlassCount , flag));
                 break;
             case UsableItem.Holy_Water :
                 holyWaterCount.text = ": " + count.ToString();
+                if(StageManager.isNowInitializing) return;
                 StartCoroutine(changeItemSize(HolyWaterImage , holyWaterCount , flag));
                 break;
         }
