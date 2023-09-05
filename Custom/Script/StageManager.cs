@@ -101,12 +101,36 @@ public class StageManager : MonoBehaviour, IStageManager
     int[,] totalNumArray = null;
     bool[,] totalNumMask = null;
 
+    bool[,] treasureSearchMask = null;
+
     int[,] mineNumArray = null;
     int[,] treasureNumArray = null;
 
     int[,] flagArray = null;
 
     bool[,] isObstacleRemoved = null;
+
+    int potionCount = 0;
+    int magGlassCount = 0;
+    int holyWaterCount = 0;
+
+    bool potionEnable{
+        get{
+            return potionCount > 0;
+        }
+    }
+
+    bool magGlassEnable{
+        get{
+            return magGlassCount > 0;
+        }
+    }
+
+    bool holyWaterEnable{
+        get{
+            return holyWaterCount > 0;
+        }
+    }
 
     private Vector3Int currentFocusPosition = Vector3Int.zero;
 
@@ -146,12 +170,12 @@ public class StageManager : MonoBehaviour, IStageManager
         }else if(Input.GetMouseButtonDown(1))
         {
             SetFlag(currentFocusPosition);
-        }else if(Input.GetMouseButtonDown(2))
+        }else if(Input.GetMouseButtonDown(2) && magGlassEnable)
         {
             ChangeTotalToSeperate(currentFocusPosition);
         }else if(Input.GetMouseButton(3)) { 
             BombObstacle(currentFocusPosition);
-        }else if(Input.GetMouseButton(4)) { 
+        }else if(Input.GetMouseButton(4) && holyWaterEnable) { 
             SetTreasureSearch(currentFocusPosition);
         }
     }
@@ -358,6 +382,10 @@ public class StageManager : MonoBehaviour, IStageManager
         Vector3Int arrayPos = ChangeCellPosToArrayPos(cellPos);
         if(CheckHasObstacle(cellPos)) return; // 해당 위치에 장애물 타일이 있으면 그 자리에서 반환
         if(totalNumArray[arrayPos.y, arrayPos.x] == 0) return; // 만약 해당 위치가 0이어도 반환 (써도 의미가 없음)
+        if(totalNumMask[arrayPos.y, arrayPos.x]) return;
+
+        magGlassCount--;
+        EventManager.instance.InvokeEvent(EventType.Item_Use, UsableItem.Mag_Glass, magGlassCount);
 
         totalNumMask[arrayPos.y, arrayPos.x] = true;
         grid.UpdateSeperateNum(mineNumArray, treasureNumArray, cellPos);
@@ -384,12 +412,16 @@ public class StageManager : MonoBehaviour, IStageManager
     {
         Vector3Int arrayPos = ChangeCellPosToArrayPos(cellPos);
         if(!(CheckHasObstacle(cellPos))) return; // 해당 위치에 장애물 타일이 없으면 무시
+        if(treasureSearchMask[arrayPos.y, arrayPos.x] && !forceful) return;
 
         if(forceful)
         {
             grid.SetTreasureSearch(cellPos, TreasureSearch.None);
         }else
         {
+            holyWaterCount--;
+            EventManager.instance.InvokeEvent(EventType.Item_Use, UsableItem.Holy_Water, holyWaterCount);
+
             if(mineTreasureArray[arrayPos.y, arrayPos.x] == -2) // 보물
             {
                 // 보물이 맞다고 해당 장애물 위에 띄움
@@ -399,17 +431,20 @@ public class StageManager : MonoBehaviour, IStageManager
                 // 보물이 아니라고 해당 장애물 위에 띄움
                 grid.SetTreasureSearch(cellPos, TreasureSearch.No);
             }
+
+            treasureSearchMask[arrayPos.y, arrayPos.x] = true;
         }
     }
 
 
     [Button]
-    public void StageInitialize(int width = DefaultX, int height = DefaultY, int maxHeart = 9,  int currentHeart = 5, Difficulty difficulty = Difficulty.Hard)
+    public void StageInitialize(int width = DefaultX, int height = DefaultY, int maxHeart = 9,  int currentHeart = 5, int potionCount = 5, int magGlassCount = 5, int holyWaterCount = 5, Difficulty difficulty = Difficulty.Hard)
     {
         isNowInitializing = true;
 
         totalNumArray = null;
         totalNumMask = null;
+        treasureSearchMask = null;
 
         mineNumArray = null;
         treasureNumArray = null;
@@ -427,6 +462,14 @@ public class StageManager : MonoBehaviour, IStageManager
 
         this.width = width;
         this.height = height;
+
+        this.potionCount = potionCount;
+        this.magGlassCount = magGlassCount;
+        this.holyWaterCount = holyWaterCount;
+
+        EventManager.instance.InvokeEvent(EventType.Item_Obtain, UsableItem.Potion, potionCount);
+        EventManager.instance.InvokeEvent(EventType.Item_Obtain, UsableItem.Mag_Glass, magGlassCount);
+        EventManager.instance.InvokeEvent(EventType.Item_Obtain, UsableItem.Holy_Water, holyWaterCount);
         
         MakeMineTreasureArray(width, height, difficulty);
 
@@ -473,6 +516,7 @@ public class StageManager : MonoBehaviour, IStageManager
             case Total_Mine_Treasure.Total :
                 totalNumArray = new int[height, width];
                 totalNumMask = new bool[height, width];
+                treasureSearchMask = new bool[height, width];
                 targetNumArray = totalNumArray;
                 break;
             case Total_Mine_Treasure.Mine :
