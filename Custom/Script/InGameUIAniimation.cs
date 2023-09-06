@@ -101,6 +101,11 @@ public class InGameUIAniimation : MonoBehaviour
         
     }
 
+    public void SetItem_Use_Obtain_Flag(Item item)
+    {
+        animator.SetFloat("ItemNum", (int)item - 1);
+    }
+
     private void Set_UI_Filter(EventType eventType)
     {
         if(StageManager.isNowInitializing) return;

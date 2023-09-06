@@ -110,6 +110,8 @@ public class StageManager : MonoBehaviour, IStageManager
 
     bool[,] isObstacleRemoved = null;
 
+
+    #region ITEM_Field
     int potionCount = 0;
     int magGlassCount = 0;
     int holyWaterCount = 0;
@@ -131,6 +133,7 @@ public class StageManager : MonoBehaviour, IStageManager
             return holyWaterCount > 0;
         }
     }
+    #endregion
 
     private Vector3Int currentFocusPosition = Vector3Int.zero;
 
@@ -235,6 +238,7 @@ public class StageManager : MonoBehaviour, IStageManager
                     treasureCount--;
                     UpdateArrayNum(Total_Mine_Treasure.Total); // 갱신
                     UpdateArrayNum(Total_Mine_Treasure.Treasure); // 갱신
+                    GetItem(true);
                     EventManager.instance.InvokeEvent(EventType.TreasureAppear, cellPos);
                     EventManager.instance.InvokeEvent(EventType.TreasureAppear, treasureCount);
                     grid.ShowTotalNum(totalNumArray, totalNumMask);
@@ -385,7 +389,7 @@ public class StageManager : MonoBehaviour, IStageManager
         if(totalNumMask[arrayPos.y, arrayPos.x]) return;
 
         magGlassCount--;
-        EventManager.instance.InvokeEvent(EventType.Item_Use, UsableItem.Mag_Glass, magGlassCount);
+        EventManager.instance.InvokeEvent(EventType.Item_Use, Item.Mag_Glass, magGlassCount);
 
         totalNumMask[arrayPos.y, arrayPos.x] = true;
         grid.UpdateSeperateNum(mineNumArray, treasureNumArray, cellPos);
@@ -420,7 +424,7 @@ public class StageManager : MonoBehaviour, IStageManager
         }else
         {
             holyWaterCount--;
-            EventManager.instance.InvokeEvent(EventType.Item_Use, UsableItem.Holy_Water, holyWaterCount);
+            EventManager.instance.InvokeEvent(EventType.Item_Use, Item.Holy_Water, holyWaterCount);
 
             if(mineTreasureArray[arrayPos.y, arrayPos.x] == -2) // 보물
             {
@@ -433,6 +437,35 @@ public class StageManager : MonoBehaviour, IStageManager
             }
 
             treasureSearchMask[arrayPos.y, arrayPos.x] = true;
+        }
+    }
+
+    private void GetItem(bool isUsable)
+    {
+        if(isUsable)
+        {
+            // 적은 개수를 가지는 아이템이 나오도록 바꿔야 한다
+            Item randUsableItem = (Item)UnityEngine.Random.Range(1, 4);
+
+            switch(randUsableItem)
+            {
+                case Item.Potion :
+                    potionCount += 1;
+                    EventManager.instance.InvokeEvent(EventType.Item_Obtain, randUsableItem, potionCount);
+                    break;
+                case Item.Mag_Glass :
+                    magGlassCount += 1;
+                    EventManager.instance.InvokeEvent(EventType.Item_Obtain, randUsableItem, magGlassCount);
+                    break;
+                case Item.Holy_Water :
+                    holyWaterCount += 1;
+                    EventManager.instance.InvokeEvent(EventType.Item_Obtain, randUsableItem, holyWaterCount);
+                    break;
+            }
+
+        }else
+        {
+
         }
     }
 
@@ -467,9 +500,9 @@ public class StageManager : MonoBehaviour, IStageManager
         this.magGlassCount = magGlassCount;
         this.holyWaterCount = holyWaterCount;
 
-        EventManager.instance.InvokeEvent(EventType.Item_Obtain, UsableItem.Potion, potionCount);
-        EventManager.instance.InvokeEvent(EventType.Item_Obtain, UsableItem.Mag_Glass, magGlassCount);
-        EventManager.instance.InvokeEvent(EventType.Item_Obtain, UsableItem.Holy_Water, holyWaterCount);
+        EventManager.instance.InvokeEvent(EventType.Item_Obtain, Item.Potion, potionCount);
+        EventManager.instance.InvokeEvent(EventType.Item_Obtain, Item.Mag_Glass, magGlassCount);
+        EventManager.instance.InvokeEvent(EventType.Item_Obtain, Item.Holy_Water, holyWaterCount);
         
         MakeMineTreasureArray(width, height, difficulty);
 

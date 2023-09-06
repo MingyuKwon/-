@@ -23,7 +23,7 @@ public enum GameOver_Reason {
     TimeOver = 3,
 }
 
-public enum UsableItem {
+public enum Item {
     None = 0,
     Potion = 1,
     Mag_Glass = 2,
@@ -39,7 +39,7 @@ public class EventManager : MonoBehaviour
     public Action<EventType, int> mine_treasure_count_Change_Event;
     public Action<EventType> Set_UI_Filter_Event;
 
-    public Action<EventType,UsableItem, int> Item_Count_Change_Event;
+    public Action<EventType,Item, int> Item_Count_Change_Event;
 
     public Action<bool, GameOver_Reason> Game_Over_Event;
 
@@ -100,9 +100,9 @@ public class EventManager : MonoBehaviour
         }
         
 
-        if(param1 is UsableItem)
+        if(param1 is Item)
         {
-            Item_Count_Change_Event.Invoke(eventType, (UsableItem)param1, (int)param2);
+            Item_Count_Change_Event.Invoke(eventType, (Item)param1, (int)param2);
         }
     }
 

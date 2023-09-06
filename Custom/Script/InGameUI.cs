@@ -37,6 +37,7 @@ public class InGameUI : MonoBehaviour
     public Transform HolyWaterImage;
 
     private Image[] heartImages = new Image[9];
+    private InGameUIAniimation inGameUIAniimation;
 
     private void Awake() {
         for(int i=0; i<3; i++)
@@ -47,6 +48,8 @@ public class InGameUI : MonoBehaviour
                 heartImages[i*3 + j].sprite = heartNone;
             }
         }
+
+        inGameUIAniimation = GetComponent<InGameUIAniimation>();
 
         usableItemExplain[0].text = "Restores 1 unit of health";
         usableItemExplain[1].text = "Displays numbers on the ground to distinguish between traps and treasures";
@@ -69,9 +72,11 @@ public class InGameUI : MonoBehaviour
     }
 
     [Button]
-    private void Change_Item_Count(EventType eventType, UsableItem usableItem , int count)
+    private void Change_Item_Count(EventType eventType, Item usableItem , int count)
     {
         bool flag = false;
+
+        inGameUIAniimation.SetItem_Use_Obtain_Flag(usableItem);
         
         if(eventType == EventType.Item_Use)
         {
@@ -81,19 +86,21 @@ public class InGameUI : MonoBehaviour
             flag = true;
         }
 
+        Debug.Log(eventType + " " +  usableItem + " " + count);
+
         switch(usableItem)
         {
-            case UsableItem.Potion :
+            case Item.Potion :
                 potionCount.text = ": " + count.ToString();
                 if(StageManager.isNowInitializing) return;
                 StartCoroutine(changeItemSize(potionImage ,potionCount , flag));
                 break;
-            case UsableItem.Mag_Glass :
+            case Item.Mag_Glass :
                 magGlassCount.text = ": " + count.ToString();
                 if(StageManager.isNowInitializing) return;
                 StartCoroutine(changeItemSize(magGlassImage , magGlassCount , flag));
                 break;
-            case UsableItem.Holy_Water :
+            case Item.Holy_Water :
                 holyWaterCount.text = ": " + count.ToString();
                 if(StageManager.isNowInitializing) return;
                 StartCoroutine(changeItemSize(HolyWaterImage , holyWaterCount , flag));
