@@ -6136,6 +6136,7 @@ MonoBehaviour:
   - {fileID: 2143851174}
   - {fileID: 905056849}
   - {fileID: 1647112276}
+  SandClockTrans: {fileID: 280502187}
   upClockBlackBox: {fileID: 1301584230}
   downClockBlackBox: {fileID: 966408653}
   potionImage: {fileID: 2086709181}

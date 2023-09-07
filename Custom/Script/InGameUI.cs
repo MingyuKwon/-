@@ -37,6 +37,7 @@ public class InGameUI : MonoBehaviour
     [Space]
     [Header("Transforms")]
     float blackBoxMaxSize = 86f;
+    public RectTransform SandClockTrans;
     public RectTransform upClockBlackBox;
     public RectTransform downClockBlackBox;
 
@@ -92,6 +93,51 @@ public class InGameUI : MonoBehaviour
         float percentageToChangeBlackBox = (float)elapsedTime / (elapsedTime + leftTime);
         upClockBlackBox.sizeDelta = new Vector2(upClockBlackBox.sizeDelta.x, percentageToChangeBlackBox * blackBoxMaxSize);
         downClockBlackBox.sizeDelta = new Vector2(downClockBlackBox.sizeDelta.x, (1 - percentageToChangeBlackBox) * blackBoxMaxSize);
+
+        float changeDelta = percentageToChangeBlackBox * percentageToChangeBlackBox / 20;
+
+        StartCoroutine(changeClockSizeShortly(changeDelta * 0.8f + 0.005f));
+    }
+
+    IEnumerator changeClockSizeShortly(float P)
+    {
+        float deltaP = P / 3;
+
+        yield return new WaitForSeconds(0.04f);
+        SandClockTrans.localScale = new Vector3(SandClockTrans.localScale.x - deltaP, SandClockTrans.localScale.y - deltaP,0);
+
+        yield return new WaitForSeconds(0.04f);
+        SandClockTrans.localScale = new Vector3(SandClockTrans.localScale.x - deltaP, SandClockTrans.localScale.y - deltaP,0);
+
+        yield return new WaitForSeconds(0.04f);
+        SandClockTrans.localScale = new Vector3(SandClockTrans.localScale.x - deltaP, SandClockTrans.localScale.y - deltaP,0);
+
+        yield return new WaitForSeconds(0.04f);
+        SandClockTrans.localScale = new Vector3(SandClockTrans.localScale.x + deltaP, SandClockTrans.localScale.y + deltaP,0);
+
+        yield return new WaitForSeconds(0.04f);
+        SandClockTrans.localScale = new Vector3(SandClockTrans.localScale.x + deltaP, SandClockTrans.localScale.y + deltaP,0);
+
+        yield return new WaitForSeconds(0.04f);
+        SandClockTrans.localScale = new Vector3(SandClockTrans.localScale.x + deltaP, SandClockTrans.localScale.y + deltaP,0);
+
+        yield return new WaitForSeconds(0.04f);
+        SandClockTrans.localScale = new Vector3(SandClockTrans.localScale.x + deltaP, SandClockTrans.localScale.y + deltaP,0);
+
+        yield return new WaitForSeconds(0.04f);
+        SandClockTrans.localScale = new Vector3(SandClockTrans.localScale.x + deltaP, SandClockTrans.localScale.y + deltaP,0);
+
+        yield return new WaitForSeconds(0.04f);
+        SandClockTrans.localScale = new Vector3(SandClockTrans.localScale.x + deltaP, SandClockTrans.localScale.y + deltaP,0);
+
+        yield return new WaitForSeconds(0.04f);
+        SandClockTrans.localScale = new Vector3(SandClockTrans.localScale.x - deltaP, SandClockTrans.localScale.y - deltaP,0);
+
+        yield return new WaitForSeconds(0.04f);
+        SandClockTrans.localScale = new Vector3(SandClockTrans.localScale.x - deltaP, SandClockTrans.localScale.y - deltaP,0);
+
+        yield return new WaitForSeconds(0.04f);
+        SandClockTrans.localScale = new Vector3(SandClockTrans.localScale.x - deltaP, SandClockTrans.localScale.y - deltaP,0);
     }
 
     [Button]
