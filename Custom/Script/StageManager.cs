@@ -145,6 +145,7 @@ public class StageManager : MonoBehaviour, IStageManager
             return totalTime - timeElapsed;
         }
     }
+    private Coroutine timerCoroutine = null;
 
     public delegate bool ConditionDelegate(int x);
     List<ConditionDelegate> NumModeConditions = new List<ConditionDelegate>
@@ -480,7 +481,7 @@ public class StageManager : MonoBehaviour, IStageManager
 
 
     [Button]
-    public void StageInitialize(int width = DefaultX ,  int height = DefaultY, Difficulty difficulty = Difficulty.Hard, int maxHeart = 9,  int currentHeart = 5, int potionCount = 5, int magGlassCount = 5, int holyWaterCount = 5, int totalTime = 50)
+    public void StageInitialize(int width = DefaultX ,  int height = DefaultY, Difficulty difficulty = Difficulty.Hard, int maxHeart = 9,  int currentHeart = 1, int potionCount = 5, int magGlassCount = 5, int holyWaterCount = 5, int totalTime = 10)
     {
         isNowInitializing = true;
 
@@ -528,7 +529,7 @@ public class StageManager : MonoBehaviour, IStageManager
 
         CameraSize_Change.ChangeCameraSizeFit();
 
-        StartCoroutine(StartTimer(totalTime));
+        timerCoroutine = StartCoroutine(StartTimer(totalTime));
 
         isNowInitializing = false;
     }
@@ -550,6 +551,8 @@ public class StageManager : MonoBehaviour, IStageManager
             }
             
         }
+
+        EventManager.instance.InvokeEvent(EventType.Game_Over, GameOver_Reason.TimeOver);
     }
 
     [Button]
@@ -767,6 +770,8 @@ public class StageManager : MonoBehaviour, IStageManager
         if(isGameOver)
         {
             stageInputBlock++;
+            StopCoroutine(timerCoroutine);
+            timerCoroutine = null;
         }else
         {
             StageInitialize();

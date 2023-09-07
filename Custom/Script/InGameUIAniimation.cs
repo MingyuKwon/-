@@ -71,16 +71,20 @@ public class InGameUIAniimation : MonoBehaviour
                 case GameOver_Reason.Heart0 :
                     gameOverReason.text = "HP ZERO";
                     gameOverReason.color = Color.red;
+                    animator.SetFloat("isTimeOver", 0);
                     break;
                 case GameOver_Reason.TreasureCrash :
                     gameOverReason.text = "Treasure Crash";
                     gameOverReason.color = Color.yellow;
+                    animator.SetFloat("isTimeOver", 0);
                     break;
                 case GameOver_Reason.TimeOver :
                     gameOverReason.text = "Time Over";
                     gameOverReason.color = Color.green;
+                    animator.SetFloat("isTimeOver", 1);
                     break;
             }
+            
             animator.SetTrigger("Game Over");
         }else
         {
