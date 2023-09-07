@@ -43,6 +43,9 @@ public class EventManager : MonoBehaviour
 
     public Action<bool, GameOver_Reason> Game_Over_Event;
 
+
+    public Action<int, int> timerEvent;
+
     #endregion
 
     public static EventManager instance = null;
@@ -58,6 +61,11 @@ public class EventManager : MonoBehaviour
             instance = this;
         }
 
+    }
+
+    public void TimerInvokeEvent(int timeElapsed, int timeLeft)
+    {
+        timerEvent.Invoke(timeElapsed, timeLeft);
     }
 
     public void InvokeEvent(EventType eventType, System.Object param1 = null,System.Object param2 = null)

@@ -15,6 +15,10 @@ public class InGameUI : MonoBehaviour
     public TextMeshProUGUI[] usableItemExplain;
 
     [Space]
+    public TextMeshProUGUI leftTimeText;
+    public TextMeshProUGUI elapsedTimeText;
+
+    [Space]
     public TextMeshProUGUI mineCount;
     public TextMeshProUGUI treasureCount;
 
@@ -31,7 +35,12 @@ public class InGameUI : MonoBehaviour
     public RectTransform[] heartPanels; 
 
     [Space]
-    [Header("Images")]
+    [Header("Transforms")]
+    float blackBoxMaxSize = 86f;
+    public RectTransform upClockBlackBox;
+    public RectTransform downClockBlackBox;
+
+    [Space]
     public Transform potionImage;
     public Transform magGlassImage;
     public Transform HolyWaterImage;
@@ -62,6 +71,8 @@ public class InGameUI : MonoBehaviour
         EventManager.instance.Set_Width_Height_Event += Set_Width_Height;
         EventManager.instance.Set_Heart_Event += Set_Heart;
         EventManager.instance.Item_Count_Change_Event += Change_Item_Count;
+
+        EventManager.instance.timerEvent += SetTimeTexts;
     }
 
     private void OnDisable() {
@@ -69,6 +80,18 @@ public class InGameUI : MonoBehaviour
         EventManager.instance.Set_Width_Height_Event -= Set_Width_Height;
         EventManager.instance.Set_Heart_Event -= Set_Heart;
         EventManager.instance.Item_Count_Change_Event -= Change_Item_Count;
+
+        EventManager.instance.timerEvent -= SetTimeTexts;
+    }
+
+    private void SetTimeTexts(int elapsedTime, int leftTime)
+    {
+        elapsedTimeText.text = elapsedTime.ToString();
+        leftTimeText.text = leftTime.ToString();
+        
+        float percentageToChangeBlackBox = (float)elapsedTime / (elapsedTime + leftTime);
+        upClockBlackBox.sizeDelta = new Vector2(upClockBlackBox.sizeDelta.x, percentageToChangeBlackBox * blackBoxMaxSize);
+        downClockBlackBox.sizeDelta = new Vector2(downClockBlackBox.sizeDelta.x, (1 - percentageToChangeBlackBox) * blackBoxMaxSize);
     }
 
     [Button]

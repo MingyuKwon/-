@@ -5,6 +5,7 @@ using System.Linq;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine.EventSystems;
+using System.Collections;
 
 public class StageManager : MonoBehaviour, IStageManager
 {   
@@ -136,6 +137,14 @@ public class StageManager : MonoBehaviour, IStageManager
     #endregion
 
     private Vector3Int currentFocusPosition = Vector3Int.zero;
+
+    private int totalTime = 0;
+    private int timeElapsed = 0;
+    private int timeLeft {
+        get{
+            return totalTime - timeElapsed;
+        }
+    }
 
     public delegate bool ConditionDelegate(int x);
     List<ConditionDelegate> NumModeConditions = new List<ConditionDelegate>
@@ -471,7 +480,7 @@ public class StageManager : MonoBehaviour, IStageManager
 
 
     [Button]
-    public void StageInitialize(int width = DefaultX, int height = DefaultY, int maxHeart = 9,  int currentHeart = 5, int potionCount = 5, int magGlassCount = 5, int holyWaterCount = 5, Difficulty difficulty = Difficulty.Hard)
+    public void StageInitialize(int width = DefaultX ,  int height = DefaultY, Difficulty difficulty = Difficulty.Hard, int maxHeart = 9,  int currentHeart = 5, int potionCount = 5, int magGlassCount = 5, int holyWaterCount = 5, int totalTime = 50)
     {
         isNowInitializing = true;
 
@@ -519,7 +528,28 @@ public class StageManager : MonoBehaviour, IStageManager
 
         CameraSize_Change.ChangeCameraSizeFit();
 
+        StartCoroutine(StartTimer(totalTime));
+
         isNowInitializing = false;
+    }
+
+    IEnumerator StartTimer(int totalTime)
+    {
+        this.totalTime = totalTime;
+        timeElapsed = 0;
+        EventManager.instance.TimerInvokeEvent(timeElapsed, timeLeft);
+
+        while(timeLeft > 0)
+        {
+            yield return new WaitForSeconds(1);
+
+            if(!isStageInputBlocked)
+            {
+                timeElapsed++;
+                EventManager.instance.TimerInvokeEvent(timeElapsed, timeLeft);
+            }
+            
+        }
     }
 
     [Button]
