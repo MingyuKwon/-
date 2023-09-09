@@ -386,6 +386,7 @@ public class StageManager : MonoBehaviour, IStageManager
 
     private void RemoveObstacleTile(Vector3Int cellPos, bool isBomb = false)
     {
+        
         Vector3Int arrayPos = ChangeCellPosToArrayPos(cellPos);
         isObstacleRemoved[arrayPos.y, arrayPos.x] = true;
         grid.RemoveObstacleTile(cellPos, isBomb);

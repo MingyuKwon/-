@@ -213,10 +213,18 @@ public class TileGrid : MonoBehaviour, IGridInterface
 
     public void RemoveObstacleTile(Vector3Int cellPos, bool isBomb = false)
     {
-        if(obstacleTilemap.HasTile(cellPos)) {
-            StageManager.stageInputBlock++;
-            StartCoroutine(crackAnimation(cellPos, isBomb));
+        if(!StageManager.isNowInitializing)
+        {
+            if(obstacleTilemap.HasTile(cellPos)) {
+                StageManager.stageInputBlock++;
+                StartCoroutine(crackAnimation(cellPos, isBomb));
+            }
+        }else
+        {
+            obstacleTilemap.SetTile(cellPos, null);
+            tilemaps[9].SetTile(cellPos, null);
         }
+        
     }
 
     IEnumerator crackAnimation(Vector3Int cellPos, bool isBomb = false)
