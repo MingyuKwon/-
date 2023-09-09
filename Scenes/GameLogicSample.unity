@@ -1589,6 +1589,8 @@ GameObject:
   m_Component:
   - component: {fileID: 210144304}
   - component: {fileID: 210144305}
+  - component: {fileID: 210144306}
+  - component: {fileID: 210144307}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1632,6 +1634,30 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+--- !u!114 &210144306
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 210144303}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0a9ac5c4728cb9449a47a116ce8d20c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &210144307
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 210144303}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d71367bdf453b6f4894ed8c5b40a12b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &230379905
 GameObject:
   m_ObjectHideFlags: 0
@@ -2941,11 +2967,11 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 8
+  orthographic size: 7
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 23
+    m_Bits: 87
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -6534,6 +6560,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1144645580}
   - component: {fileID: 1144645581}
+  - component: {fileID: 1144645582}
   m_Layer: 0
   m_Name: Stage Manager
   m_TagString: Untagged
@@ -6549,7 +6576,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1144645579}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.33473644, y: 1.7601647, z: 0.6746182}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6571,6 +6598,61 @@ MonoBehaviour:
   grid: {fileID: 2103102379}
   tempCanvas: {fileID: 1519574361}
   tmp: {fileID: 1294532522}
+--- !u!114 &1144645582
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1144645579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78396926cbbfc4ac3b48fc5fc34a87d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 1
+  data:
+    dataString: UEsDBBQAAAgIAABIIezF+qTfnAIAAJwFAAALACQAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQF1VN9vGjEM/ldQntcJGJR2bxu0dJPaorGpD6MPIfFxEbnklB8FWvG/z87dcVe2SUgX7M/29zl23pgyvgQRrJs7Je+tBPa5x+jMPvRa5x3s+caapXqFBvOkZMgJxBPmBw/Kon1AYd4WEJwSX8xGE7iPxmhUZl1xIzcwtT54NGdce0CXs4GiDZreemyPn4trCjngaTih0yuervu9Ix4FmACuhTbABlahohGaFyVIotyCxw16XMEMiqkRRFxYrZWvmbBwKJPSKS99RB0IkIqjslSe8DmoTR6IZTf4Mcs8hJqS44eZctigKiv7aquuFdxvK14vXEeqczlKlKqc93+5LwbJnTlb3DVlB30qEXIltj/4QXAfOl3tmmfveUez43rL1xqecjAPdu5sNBKdwUUKjR6Gs/bvSdk0B7Ft7RXVM2Ms/383pOGYxO+nWhVrcn0cVYaltqnd6ebB4cV8Q8JpLnydAq3E4peHn3zTHaDacaucD+iqVRqit7bREZTd4oEaL2KYWmcgWWvOJRiuw2GBWcL5BZ75OlXPPLecNqWuXfuaBTgLSeYW3++fuRZ2196Vh++xKBdWmbAE7kTeyedzu7sHnz/GoJWBVhE5HrCHU2tMNXz+H2HL6DIuOmEB9iE6mPHA0wogJxwS2Q3FNqYIE7WmeUwqKPlvVEG/Z2pyzrGuTmb2YE1annffZ5qDTVTy/ZSzwfWofzXhk+HkUmajT+OL9dVISgEg4Hp4mfXHLK2BMthzrhdV0+qrwgEyrRaDI988Zr2542XaO+n4bq5eC9u5fmUyuxQOwDxWGU5iwWERfB/kjVQocwkhKJNGj72tmLZiC3J1SrRKjb3ZB8dXbZYVK9WLDWRZsWl6vVaMzKe1Wjh4UbCj4k2yIzv+AVBLAwQUAAAICAAASCHsh0BLw20AAAB4AAAACQAkAG1ldGEuanNvbgoAIAAAAAAAAQAYAACAPtXesZ0BAIA+1d6xnQEAgD7V3rGdAatWKkstKs7Mz1OyUjDRM9IztNBRUEovSizIKAaKGII4pZkpIHa0kqGliYGFeaK5kblZSpqJsalukoVJSkpyampyqqWRWZqBqVIsUH1JZUGqX2JuKkRPQGJJRlpmXkpmXrqee1FmijvIaKXYWgBQSwECLQAUAAAICAAASCHsxfqk35wCAACcBQAACwAkAAAAAAAAAAAAAAAAAAAAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQFQSwECLQAUAAAICAAASCHsh0BLw20AAAB4AAAACQAkAAAAAAAAAAAAAADpAgAAbWV0YS5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0BUEsFBgAAAAACAAIAuAAAAKEDAAAAAA==
+    upgradeData: 
+    file_cachedStartup: {fileID: 0}
+    data_cachedStartup: 
+    cacheStartup: 0
+  showNavGraphs: 1
+  showUnwalkableNodes: 1
+  debugMode: 0
+  debugFloor: 0
+  debugRoof: 1
+  manualDebugFloorRoof: 0
+  showSearchTree: 0
+  unwalkableNodeDebugSize: 0.3
+  logPathResults: 1
+  maxNearestNodeDistance: 100
+  scanOnStartup: 1
+  fullGetNearestSearch: 0
+  prioritizeGraphs: 0
+  prioritizeGraphsLimit: 1
+  colorSettings:
+    _SolidColor: {r: 0.11764706, g: 0.4, b: 0.7882353, a: 0.9}
+    _UnwalkableNode: {r: 1, g: 0, b: 0, a: 0.5}
+    _BoundsHandles: {r: 0.29, g: 0.454, b: 0.741, a: 0.9}
+    _ConnectionLowLerp: {r: 0, g: 1, b: 0, a: 0.5}
+    _ConnectionHighLerp: {r: 1, g: 0, b: 0, a: 0.5}
+    _MeshEdgeColor: {r: 0, g: 0, b: 0, a: 0.5}
+    _AreaColors:
+    - {r: 0, g: 0, b: 0, a: 0}
+  tagNames: []
+  heuristic: 2
+  heuristicScale: 1
+  threadCount: 1
+  maxFrameTime: 10
+  batchGraphUpdates: 0
+  graphUpdateBatchingInterval: 0.2
+  euclideanEmbedding:
+    mode: 0
+    seed: 0
+    pivotPointRoot: {fileID: 0}
+    spreadOutCount: 1
+  showGraphs: 1
 --- !u!1 &1162390921
 GameObject:
   m_ObjectHideFlags: 0
@@ -7783,7 +7865,8 @@ GameObject:
   - component: {fileID: 1340065149}
   - component: {fileID: 1340065151}
   - component: {fileID: 1340065150}
-  m_Layer: 0
+  - component: {fileID: 1340065152}
+  m_Layer: 6
   m_Name: Obstacle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7922,6 +8005,22 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!19719996 &1340065152
+TilemapCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1340065148}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_MaximumTileChangeCount: 1000
+  m_ExtrusionFactor: 0
 --- !u!1 &1354935200
 GameObject:
   m_ObjectHideFlags: 0
@@ -8068,7 +8167,8 @@ GameObject:
   - component: {fileID: 1369396007}
   - component: {fileID: 1369396009}
   - component: {fileID: 1369396008}
-  m_Layer: 0
+  - component: {fileID: 1369396010}
+  m_Layer: 6
   m_Name: Bound
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8217,6 +8317,22 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!19719996 &1369396010
+TilemapCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1369396006}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_MaximumTileChangeCount: 1000
+  m_ExtrusionFactor: 0
 --- !u!1 &1387408174
 GameObject:
   m_ObjectHideFlags: 0

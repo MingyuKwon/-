@@ -386,7 +386,6 @@ public class StageManager : MonoBehaviour, IStageManager
 
     private void RemoveObstacleTile(Vector3Int cellPos, bool isBomb = false)
     {
-        
         Vector3Int arrayPos = ChangeCellPosToArrayPos(cellPos);
         isObstacleRemoved[arrayPos.y, arrayPos.x] = true;
         grid.RemoveObstacleTile(cellPos, isBomb);
@@ -496,7 +495,8 @@ public class StageManager : MonoBehaviour, IStageManager
         this.maxHeart = maxHeart;
         this.currentHeart = currentHeart;
 
-        EventManager.instance.InvokeEvent(EventType.Set_Heart, currentHeart, maxHeart);
+        
+        
 
         flagArray = new int[height, width];
         isObstacleRemoved = new bool[height, width];
@@ -511,9 +511,16 @@ public class StageManager : MonoBehaviour, IStageManager
         this.magGlassCount = magGlassCount;
         this.holyWaterCount = holyWaterCount;
 
-        EventManager.instance.InvokeEvent(EventType.Item_Obtain, Item.Potion, potionCount);
-        EventManager.instance.InvokeEvent(EventType.Item_Obtain, Item.Mag_Glass, magGlassCount);
-        EventManager.instance.InvokeEvent(EventType.Item_Obtain, Item.Holy_Water, holyWaterCount);
+        if(Application.isPlaying)
+        {
+            EventManager.instance.InvokeEvent(EventType.Set_Heart, currentHeart, maxHeart);
+
+            EventManager.instance.InvokeEvent(EventType.Item_Obtain, Item.Potion, potionCount);
+            EventManager.instance.InvokeEvent(EventType.Item_Obtain, Item.Mag_Glass, magGlassCount);
+            EventManager.instance.InvokeEvent(EventType.Item_Obtain, Item.Holy_Water, holyWaterCount);
+        }
+        
+        
         
         MakeMineTreasureArray(width, height, difficulty);
 
