@@ -49,7 +49,18 @@ public class EventManager : MonoBehaviour
     #endregion
 
     public static EventManager instance = null;
-    public static bool isAnimationPlaying = false;
+    public static bool isAnimationPlaying{
+        get{
+            return _AnimationPlaying;
+        }
+
+        set{
+            if(_AnimationPlaying && !value) AstarPath.active.Scan();
+            _AnimationPlaying = value;
+        }
+    }
+
+    static bool _AnimationPlaying = false;
 
     private void Awake() {
         if(instance != null)

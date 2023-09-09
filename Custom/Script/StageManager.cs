@@ -6,6 +6,7 @@ using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine.EventSystems;
 using System.Collections;
+using Pathfinding;
 
 public class StageManager : MonoBehaviour, IStageManager
 {   
@@ -23,6 +24,10 @@ public class StageManager : MonoBehaviour, IStageManager
         }
 
         set{
+            if(stageInputBlock > 0 && value == 0)
+            {
+                AstarPath.active.Scan();
+            }
             _stageInputBlock =  value;
             if(_stageInputBlock < 0) _stageInputBlock = 0;
         }
@@ -36,6 +41,7 @@ public class StageManager : MonoBehaviour, IStageManager
     }
 
     static private int _stageInputBlock = 0; 
+
     [SerializeField] private TileGrid grid;
     [SerializeField] private GameObject tempCanvas;
 
@@ -495,9 +501,6 @@ public class StageManager : MonoBehaviour, IStageManager
         this.maxHeart = maxHeart;
         this.currentHeart = currentHeart;
 
-        
-        
-
         flagArray = new int[height, width];
         isObstacleRemoved = new bool[height, width];
 
@@ -520,8 +523,6 @@ public class StageManager : MonoBehaviour, IStageManager
             EventManager.instance.InvokeEvent(EventType.Item_Obtain, Item.Holy_Water, holyWaterCount);
         }
         
-        
-        
         MakeMineTreasureArray(width, height, difficulty);
 
         UpdateArrayNum(Total_Mine_Treasure.Total);
@@ -537,7 +538,7 @@ public class StageManager : MonoBehaviour, IStageManager
 
         CameraSize_Change.ChangeCameraSizeFit();
 
-        timerCoroutine = StartCoroutine(StartTimer(totalTime));
+        timerCoroutine = StartCoroutine(StartTimer(totalTime)); 
 
         isNowInitializing = false;
     }

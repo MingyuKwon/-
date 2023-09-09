@@ -6,15 +6,48 @@ public class PlayerAnimation : MonoBehaviour
 {
     Animator animator;
 
+    float animationX = 0;
+    float animationY = 0;
+
     private void Awake() {
         animator = GetComponent<Animator>();
     }
 
+    private void Update() {
+        CheckRotate();
+    }
+
     public void SetAnimationXY(float x, float y)
     {
-        animator.SetFloat("X", x);
-        animator.SetFloat("Y", y);
-        animator.SetFloat("LastX", x);
-        animator.SetFloat("LastY", y);
+        animationX = x;
+        animationY = y;
+
+        animator.SetFloat("X", animationX);
+        animator.SetFloat("Y", animationY);
+        animator.SetFloat("LastX", animationX);
+        animator.SetFloat("LastY", animationY);
+    }
+
+    private void CheckRotate() // 현재 보고 있는 방향에 따라 콜라이더 등을 전체 돌려줌
+    {
+        if(animationX == 0)
+        {
+            if(animationY == 1)
+            {
+                transform.GetChild(1).transform.rotation = Quaternion.Euler(new Vector3 (0, 0, 180));
+            }else if(animationY == -1)
+            {
+                transform.GetChild(1).gameObject.transform.rotation = Quaternion.Euler(new Vector3 (0, 0, 0));
+            }
+        }else if(animationY == 0)
+        {
+            if(animationX == 1)
+            {
+                transform.GetChild(1).gameObject.transform.rotation = Quaternion.Euler(new Vector3 (0, 0, 90));
+            }else if(animationX == -1)
+            {
+                transform.GetChild(1).gameObject.transform.rotation = Quaternion.Euler(new Vector3 (0, 0, 270));
+            }
+        }
     }
 }

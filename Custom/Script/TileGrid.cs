@@ -213,18 +213,10 @@ public class TileGrid : MonoBehaviour, IGridInterface
 
     public void RemoveObstacleTile(Vector3Int cellPos, bool isBomb = false)
     {
-        if(!StageManager.isNowInitializing)
-        {
-            if(obstacleTilemap.HasTile(cellPos)) {
-                StageManager.stageInputBlock++;
-                StartCoroutine(crackAnimation(cellPos, isBomb));
-            }
-        }else
-        {
-            obstacleTilemap.SetTile(cellPos, null);
-            tilemaps[9].SetTile(cellPos, null);
+        if(obstacleTilemap.HasTile(cellPos)) {
+            StageManager.stageInputBlock++;
+            StartCoroutine(crackAnimation(cellPos, isBomb));
         }
-        
     }
 
     IEnumerator crackAnimation(Vector3Int cellPos, bool isBomb = false)
@@ -237,11 +229,20 @@ public class TileGrid : MonoBehaviour, IGridInterface
             tilemaps[9].SetTile(cellPos, CrackTile);
         }
 
+        if(StageManager.isNowInitializing)
+        {
+            obstacleTilemap.SetTile(cellPos, null);
+            tilemaps[9].SetTile(cellPos, null);
+        }
+
         yield return new WaitForSeconds(0.2f);
 
+        if(!StageManager.isNowInitializing)
+        {
+            obstacleTilemap.SetTile(cellPos, null);
+            tilemaps[9].SetTile(cellPos, null);
+        }
 
-        obstacleTilemap.SetTile(cellPos, null);
-        tilemaps[9].SetTile(cellPos, null);
         StageManager.stageInputBlock--;
     }
 
