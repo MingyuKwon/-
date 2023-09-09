@@ -43,7 +43,7 @@ public class StageManager : MonoBehaviour, IStageManager
     static private int _stageInputBlock = 0; 
 
     [SerializeField] private TileGrid grid;
-    [SerializeField] private GameObject tempCanvas;
+    [SerializeField] private Transform PlayerTarget;
 
     [Space]
     [Header("For Debug")]
@@ -142,7 +142,7 @@ public class StageManager : MonoBehaviour, IStageManager
     }
     #endregion
 
-    private Vector3Int currentFocusPosition = Vector3Int.zero;
+    private Vector3Int currentFocusPosition = Vector3Int.one;
 
     private int totalTime = 0;
     private int timeElapsed = 0;
@@ -209,8 +209,15 @@ public class StageManager : MonoBehaviour, IStageManager
 
     private void SetFocus()
     {
-        Vector3 worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector3Int cellPos = grid.obstacleTilemap.WorldToCell(worldPos);
+        Vector3Int cellPos = Vector3Int.zero;
+        if(InputManager.currentInputHardware == IngameInputHardWare.Mouse)
+        {
+            Vector3 worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            cellPos = grid.obstacleTilemap.WorldToCell(worldPos);
+        }else if(InputManager.currentInputHardware == IngameInputHardWare.JoyStick)
+        {
+            cellPos = grid.obstacleTilemap.WorldToCell(PlayerManager.instance.playerTransform.position);
+        }
 
         if(cellPos == currentFocusPosition) return; // 만약 포커스가 아직 바뀌지 않았다면 요청 무시
         if(grid.boundTilemap.HasTile(cellPos))  return; // 해당 위치가 필드 바깥이면 무시
@@ -228,6 +235,7 @@ public class StageManager : MonoBehaviour, IStageManager
          
         grid.SetFocus(currentFocusPosition, cellPos);
         currentFocusPosition = cellPos;
+        PlayerTarget.position = grid.obstacleTilemap.GetCellCenterWorld(currentFocusPosition);
     }
 
     private void RemoveObstacle(Vector3Int cellPos, bool special = false) // Special은 보물을 찾거나 지뢰를 없애서 갱신되고 처음 도는 재귀를 의미. 
@@ -487,7 +495,7 @@ public class StageManager : MonoBehaviour, IStageManager
 
 
     [Button]
-    public void StageInitialize(int width = DefaultX ,  int height = DefaultY, Difficulty difficulty = Difficulty.Hard, int maxHeart = 9,  int currentHeart = 1, int potionCount = 5, int magGlassCount = 5, int holyWaterCount = 5, int totalTime = 10)
+    public void StageInitialize(int width = DefaultX ,  int height = DefaultY, Difficulty difficulty = Difficulty.Hard, int maxHeart = 9,  int currentHeart = 1, int potionCount = 5, int magGlassCount = 5, int holyWaterCount = 5, int totalTime = 60)
     {
         isNowInitializing = true;
 
@@ -539,6 +547,8 @@ public class StageManager : MonoBehaviour, IStageManager
         CameraSize_Change.ChangeCameraSizeFit();
 
         timerCoroutine = StartCoroutine(StartTimer(totalTime)); 
+
+        EventManager.instance.SendTargetToPlayerInvoke(PlayerTarget);
 
         isNowInitializing = false;
     }

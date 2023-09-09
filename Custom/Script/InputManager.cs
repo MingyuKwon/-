@@ -4,6 +4,12 @@ using UnityEngine;
 using Rewired;
 using System;
 
+public enum IngameInputHardWare
+{
+    Mouse = 0,
+    JoyStick = 1,
+}
+
 public enum InputMode
 {
     InGame = 0,
@@ -23,7 +29,8 @@ public enum InputType
 
 public class InputManager : MonoBehaviour
 {
-    
+    public static IngameInputHardWare currentInputHardware = IngameInputHardWare.Mouse;
+
     #region InputCheck
     public class InputCheck
     {

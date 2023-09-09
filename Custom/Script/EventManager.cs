@@ -45,6 +45,7 @@ public class EventManager : MonoBehaviour
 
 
     public Action<int, int> timerEvent;
+    public Action<Transform> stageSendTargetToPlayerEvent;
 
     #endregion
 
@@ -77,6 +78,11 @@ public class EventManager : MonoBehaviour
     public void TimerInvokeEvent(int timeElapsed, int timeLeft)
     {
         timerEvent.Invoke(timeElapsed, timeLeft);
+    }
+
+    public void SendTargetToPlayerInvoke(Transform target)
+    {
+        stageSendTargetToPlayerEvent.Invoke(target);
     }
 
     public void InvokeEvent(EventType eventType, System.Object param1 = null,System.Object param2 = null)
