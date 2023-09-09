@@ -18,13 +18,9 @@ public enum InputMode
 
 public enum InputType
 {
-    Up = 0,
-    Down = 1,
-    Right = 2,
-    Left = 3,
-    Shovel = 4,
-    Flag = 5,
-    Interact = 6,
+    Move = 0,
+    Shovel = 1,
+    Interact = 2,
 }
 
 public class InputManager : MonoBehaviour
@@ -89,10 +85,10 @@ public class InputManager : MonoBehaviour
         }
 
         #region Event
-        public static event Action<InputType> MovePressEvent;
-        public static void Invoke_MovePressed(InputType inputType)
+        public static event Action<Vector3Int> MovePressEvent;
+        public static void Invoke_Move(Vector3Int position)
         {
-            MovePressEvent.Invoke(inputType);
+            MovePressEvent.Invoke(position);
         }
 
         #endregion
@@ -181,40 +177,16 @@ public class InputManager : MonoBehaviour
 
     public void delegateInputFunctions()
     {
-        player.AddInputEventDelegate(UPPressed, UpdateLoopType.Update, InputActionEventType.ButtonPressed, "MoveUp");
-        player.AddInputEventDelegate(DownPressed, UpdateLoopType.Update, InputActionEventType.ButtonPressed, "MoveDown");
-        player.AddInputEventDelegate(RightPressed, UpdateLoopType.Update, InputActionEventType.ButtonPressed,"MoveRight");
-        player.AddInputEventDelegate(LeftPressed, UpdateLoopType.Update, InputActionEventType.ButtonPressed,"MoveLeft");
+
     }
 
     public void removeInputFunctions()
     {
-        player.RemoveInputEventDelegate(UPPressed);
-        player.RemoveInputEventDelegate(DownPressed);
-        player.RemoveInputEventDelegate(RightPressed);
-        player.RemoveInputEventDelegate(LeftPressed);
+
     }
 
     #region moveInputFunctions
-    public void UPPressed(InputActionEventData data)
-    {
-        InputEvent.Invoke_MovePressed(InputType.Up);
-    }
 
-    public void DownPressed(InputActionEventData data)
-    {
-        InputEvent.Invoke_MovePressed(InputType.Down);
-    }
-
-    public void RightPressed(InputActionEventData data)
-    {
-        InputEvent.Invoke_MovePressed(InputType.Right);
-    }
-
-    public void LeftPressed(InputActionEventData data)
-    {
-        InputEvent.Invoke_MovePressed(InputType.Left);
-    }
     #endregion
 
 

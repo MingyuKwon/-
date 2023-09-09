@@ -45,7 +45,6 @@ public class EventManager : MonoBehaviour
 
 
     public Action<int, int> timerEvent;
-    public Action<Transform> stageSendTargetToPlayerEvent;
 
     #endregion
 
@@ -56,7 +55,6 @@ public class EventManager : MonoBehaviour
         }
 
         set{
-            if(_AnimationPlaying && !value) AstarPath.active.Scan();
             _AnimationPlaying = value;
         }
     }
@@ -80,10 +78,7 @@ public class EventManager : MonoBehaviour
         timerEvent.Invoke(timeElapsed, timeLeft);
     }
 
-    public void SendTargetToPlayerInvoke(Transform target)
-    {
-        stageSendTargetToPlayerEvent.Invoke(target);
-    }
+
 
     public void InvokeEvent(EventType eventType, System.Object param1 = null,System.Object param2 = null)
     {

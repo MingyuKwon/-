@@ -6,7 +6,6 @@ using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine.EventSystems;
 using System.Collections;
-using Pathfinding;
 
 public class StageManager : MonoBehaviour, IStageManager
 {   
@@ -24,10 +23,6 @@ public class StageManager : MonoBehaviour, IStageManager
         }
 
         set{
-            if(stageInputBlock > 0 && value == 0)
-            {
-                AstarPath.active.Scan();
-            }
             _stageInputBlock =  value;
             if(_stageInputBlock < 0) _stageInputBlock = 0;
         }
@@ -43,7 +38,6 @@ public class StageManager : MonoBehaviour, IStageManager
     static private int _stageInputBlock = 0; 
 
     [SerializeField] private TileGrid grid;
-    [SerializeField] private Transform PlayerTarget;
 
     [Space]
     [Header("For Debug")]
@@ -183,10 +177,25 @@ public class StageManager : MonoBehaviour, IStageManager
 
         SetFocus();
 
+        Vector3Int gap = PlayerManager.instance.checkPlayerNearFourDirection(currentFocusPosition);
+        bool isNearFlag = (gap == Vector3Int.zero) ? false : true;
+
         if(Input.GetMouseButtonDown(0))
         {
-            RemoveObstacle(currentFocusPosition);
-        }else if(Input.GetMouseButtonDown(1))
+            if(CheckHasObstacle(currentFocusPosition))
+            {
+                if(!isNearFlag) return;
+                RemoveObstacle(currentFocusPosition);
+            }else
+            {
+                InputManager.InputEvent.Invoke_Move(currentFocusPosition);
+            }
+            
+        }
+        
+        if(!isNearFlag) return;
+
+        if(Input.GetMouseButtonDown(1))
         {
             SetFlag(currentFocusPosition);
         }else if(Input.GetMouseButtonDown(2) && magGlassEnable)
@@ -209,15 +218,8 @@ public class StageManager : MonoBehaviour, IStageManager
 
     private void SetFocus()
     {
-        Vector3Int cellPos = Vector3Int.zero;
-        if(InputManager.currentInputHardware == IngameInputHardWare.Mouse)
-        {
-            Vector3 worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            cellPos = grid.obstacleTilemap.WorldToCell(worldPos);
-        }else if(InputManager.currentInputHardware == IngameInputHardWare.JoyStick)
-        {
-            cellPos = grid.obstacleTilemap.WorldToCell(PlayerManager.instance.playerTransform.position);
-        }
+        Vector3 worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector3Int cellPos = TileGrid.CheckCellPosition(worldPos);
 
         if(cellPos == currentFocusPosition) return; // 만약 포커스가 아직 바뀌지 않았다면 요청 무시
         if(grid.boundTilemap.HasTile(cellPos))  return; // 해당 위치가 필드 바깥이면 무시
@@ -235,7 +237,6 @@ public class StageManager : MonoBehaviour, IStageManager
          
         grid.SetFocus(currentFocusPosition, cellPos);
         currentFocusPosition = cellPos;
-        PlayerTarget.position = grid.obstacleTilemap.GetCellCenterWorld(currentFocusPosition);
     }
 
     private void RemoveObstacle(Vector3Int cellPos, bool special = false) // Special은 보물을 찾거나 지뢰를 없애서 갱신되고 처음 도는 재귀를 의미. 
@@ -547,8 +548,6 @@ public class StageManager : MonoBehaviour, IStageManager
         CameraSize_Change.ChangeCameraSizeFit();
 
         timerCoroutine = StartCoroutine(StartTimer(totalTime)); 
-
-        EventManager.instance.SendTargetToPlayerInvoke(PlayerTarget);
 
         isNowInitializing = false;
     }

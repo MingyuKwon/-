@@ -1,20 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
-using Pathfinding;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class PlayerManager : MonoBehaviour
 {
     public static PlayerManager instance;
-
     PlayerAnimation playerAnimation;
     PlayerMove playerMove;
 
-    AIPath aIPath;
-    AIDestinationSetter aIDestinationSetter;
-
     public Transform playerTransform;
-    private Transform target;
+
+    public Vector3Int checkPlayerNearFourDirection(Vector3Int checkPosition){
+        Vector3Int PlayerCellPosition = TileGrid.CheckCellPosition(transform.position);
+        Vector3Int gap = checkPosition - PlayerCellPosition;
+
+        if(gap.magnitude == 1)
+        {
+            return gap;
+        }
+
+        return Vector3Int.zero;
+    }
 
     private void Awake() {
         if(instance == null)
@@ -30,31 +37,14 @@ public class PlayerManager : MonoBehaviour
         playerMove = GetComponent<PlayerMove>();
         playerTransform = GetComponent<Transform>();
 
-        aIPath = GetComponent<AIPath>();
-        aIDestinationSetter = GetComponent<AIDestinationSetter>();
-
         playerTransform.position = new Vector3(0.5f, 0.5f, 0);
     }
 
     private void Update() {
         if(Input.GetMouseButtonDown(0))
         {
-            aIDestinationSetter.target = this.target;
+            
         }
-    }
-
-    private void OnEnable() {
-        EventManager.instance.stageSendTargetToPlayerEvent += GetTarget;
-    }
-
-    private void OnDisable() {
-        EventManager.instance.stageSendTargetToPlayerEvent -= GetTarget;
-    }
-
-    private void GetTarget(Transform target)
-    {
-        this.target = target;
-        
     }
 
 }

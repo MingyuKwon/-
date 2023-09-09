@@ -35,6 +35,12 @@ public class TileGrid : MonoBehaviour, IGridInterface
     [SerializeField] private Tilemap[] tilemaps; 
     //0 : Base , 1: Bound , 2 : Total Num, 3 : Bomb Num, 4 : Treasure Num,5 : Mine and Treasure ,6 : Obstacle ,7 : treasure search ,8 : Flag,9 : Crack, 10 : Focus
 
+    static Tilemap staticObstacleTileMap;
+    public static Vector3Int CheckCellPosition(Vector3 worldPos)
+    {
+        return staticObstacleTileMap.WorldToCell(worldPos);;
+    }
+
     public Tilemap obstacleTilemap{
         get{
             return tilemaps[6];
@@ -49,10 +55,12 @@ public class TileGrid : MonoBehaviour, IGridInterface
 
     private void OnEnable() {
         EventManager.instance.SetAnimationTileEvent += ReserveAnimation;
+        staticObstacleTileMap = tilemaps[6];
     }
 
     private void OnDisable() {
         EventManager.instance.SetAnimationTileEvent -= ReserveAnimation;
+        staticObstacleTileMap = null;
     }
 
     [Button]

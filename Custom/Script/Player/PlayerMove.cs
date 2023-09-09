@@ -12,22 +12,26 @@ public class PlayerMove : MonoBehaviour
         InputManager.InputEvent.MovePressEvent -= MovePlayer;
     }
 
-    private void MovePlayer(InputType inputType)
+    private void MovePlayer(Vector3Int cellPosition)
     {
-        switch(inputType)
+        Vector3Int gap = PlayerManager.instance.checkPlayerNearFourDirection(cellPosition);
+        if(gap != Vector3Int.zero)
         {
-            case InputType.Up :
-                
-                break;
-            case InputType.Down :
+            StageManager.stageInputBlock++;
+            StartCoroutine(MoveDirectly(gap));
+        }else
+        {
+            
+        }
+        
+    }
 
-                break;
-            case InputType.Right :
+    IEnumerator MoveDirectly(Vector3Int moveVector)
+    {
+        transform.position += moveVector;
 
-                break;
-            case InputType.Left :
+        yield return null;
 
-                break;
-        }   
+        StageManager.stageInputBlock--;
     }
 }
