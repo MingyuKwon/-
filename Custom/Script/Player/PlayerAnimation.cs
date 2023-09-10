@@ -34,19 +34,19 @@ public class PlayerAnimation : MonoBehaviour
         {
             if(animationY == 1)
             {
-                transform.GetChild(1).transform.rotation = Quaternion.Euler(new Vector3 (0, 0, 180));
+                transform.GetChild(0).transform.rotation = Quaternion.Euler(new Vector3 (0, 0, 180));
             }else if(animationY == -1)
             {
-                transform.GetChild(1).gameObject.transform.rotation = Quaternion.Euler(new Vector3 (0, 0, 0));
+                transform.GetChild(0).gameObject.transform.rotation = Quaternion.Euler(new Vector3 (0, 0, 0));
             }
         }else if(animationY == 0)
         {
             if(animationX == 1)
             {
-                transform.GetChild(1).gameObject.transform.rotation = Quaternion.Euler(new Vector3 (0, 0, 90));
+                transform.GetChild(0).gameObject.transform.rotation = Quaternion.Euler(new Vector3 (0, 0, 90));
             }else if(animationX == -1)
             {
-                transform.GetChild(1).gameObject.transform.rotation = Quaternion.Euler(new Vector3 (0, 0, 270));
+                transform.GetChild(0).gameObject.transform.rotation = Quaternion.Euler(new Vector3 (0, 0, 270));
             }
         }
     }
@@ -64,22 +64,28 @@ public class PlayerAnimation : MonoBehaviour
     }
 
     public void MoveAnimation(Vector3Int vector3Int)
-    {
-        if(vector3Int == Vector3Int.zero)
+    {        
+        if(vector3Int == Vector3Int.forward)
         { // 텔레포트
-
+            animator.SetFloat("isNear", 1);
         }else if(vector3Int == Vector3Int.up)
         { 
-
+            animator.SetFloat("isNear", 0);
+            SetAnimationXY(0,1);
         }else if(vector3Int == Vector3Int.down)
         { 
-
+            animator.SetFloat("isNear", 0);
+            SetAnimationXY(0,-1);
         }else if(vector3Int == Vector3Int.right)
         { 
-
+            animator.SetFloat("isNear", 0);
+            SetAnimationXY(1,0);
         }else if(vector3Int == Vector3Int.left)
         { 
-
+            animator.SetFloat("isNear", 0);
+            SetAnimationXY(-1,0);
         }
+
+        animator.SetTrigger("Move");
     }
 }

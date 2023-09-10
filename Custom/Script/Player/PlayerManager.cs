@@ -18,9 +18,12 @@ public class PlayerManager : MonoBehaviour
         if(gap.magnitude == 1)
         {
             return gap;
+        }else if(gap.magnitude == 0)
+        {
+            return Vector3Int.zero;
         }
 
-        return Vector3Int.zero;
+        return Vector3Int.forward;
     }
 
     private void Awake() {

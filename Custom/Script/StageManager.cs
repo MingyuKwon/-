@@ -178,7 +178,7 @@ public class StageManager : MonoBehaviour, IStageManager
         SetFocus();
 
         Vector3Int gap = PlayerManager.instance.checkPlayerNearFourDirection(currentFocusPosition);
-        bool isNearFlag = (gap == Vector3Int.zero) ? false : true;
+        bool isNearFlag = (gap == Vector3Int.forward) ? false : true;
 
         if(Input.GetMouseButtonDown(0))
         {

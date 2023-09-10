@@ -15,13 +15,15 @@ public class PlayerMove : MonoBehaviour
     private void MovePlayer(Vector3Int cellPosition)
     {
         Vector3Int gap = PlayerManager.instance.checkPlayerNearFourDirection(cellPosition);
-        if(gap != Vector3Int.zero)
+
+        if(gap == Vector3Int.zero) return;
+        StageManager.stageInputBlock++;
+        
+        if(gap != Vector3Int.forward)
         {
-            StageManager.stageInputBlock++;
             StartCoroutine(MoveDirectly(gap));
         }else
         {
-            StageManager.stageInputBlock++;
             StartCoroutine(MoveTeleport(cellPosition));
         }
         
@@ -29,8 +31,10 @@ public class PlayerMove : MonoBehaviour
 
     IEnumerator MoveDirectly(Vector3Int moveVector)
     {
-        Vector3 moveUnitVec = (Vector3)moveVector / 5f;
+        PlayerManager.instance.playerAnimation.MoveAnimation(moveVector);
 
+        Vector3 moveUnitVec = (Vector3)moveVector / 5f;
+        
         yield return new WaitForSeconds(0.02f);
         transform.position += moveUnitVec;
 
@@ -52,9 +56,11 @@ public class PlayerMove : MonoBehaviour
 
     IEnumerator MoveTeleport(Vector3Int movePosition)
     {
-        yield return new WaitForSeconds(0.05f);
+        PlayerManager.instance.playerAnimation.MoveAnimation(Vector3Int.forward);
+
+        yield return new WaitForSeconds(0.2f);
         transform.position =  TileGrid.CheckWorldPosition(movePosition);
-        yield return new WaitForSeconds(0.05f);
+        yield return new WaitForSeconds(0.2f);
     
         StageManager.stageInputBlock--;
     }
