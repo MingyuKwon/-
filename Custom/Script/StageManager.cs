@@ -176,6 +176,7 @@ public class StageManager : MonoBehaviour, IStageManager
         if(EventSystem.current.IsPointerOverGameObject()) return;
 
         SetFocus();
+        SetInteract_Ok();
 
         Vector3Int gap = PlayerManager.instance.checkPlayerNearFourDirection(currentFocusPosition);
         bool isNearFlag = (gap == Vector3Int.forward) ? false : true;
@@ -214,6 +215,49 @@ public class StageManager : MonoBehaviour, IStageManager
 
     private void OnDisable() {
         EventManager.instance.Game_Over_Event -= GameOver;
+    }
+
+    private Vector3Int[] InteractPosition1 = new Vector3Int[4]{Vector3Int.forward, Vector3Int.forward,Vector3Int.forward,Vector3Int.forward};
+    private Vector3Int[] InteractPosition2 = new Vector3Int[4]{Vector3Int.forward, Vector3Int.forward,Vector3Int.forward,Vector3Int.forward};
+    private bool is1Next = true;
+    private Vector3Int[] iterateMap = new Vector3Int[4]{Vector3Int.up, Vector3Int.down, Vector3Int.right, Vector3Int.left};
+    
+    private void SetInteract_Ok()
+    {
+       Vector3Int playerPosition = PlayerManager.instance.PlayerCellPosition;
+
+       if(is1Next)
+       {
+            for(int i=0; i<4; i++)
+            {
+                if(grid.obstacleTilemap.HasTile(playerPosition + iterateMap[i]))
+                {
+                    InteractPosition1[i] = playerPosition + iterateMap[i];
+                }else
+                {
+                    InteractPosition1[i] = Vector3Int.forward;
+                }
+            }
+
+            grid.SetInteract_Ok(InteractPosition2,InteractPosition1);
+       }else
+       {
+            for(int i=0; i<4; i++)
+            {
+                if(grid.obstacleTilemap.HasTile(playerPosition + iterateMap[i]))
+                {
+                    InteractPosition2[i] = playerPosition + iterateMap[i];
+                }else
+                {
+                    InteractPosition2[i] = Vector3Int.forward;
+                }
+            }
+
+            grid.SetInteract_Ok(InteractPosition1,InteractPosition2);
+       }
+
+       is1Next = !is1Next;
+
     }
 
     private void SetFocus()
@@ -548,6 +592,8 @@ public class StageManager : MonoBehaviour, IStageManager
         CameraSize_Change.ChangeCameraSizeFit();
 
         timerCoroutine = StartCoroutine(StartTimer(totalTime)); 
+
+        PlayerManager.instance.SetPlayerPositionStart();
 
         isNowInitializing = false;
     }

@@ -11,8 +11,17 @@ public class PlayerManager : MonoBehaviour
 
     public Transform playerTransform;
 
+    public void SetPlayerPositionStart()
+    {
+        playerTransform.position = new Vector3(0.5f, 0.5f, 0);
+    }
+
+    public Vector3Int PlayerCellPosition{
+        get {
+            return TileGrid.CheckCellPosition(transform.position);
+        }
+    }
     public Vector3Int checkPlayerNearFourDirection(Vector3Int checkPosition){
-        Vector3Int PlayerCellPosition = TileGrid.CheckCellPosition(transform.position);
         Vector3Int gap = checkPosition - PlayerCellPosition;
 
         if(gap.magnitude == 1)
@@ -41,13 +50,6 @@ public class PlayerManager : MonoBehaviour
         playerTransform = GetComponent<Transform>();
 
         playerTransform.position = new Vector3(0.5f, 0.5f, 0);
-    }
-
-    private void Update() {
-        if(Input.GetMouseButtonDown(0))
-        {
-            
-        }
     }
 
 }

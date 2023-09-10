@@ -33,6 +33,7 @@ public enum Item {
 public class EventManager : MonoBehaviour
 {
     #region Event
+
     public Action<EventType, Vector3Int> SetAnimationTileEvent;
     public Action<Vector2> Set_Width_Height_Event;
     public Action<int, int> Set_Heart_Event;
@@ -45,6 +46,10 @@ public class EventManager : MonoBehaviour
 
 
     public Action<int, int> timerEvent;
+    public void TimerInvokeEvent(int timeElapsed, int timeLeft)
+    {
+        timerEvent.Invoke(timeElapsed, timeLeft);
+    }
 
     #endregion
 
@@ -72,12 +77,6 @@ public class EventManager : MonoBehaviour
         }
 
     }
-
-    public void TimerInvokeEvent(int timeElapsed, int timeLeft)
-    {
-        timerEvent.Invoke(timeElapsed, timeLeft);
-    }
-
 
 
     public void InvokeEvent(EventType eventType, System.Object param1 = null,System.Object param2 = null)

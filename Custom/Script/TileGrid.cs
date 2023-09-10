@@ -6,6 +6,7 @@ using Sirenix.OdinInspector;
 
 public class TileGrid : MonoBehaviour, IGridInterface
 {
+    #region  serializeFields
     [Header("Environment")]
     [SerializeField] private TileBase BaseTile;
     [SerializeField] private TileBase BoundTile;
@@ -20,6 +21,10 @@ public class TileGrid : MonoBehaviour, IGridInterface
     [SerializeField] private TileBase CrackTile;
     [SerializeField] private TileBase BombTile;
 
+    [Space]
+    [Space]
+    [SerializeField] private TileBase interactOkTile;
+
     [Header("Flag")]
     [SerializeField] private TileBase TrapFlag;
     [SerializeField] private TileBase TreasureFlag;
@@ -33,8 +38,10 @@ public class TileGrid : MonoBehaviour, IGridInterface
     [SerializeField] private TileBase[] treasureNum;
 
     [SerializeField] private Tilemap[] tilemaps; 
-    //0 : Base , 1: Bound , 2 : Total Num, 3 : Bomb Num, 4 : Treasure Num,5 : Mine and Treasure ,6 : Obstacle ,7 : treasure search ,8 : Flag,9 : Crack, 10 : Focus
+    //0 : Base , 1: Bound , 2 : Total Num, 3 : Bomb Num, 4 : Treasure Num,5 : Mine and Treasure ,6 : Obstacle ,7 : treasure search ,8 : Flag ,9 : Interact Ok, 10 : Crack, 11 : Focus
 
+    #endregion
+ 
     static Tilemap staticObstacleTileMap;
     public static Vector3Int CheckCellPosition(Vector3 worldPos)
     {
@@ -77,7 +84,7 @@ public class TileGrid : MonoBehaviour, IGridInterface
         tilemaps[4].ClearAllTiles();
         tilemaps[7].ClearAllTiles();
         tilemaps[8].ClearAllTiles();
-        tilemaps[9].ClearAllTiles();
+        tilemaps[10].ClearAllTiles();
 
         int groundstartX;
         int groundendX;
@@ -236,16 +243,16 @@ public class TileGrid : MonoBehaviour, IGridInterface
     {
         if(isBomb)
         {
-            tilemaps[9].SetTile(cellPos, BombTile);
+            tilemaps[10].SetTile(cellPos, BombTile);
         }else
         {
-            tilemaps[9].SetTile(cellPos, CrackTile);
+            tilemaps[10].SetTile(cellPos, CrackTile);
         }
 
         if(StageManager.isNowInitializing)
         {
             obstacleTilemap.SetTile(cellPos, null);
-            tilemaps[9].SetTile(cellPos, null);
+            tilemaps[10].SetTile(cellPos, null);
         }
 
         yield return new WaitForSeconds(0.2f);
@@ -253,7 +260,7 @@ public class TileGrid : MonoBehaviour, IGridInterface
         if(!StageManager.isNowInitializing)
         {
             obstacleTilemap.SetTile(cellPos, null);
-            tilemaps[9].SetTile(cellPos, null);
+            tilemaps[10].SetTile(cellPos, null);
         }
 
         StageManager.stageInputBlock--;
@@ -287,6 +294,21 @@ public class TileGrid : MonoBehaviour, IGridInterface
         tilemaps[5].SetTile(cellPos , null);
 
         StageManager.stageInputBlock--;
+    }
+
+    public void SetInteract_Ok(Vector3Int[] before , Vector3Int[] after)
+    {
+        for(int i=0; i<4; i++)
+        {
+            tilemaps[9].SetTile(before[i], null);
+        }
+
+        for(int i=0; i<4; i++)
+        {
+            if(before[i] == Vector3Int.forward) continue;
+            tilemaps[9].SetTile(after[i], interactOkTile);
+        }
+        
     }
 
     public void SetFlag(Vector3Int position , Flag flag)
@@ -327,8 +349,8 @@ public class TileGrid : MonoBehaviour, IGridInterface
 
     public void SetFocus(Vector3Int previousPosition , Vector3Int newPosition)
     {
-        tilemaps[10].SetTile(previousPosition, null);
-        tilemaps[10].SetTile(newPosition, FocusTile);
+        tilemaps[11].SetTile(previousPosition, null);
+        tilemaps[11].SetTile(newPosition, FocusTile);
     }
 
     private void BoxFillCustom(Tilemap tilemap, TileBase tile, int startX, int startY, int endX, int endY)
