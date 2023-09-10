@@ -194,17 +194,18 @@ public class StageManager : MonoBehaviour, IStageManager
             
         }
         
-        if(!isNearFlag) return;
-
         if(Input.GetMouseButtonDown(1))
         {
             SetFlag(currentFocusPosition);
         }else if(Input.GetMouseButtonDown(2) && magGlassEnable)
         {
+            if(gap != Vector3Int.zero) return;
             ChangeTotalToSeperate(currentFocusPosition);
         }else if(Input.GetMouseButton(3)) { 
+            if(!isNearFlag) return;
             BombObstacle(currentFocusPosition);
         }else if(Input.GetMouseButton(4) && holyWaterEnable) { 
+            if(!isNearFlag) return;
             SetTreasureSearch(currentFocusPosition);
         }
     }
