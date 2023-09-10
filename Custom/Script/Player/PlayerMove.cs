@@ -21,17 +21,41 @@ public class PlayerMove : MonoBehaviour
             StartCoroutine(MoveDirectly(gap));
         }else
         {
-            
+            StageManager.stageInputBlock++;
+            StartCoroutine(MoveTeleport(cellPosition));
         }
         
     }
 
     IEnumerator MoveDirectly(Vector3Int moveVector)
     {
-        transform.position += moveVector;
+        Vector3 moveUnitVec = (Vector3)moveVector / 5f;
 
-        yield return null;
+        yield return new WaitForSeconds(0.02f);
+        transform.position += moveUnitVec;
 
+        yield return new WaitForSeconds(0.02f);
+        transform.position += moveUnitVec;
+
+        yield return new WaitForSeconds(0.02f);
+        transform.position += moveUnitVec;
+
+        yield return new WaitForSeconds(0.02f);
+        transform.position += moveUnitVec;
+
+        yield return new WaitForSeconds(0.02f);
+        transform.position += moveUnitVec;
+
+    
+        StageManager.stageInputBlock--;
+    }
+
+    IEnumerator MoveTeleport(Vector3Int movePosition)
+    {
+        yield return new WaitForSeconds(0.05f);
+        transform.position =  TileGrid.CheckWorldPosition(movePosition);
+        yield return new WaitForSeconds(0.05f);
+    
         StageManager.stageInputBlock--;
     }
 }

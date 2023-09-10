@@ -50,4 +50,36 @@ public class PlayerAnimation : MonoBehaviour
             }
         }
     }
+
+    public void SetAnimationPlayingFlag(int flag)
+    {
+        if(flag == 0)
+        {
+            EventManager.isAnimationPlaying = false;
+        }else
+        {
+            EventManager.isAnimationPlaying = true;
+        }
+        
+    }
+
+    public void MoveAnimation(Vector3Int vector3Int)
+    {
+        if(vector3Int == Vector3Int.zero)
+        { // 텔레포트
+
+        }else if(vector3Int == Vector3Int.up)
+        { 
+
+        }else if(vector3Int == Vector3Int.down)
+        { 
+
+        }else if(vector3Int == Vector3Int.right)
+        { 
+
+        }else if(vector3Int == Vector3Int.left)
+        { 
+
+        }
+    }
 }

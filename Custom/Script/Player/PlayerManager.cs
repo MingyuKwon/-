@@ -6,8 +6,8 @@ using UnityEngine.Tilemaps;
 public class PlayerManager : MonoBehaviour
 {
     public static PlayerManager instance;
-    PlayerAnimation playerAnimation;
-    PlayerMove playerMove;
+    public PlayerAnimation playerAnimation;
+    public PlayerMove playerMove;
 
     public Transform playerTransform;
 
