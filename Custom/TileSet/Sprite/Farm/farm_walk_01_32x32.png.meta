@@ -47,7 +47,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 16
+  spritePixelsToUnits: 17
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -379,7 +379,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      farm_walk_01_32x32_9: 2087172091
+      farm_walk_01_32x32_8: -2127232444
       farm_walk_01_32x32_7: -1440913031
       farm_walk_01_32x32_4: 1861822553
       farm_walk_01_32x32_3: -1692340864
@@ -389,8 +389,8 @@ TextureImporter:
       farm_walk_01_32x32_6: 1463926580
       farm_walk_01_32x32_0: 1716036471
       farm_walk_01_32x32_1: -425086484
+      farm_walk_01_32x32_9: 2087172091
       farm_walk_01_32x32_10: 226111601
-      farm_walk_01_32x32_8: -2127232444
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

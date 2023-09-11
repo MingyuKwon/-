@@ -51,23 +51,29 @@ public class PlayerMove : MonoBehaviour
     {
         StageManager.stageInputBlock++;
 
+        Vector3Int playerTargetPosition = PlayerManager.instance.PlayerCellPosition + moveVector;
+
         if(moveVector == twoTileVectorPositons[0])
         {
             yield return StartCoroutine(MoveOneDirectly(Vector3Int.right));
+            yield return null;
             yield return StartCoroutine(MoveOneDirectly(Vector3Int.right));
         }else if(moveVector == twoTileVectorPositons[1])
         {
             yield return StartCoroutine(MoveOneDirectly(Vector3Int.up));
+            yield return null;
             yield return StartCoroutine(MoveOneDirectly(Vector3Int.up));
         }
         else if(moveVector == twoTileVectorPositons[2])
         {
             yield return StartCoroutine(MoveOneDirectly(Vector3Int.down));
+            yield return null;
             yield return StartCoroutine(MoveOneDirectly(Vector3Int.down));
         }
         else if(moveVector == twoTileVectorPositons[3])
         {
             yield return StartCoroutine(MoveOneDirectly(Vector3Int.left));
+            yield return null;
             yield return StartCoroutine(MoveOneDirectly(Vector3Int.left));
         }
         else if(moveVector == twoTileVectorPositons[4])
@@ -80,6 +86,9 @@ public class PlayerMove : MonoBehaviour
             {
                 yield return StartCoroutine(MoveOneDirectly(Vector3Int.up));
                 yield return StartCoroutine(MoveOneDirectly(Vector3Int.right));
+            }else
+            {
+                StartCoroutine(MoveTeleport(playerTargetPosition));
             }
         }
         else if(moveVector == twoTileVectorPositons[5])
@@ -92,6 +101,9 @@ public class PlayerMove : MonoBehaviour
             {
                 yield return StartCoroutine(MoveOneDirectly(Vector3Int.down));
                 yield return StartCoroutine(MoveOneDirectly(Vector3Int.right));
+            }else
+            {
+                StartCoroutine(MoveTeleport(playerTargetPosition));
             }
         }
         else if(moveVector == twoTileVectorPositons[6])
@@ -104,6 +116,9 @@ public class PlayerMove : MonoBehaviour
             {
                 yield return StartCoroutine(MoveOneDirectly(Vector3Int.up));
                 yield return StartCoroutine(MoveOneDirectly(Vector3Int.left));
+            }else
+            {
+                StartCoroutine(MoveTeleport(playerTargetPosition));
             }
         }
         else if(moveVector == twoTileVectorPositons[7])
@@ -116,6 +131,9 @@ public class PlayerMove : MonoBehaviour
             {
                 yield return StartCoroutine(MoveOneDirectly(Vector3Int.down));
                 yield return StartCoroutine(MoveOneDirectly(Vector3Int.left));
+            }else
+            {
+                StartCoroutine(MoveTeleport(playerTargetPosition));
             }
         }
 
@@ -128,7 +146,7 @@ public class PlayerMove : MonoBehaviour
 
         PlayerManager.instance.playerAnimation.MoveAnimation(moveVector);
 
-        Vector3 moveUnitVec = (Vector3)moveVector / 5f;
+        Vector3 moveUnitVec = (Vector3)moveVector / 10f;
         
         yield return new WaitForSeconds(0.02f);
         transform.position += moveUnitVec;
@@ -144,6 +162,22 @@ public class PlayerMove : MonoBehaviour
 
         yield return new WaitForSeconds(0.02f);
         transform.position += moveUnitVec;
+
+        yield return new WaitForSeconds(0.02f);
+        transform.position += moveUnitVec;
+
+        yield return new WaitForSeconds(0.02f);
+        transform.position += moveUnitVec;
+
+        yield return new WaitForSeconds(0.02f);
+        transform.position += moveUnitVec;
+
+        yield return new WaitForSeconds(0.02f);
+        transform.position += moveUnitVec;
+
+        yield return new WaitForSeconds(0.02f);
+        transform.position += moveUnitVec;
+
 
     
         StageManager.stageInputBlock--;

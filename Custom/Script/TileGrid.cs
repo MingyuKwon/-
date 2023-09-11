@@ -36,11 +36,14 @@ public class TileGrid : MonoBehaviour, IGridInterface
     [SerializeField] private TileBase[] totalNum;
     [SerializeField] private TileBase[] mineNum;
     [SerializeField] private TileBase[] treasureNum;
+    #endregion
 
     [SerializeField] private Tilemap[] tilemaps; 
-    //0 : Base , 1: Bound , 2 : Total Num, 3 : Bomb Num, 4 : Treasure Num,5 : Mine and Treasure ,6 : Obstacle ,7 : treasure search ,8 : Flag ,9 : Interact Ok, 10 : Crack, 11 : Focus
+    //0 : Base , 1: Bound , 2 : Total Num, 3 : Bomb Num, 4 : Treasure Num,5 : Mine and Treasure ,
+    //6 : Obstacle ,7 : treasure search ,8 : Flag ,9 : Interact Ok, 10 : Crack, 11 : Focus
+    //12 : Overlay_total ,13 : Overlay_mine ,14 : Overlay_treasure
 
-    #endregion
+    
  
     static Tilemap staticObstacleTileMap;
     public static Vector3Int CheckCellPosition(Vector3 worldPos)
@@ -90,6 +93,10 @@ public class TileGrid : MonoBehaviour, IGridInterface
         tilemaps[7].ClearAllTiles();
         tilemaps[8].ClearAllTiles();
         tilemaps[10].ClearAllTiles();
+        tilemaps[11].ClearAllTiles();
+        tilemaps[12].ClearAllTiles();
+        tilemaps[13].ClearAllTiles();
+        tilemaps[14].ClearAllTiles();
 
         int groundstartX;
         int groundendX;
@@ -115,11 +122,38 @@ public class TileGrid : MonoBehaviour, IGridInterface
         BoxFillCustom(tilemaps[6], ObstacleTile, groundstartX, groundstartY, groundendX, groundendY);
     }
 
+    public void ShowOverlayNum(Vector3Int cellPosition, bool isSet, bool isTotal,  int firstValue = -1, int SecondValue = -1)
+    {
+        if(isSet)
+        {
+            if(isTotal)
+            {
+                tilemaps[12].SetTile(cellPosition, totalNum[firstValue]);
+            }else
+            {
+                tilemaps[13].SetTile(cellPosition, mineNum[firstValue]);
+                tilemaps[14].SetTile(cellPosition, treasureNum[SecondValue]);
+            }
+        }else // 타일 지우기
+        {
+            if(isTotal)
+            {
+                tilemaps[12].SetTile(cellPosition, null);
+            }else
+            {
+                tilemaps[13].SetTile(cellPosition, null);
+                tilemaps[14].SetTile(cellPosition, null);
+            }
+            
+        }
+    }
+
 
     [Button]
     public void ShowTotalNum(int[,] totalNumArray, bool[,] totalNumMask)
     {
         tilemaps[2].ClearAllTiles();
+        tilemaps[12].ClearAllTiles();
 
         int height = totalNumArray.GetLength(0);
         int width = totalNumArray.GetLength(1);

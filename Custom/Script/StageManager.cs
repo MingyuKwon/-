@@ -176,10 +176,11 @@ public class StageManager : MonoBehaviour, IStageManager
         if(EventSystem.current.IsPointerOverGameObject()) return;
 
         SetFocus();
+        SetPlayer_Overlay();
         SetInteract_Ok();
 
         Vector3Int gap = PlayerManager.instance.checkPlayerNearFourDirection(currentFocusPosition);
-        bool isNearFlag = (gap == Vector3Int.forward) ? false : true;
+        bool isNearFlag = (gap.magnitude == 1 && gap != Vector3Int.forward) ? true : false;
 
         if(Input.GetMouseButtonDown(0))
         {
@@ -262,6 +263,35 @@ public class StageManager : MonoBehaviour, IStageManager
 
     }
 
+    private Vector3Int currentPlayerPosition = Vector3Int.zero;
+    private void SetPlayer_Overlay(bool isForce = false)
+    {
+        Vector3Int playerPosition = PlayerManager.instance.PlayerCellPosition;
+        Vector3Int arrayPos = ChangeCellPosToArrayPos(playerPosition);
+
+        //if(totalNumArray[arrayPos.y, arrayPos.x] == 0) grid.ShowOverlayNum(playerPosition,false, true);
+        if(currentPlayerPosition == playerPosition && !isForce) return; // 만약 플레이어 위치가 변하지 않았다면 그냥 아무것도 안함
+
+        grid.ShowOverlayNum(playerPosition,false, true);
+        grid.ShowOverlayNum(playerPosition,false, false);
+
+        currentPlayerPosition = playerPosition;
+
+        if(totalNumMask[arrayPos.y, arrayPos.x]) // 만약 돋보기를 쓴 경우
+        {
+            grid.ShowOverlayNum(playerPosition,true,false,mineNumArray[arrayPos.y, arrayPos.x], treasureNumArray[arrayPos.y, arrayPos.x]);
+            return;
+        }
+
+        if(totalNumArray[arrayPos.y, arrayPos.x] != 0) // 사용자 위치에 숫자가 떠야 하는 경우
+        {
+            grid.ShowOverlayNum(playerPosition,true,true,totalNumArray[arrayPos.y, arrayPos.x]);
+
+        }
+        
+
+    }
+
     private void SetFocus()
     {
         Vector3 worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -313,6 +343,7 @@ public class StageManager : MonoBehaviour, IStageManager
                     EventManager.instance.InvokeEvent(EventType.TreasureAppear, cellPos);
                     EventManager.instance.InvokeEvent(EventType.TreasureAppear, treasureCount);
                     grid.ShowTotalNum(totalNumArray, totalNumMask);
+                    SetPlayer_Overlay(true);
                     grid.ShowSeperateNum(mineNumArray, treasureNumArray, totalNumMask);
 
                     for(int aroundI =0; aroundI < aroundY.Length; aroundI++)
@@ -386,6 +417,7 @@ public class StageManager : MonoBehaviour, IStageManager
                     EventManager.instance.InvokeEvent(EventType.MineDisappear, cellPos);
                     EventManager.instance.InvokeEvent(EventType.MineDisappear, mineCount);
                     grid.ShowTotalNum(totalNumArray, totalNumMask);
+                    SetPlayer_Overlay(true);
                     grid.ShowSeperateNum(mineNumArray, treasureNumArray, totalNumMask);
 
                     // 새로 갱신 후에는 , 갱신으로 인해 자기 주변에서 새로 0이 된 것이 없나 따로 확인 절차가 필요하다

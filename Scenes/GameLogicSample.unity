@@ -2077,7 +2077,7 @@ Tilemap:
     m_Data: {r: NaN, g: NaN, b: NaN, a: NaN}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.627451}
   m_Origin: {x: -8, y: -15, z: 0}
   m_Size: {x: 16, y: 30, z: 1}
   m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
@@ -4435,7 +4435,7 @@ Tilemap:
     m_Data: {r: NaN, g: NaN, b: NaN, a: NaN}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.627451}
   m_Origin: {x: -8, y: -15, z: 0}
   m_Size: {x: 16, y: 30, z: 1}
   m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
@@ -5416,7 +5416,7 @@ Tilemap:
     m_Data: {r: NaN, g: NaN, b: NaN, a: NaN}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.627451}
   m_Origin: {x: -8, y: -15, z: 0}
   m_Size: {x: 16, y: 30, z: 1}
   m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
@@ -12026,16 +12026,16 @@ MonoBehaviour:
   TreasureFlag: {fileID: 11400000, guid: bf0e4bc06c1a9334a8bb19c0eccc54c5, type: 2}
   QuestionFlag: {fileID: 11400000, guid: 4175826522756b443a8d9e63b27b464c, type: 2}
   totalNum:
-  - {fileID: 11400000, guid: 855ffec9279224649b4b42206a885e7e, type: 2}
-  - {fileID: 11400000, guid: dd7bdc28c0b16f94d88fe238028db323, type: 2}
-  - {fileID: 11400000, guid: 6faf63740a9a3b64ab1ea09b221ac42e, type: 2}
-  - {fileID: 11400000, guid: 0ac641eb6b913284483f7917e1c40611, type: 2}
-  - {fileID: 11400000, guid: 0bec4380134b479449c08536d2098b9c, type: 2}
-  - {fileID: 11400000, guid: 97a11d7e0fafb09439cab3b25d1475c5, type: 2}
-  - {fileID: 11400000, guid: 290f18658a424fd41bcfe80dc02cffa0, type: 2}
-  - {fileID: 11400000, guid: f40d8b61df062424889b4fd176838770, type: 2}
-  - {fileID: 11400000, guid: 9b8a18773064ba0478497827b69ce8ba, type: 2}
-  - {fileID: 11400000, guid: a134f85627eaa074da09996ac26b0a27, type: 2}
+  - {fileID: 11400000, guid: f421073385392284b9046813589385e5, type: 2}
+  - {fileID: 11400000, guid: ffefb3d15c64a1e4cad93eea8d44b357, type: 2}
+  - {fileID: 11400000, guid: b1c9d8c4d04bd3047a05c20462f96614, type: 2}
+  - {fileID: 11400000, guid: 08e45f26acbc6894da323ee9ccd58a22, type: 2}
+  - {fileID: 11400000, guid: 1faa360f7aba67040bdadbae4509844a, type: 2}
+  - {fileID: 11400000, guid: c50fcff5d9936a949a247272a25ac28f, type: 2}
+  - {fileID: 11400000, guid: 044401b9574394c49bdc584d6bd75261, type: 2}
+  - {fileID: 11400000, guid: cd3ebea6822f26245b0b233eb8bc9a4e, type: 2}
+  - {fileID: 11400000, guid: 213b5dd3045efc643bc90429c96f30e9, type: 2}
+  - {fileID: 11400000, guid: b9a522a32e2679b4fb380afac8767b84, type: 2}
   mineNum:
   - {fileID: 11400000, guid: c3247e9a5c8db7e4cab866f2cb2fa8e2, type: 2}
   - {fileID: 11400000, guid: b90a4a301d155cb4bb0eb26f253b4b64, type: 2}
@@ -12071,6 +12071,9 @@ MonoBehaviour:
   - {fileID: 1707014229}
   - {fileID: 125506414}
   - {fileID: 316463558}
+  - {fileID: 638800660}
+  - {fileID: 747348724}
+  - {fileID: 241428410}
 --- !u!1 &2106464559
 GameObject:
   m_ObjectHideFlags: 0
