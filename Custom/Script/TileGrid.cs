@@ -47,6 +47,11 @@ public class TileGrid : MonoBehaviour, IGridInterface
     {
         return staticObstacleTileMap.WorldToCell(worldPos);;
     }
+
+    public static bool CheckObstaclePosition(Vector3Int worldPos)
+    {
+        return staticObstacleTileMap.HasTile(worldPos);
+    }
     
     public static Vector3 CheckWorldPosition(Vector3Int worldPos)
     {

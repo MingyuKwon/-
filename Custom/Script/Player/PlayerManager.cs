@@ -21,10 +21,31 @@ public class PlayerManager : MonoBehaviour
             return TileGrid.CheckCellPosition(transform.position);
         }
     }
+
+    private Vector3Int[] twoTileVectorPositons = new Vector3Int[8] 
+    {
+         new Vector3Int(2,0,0),
+         new Vector3Int(0,2,0) ,
+         new Vector3Int(0,-2,0) , 
+         new Vector3Int(-2,0,0) ,
+         new Vector3Int(1,1,0) ,
+         new Vector3Int(1,-1,0), 
+         new Vector3Int(-1,1,0),
+         new Vector3Int(-1,-1,0)
+    };
     public Vector3Int checkPlayerNearFourDirection(Vector3Int checkPosition){
         Vector3Int gap = checkPosition - PlayerCellPosition;
 
-        if(gap.magnitude == 1)
+        if(gap.magnitude == 1 ||
+            gap == twoTileVectorPositons[0] || 
+            gap == twoTileVectorPositons[1] || 
+            gap == twoTileVectorPositons[2] || 
+            gap == twoTileVectorPositons[3] || 
+            gap == twoTileVectorPositons[4] ||  
+            gap == twoTileVectorPositons[5] || 
+            gap == twoTileVectorPositons[6] || 
+            gap == twoTileVectorPositons[7] 
+        )
         {
             return gap;
         }else if(gap.magnitude == 0)

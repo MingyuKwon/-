@@ -17,20 +17,115 @@ public class PlayerMove : MonoBehaviour
         Vector3Int gap = PlayerManager.instance.checkPlayerNearFourDirection(cellPosition);
 
         if(gap == Vector3Int.zero) return;
-        StageManager.stageInputBlock++;
         
         if(gap != Vector3Int.forward)
         {
-            StartCoroutine(MoveDirectly(gap));
+            if(gap.magnitude == 1) 
+            {
+                StartCoroutine(MoveOneDirectly(gap));
+            }else
+            {
+                StartCoroutine(MoveTwoDirectly(gap));
+            }
+
+            
         }else
         {
             StartCoroutine(MoveTeleport(cellPosition));
         }
-        
     }
 
-    IEnumerator MoveDirectly(Vector3Int moveVector)
+    private Vector3Int[] twoTileVectorPositons = new Vector3Int[8] 
     {
+        new Vector3Int(2,0,0),
+        new Vector3Int(0,2,0) ,
+        new Vector3Int(0,-2,0) , 
+        new Vector3Int(-2,0,0) ,
+        new Vector3Int(1,1,0) ,
+        new Vector3Int(1,-1,0), 
+        new Vector3Int(-1,1,0),
+        new Vector3Int(-1,-1,0)
+    };
+
+    IEnumerator MoveTwoDirectly(Vector3Int moveVector)
+    {
+        StageManager.stageInputBlock++;
+
+        if(moveVector == twoTileVectorPositons[0])
+        {
+            yield return StartCoroutine(MoveOneDirectly(Vector3Int.right));
+            yield return StartCoroutine(MoveOneDirectly(Vector3Int.right));
+        }else if(moveVector == twoTileVectorPositons[1])
+        {
+            yield return StartCoroutine(MoveOneDirectly(Vector3Int.up));
+            yield return StartCoroutine(MoveOneDirectly(Vector3Int.up));
+        }
+        else if(moveVector == twoTileVectorPositons[2])
+        {
+            yield return StartCoroutine(MoveOneDirectly(Vector3Int.down));
+            yield return StartCoroutine(MoveOneDirectly(Vector3Int.down));
+        }
+        else if(moveVector == twoTileVectorPositons[3])
+        {
+            yield return StartCoroutine(MoveOneDirectly(Vector3Int.left));
+            yield return StartCoroutine(MoveOneDirectly(Vector3Int.left));
+        }
+        else if(moveVector == twoTileVectorPositons[4])
+        {
+            if(!TileGrid.CheckObstaclePosition(PlayerManager.instance.PlayerCellPosition + Vector3Int.right))
+            {
+                yield return StartCoroutine(MoveOneDirectly(Vector3Int.right));
+                yield return StartCoroutine(MoveOneDirectly(Vector3Int.up));
+            }else if(!TileGrid.CheckObstaclePosition(PlayerManager.instance.PlayerCellPosition + Vector3Int.up))
+            {
+                yield return StartCoroutine(MoveOneDirectly(Vector3Int.up));
+                yield return StartCoroutine(MoveOneDirectly(Vector3Int.right));
+            }
+        }
+        else if(moveVector == twoTileVectorPositons[5])
+        {
+            if(!TileGrid.CheckObstaclePosition(PlayerManager.instance.PlayerCellPosition + Vector3Int.right))
+            {
+                yield return StartCoroutine(MoveOneDirectly(Vector3Int.right));
+                yield return StartCoroutine(MoveOneDirectly(Vector3Int.down));
+            }else if(!TileGrid.CheckObstaclePosition(PlayerManager.instance.PlayerCellPosition + Vector3Int.down))
+            {
+                yield return StartCoroutine(MoveOneDirectly(Vector3Int.down));
+                yield return StartCoroutine(MoveOneDirectly(Vector3Int.right));
+            }
+        }
+        else if(moveVector == twoTileVectorPositons[6])
+        {
+            if(!TileGrid.CheckObstaclePosition(PlayerManager.instance.PlayerCellPosition + Vector3Int.left))
+            {
+                yield return StartCoroutine(MoveOneDirectly(Vector3Int.left));
+                yield return StartCoroutine(MoveOneDirectly(Vector3Int.up));
+            }else if(!TileGrid.CheckObstaclePosition(PlayerManager.instance.PlayerCellPosition + Vector3Int.up))
+            {
+                yield return StartCoroutine(MoveOneDirectly(Vector3Int.up));
+                yield return StartCoroutine(MoveOneDirectly(Vector3Int.left));
+            }
+        }
+        else if(moveVector == twoTileVectorPositons[7])
+        {
+            if(!TileGrid.CheckObstaclePosition(PlayerManager.instance.PlayerCellPosition + Vector3Int.left))
+            {
+                yield return StartCoroutine(MoveOneDirectly(Vector3Int.left));
+                yield return StartCoroutine(MoveOneDirectly(Vector3Int.down));
+            }else if(!TileGrid.CheckObstaclePosition(PlayerManager.instance.PlayerCellPosition + Vector3Int.down))
+            {
+                yield return StartCoroutine(MoveOneDirectly(Vector3Int.down));
+                yield return StartCoroutine(MoveOneDirectly(Vector3Int.left));
+            }
+        }
+
+        StageManager.stageInputBlock--;
+    }
+
+    IEnumerator MoveOneDirectly(Vector3Int moveVector)
+    {
+        StageManager.stageInputBlock++;
+
         PlayerManager.instance.playerAnimation.MoveAnimation(moveVector);
 
         Vector3 moveUnitVec = (Vector3)moveVector / 5f;

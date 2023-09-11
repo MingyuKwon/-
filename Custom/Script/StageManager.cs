@@ -256,6 +256,7 @@ public class StageManager : MonoBehaviour, IStageManager
 
             grid.SetInteract_Ok(InteractPosition1,InteractPosition2);
        }
+       
 
        is1Next = !is1Next;
 
