@@ -171,38 +171,20 @@ public class PlayerMove : MonoBehaviour
 
         PlayerManager.instance.playerAnimation.MoveAnimation(moveVector);
 
-        Vector3 moveUnitVec = (Vector3)moveVector / 10f;
-        
-        yield return new WaitForSeconds(0.02f);
-        transform.position += moveUnitVec;
+        float elapsedTime = 0;
+        float time = 0.2f;
 
-        yield return new WaitForSeconds(0.02f);
-        transform.position += moveUnitVec;
+        Vector3 startPosition = transform.position;
+        Vector3 endPosition = transform.position + moveVector;
 
-        yield return new WaitForSeconds(0.02f);
-        transform.position += moveUnitVec;
+        while (elapsedTime < time)
+        {
+            transform.position = Vector3.Lerp(startPosition, endPosition, (elapsedTime / time));
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
 
-        yield return new WaitForSeconds(0.02f);
-        transform.position += moveUnitVec;
-
-        yield return new WaitForSeconds(0.02f);
-        transform.position += moveUnitVec;
-
-        yield return new WaitForSeconds(0.02f);
-        transform.position += moveUnitVec;
-
-        yield return new WaitForSeconds(0.02f);
-        transform.position += moveUnitVec;
-
-        yield return new WaitForSeconds(0.02f);
-        transform.position += moveUnitVec;
-
-        yield return new WaitForSeconds(0.02f);
-        transform.position += moveUnitVec;
-
-        yield return new WaitForSeconds(0.02f);
-        transform.position += moveUnitVec;
-
+        transform.position = endPosition;  // 마지막 위치 보정
 
     
         StageManager.stageInputBlock--;

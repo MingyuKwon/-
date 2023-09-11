@@ -137,15 +137,9 @@ public class TileGrid : MonoBehaviour, IGridInterface
             }
         }else // 타일 지우기
         {
-            if(isTotal)
-            {
-                tilemaps[12].SetTile(cellPosition, null);
-            }else
-            {
-                tilemaps[13].SetTile(cellPosition, null);
-                tilemaps[14].SetTile(cellPosition, null);
-            }
-            
+            tilemaps[12].SetTile(cellPosition, null);
+            tilemaps[13].SetTile(cellPosition, null);
+            tilemaps[14].SetTile(cellPosition, null);
         }
     }
 

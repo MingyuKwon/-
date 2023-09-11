@@ -9,8 +9,8 @@ using System.Collections;
 
 public class StageManager : MonoBehaviour, IStageManager
 {   
-    const int DefaultX = 30;
-    const int DefaultY = 18;
+    const int DefaultX = 10;
+    const int DefaultY = 10;
 
     static public bool isNowInitializing = false;
 
@@ -269,11 +269,9 @@ public class StageManager : MonoBehaviour, IStageManager
         Vector3Int playerPosition = PlayerManager.instance.PlayerCellPosition;
         Vector3Int arrayPos = ChangeCellPosToArrayPos(playerPosition);
 
-        //if(totalNumArray[arrayPos.y, arrayPos.x] == 0) grid.ShowOverlayNum(playerPosition,false, true);
         if(currentPlayerPosition == playerPosition && !isForce) return; // 만약 플레이어 위치가 변하지 않았다면 그냥 아무것도 안함
 
-        grid.ShowOverlayNum(playerPosition,false, true);
-        grid.ShowOverlayNum(playerPosition,false, false);
+        grid.ShowOverlayNum(currentPlayerPosition,false, true);
 
         currentPlayerPosition = playerPosition;
 
@@ -577,7 +575,7 @@ public class StageManager : MonoBehaviour, IStageManager
 
 
     [Button]
-    public void StageInitialize(int width = DefaultX ,  int height = DefaultY, Difficulty difficulty = Difficulty.Hard, int maxHeart = 9,  int currentHeart = 1, int potionCount = 5, int magGlassCount = 5, int holyWaterCount = 5, int totalTime = 120)
+    public void StageInitialize(int width = DefaultX ,  int height = DefaultY, Difficulty difficulty = Difficulty.Hard, int maxHeart = 9,  int currentHeart = 1, int potionCount = 5, int magGlassCount = 5, int holyWaterCount = 5, int totalTime = 5)
     {
         isNowInitializing = true;
 
@@ -872,6 +870,7 @@ public class StageManager : MonoBehaviour, IStageManager
         {
             stageInputBlock++;
             StopCoroutine(timerCoroutine);
+            reStartEnable = true;
             timerCoroutine = null;
         }else
         {
@@ -881,8 +880,11 @@ public class StageManager : MonoBehaviour, IStageManager
         
     }
 
+    bool reStartEnable = false;
     public void RestartGame()
     {
+        if(!reStartEnable) return;
+        reStartEnable = false;
         EventManager.instance.InvokeEvent(EventType.Game_Restart);
     }
 
