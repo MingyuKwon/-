@@ -279,6 +279,7 @@ public class StageManager : MonoBehaviour, IStageManager
 
         if(totalNumMask[arrayPos.y, arrayPos.x]) // 만약 돋보기를 쓴 경우
         {
+            grid.ShowOverlayNum(playerPosition,false,true);
             grid.ShowOverlayNum(playerPosition,true,false,mineNumArray[arrayPos.y, arrayPos.x], treasureNumArray[arrayPos.y, arrayPos.x]);
             return;
         }
@@ -495,7 +496,9 @@ public class StageManager : MonoBehaviour, IStageManager
         EventManager.instance.InvokeEvent(EventType.Item_Use, Item.Mag_Glass, magGlassCount);
 
         totalNumMask[arrayPos.y, arrayPos.x] = true;
+        SetPlayer_Overlay(true);
         grid.UpdateSeperateNum(mineNumArray, treasureNumArray, cellPos);
+
     }
 
     private void SetFlag(Vector3Int cellPos, bool forceful = false)
@@ -574,7 +577,7 @@ public class StageManager : MonoBehaviour, IStageManager
 
 
     [Button]
-    public void StageInitialize(int width = DefaultX ,  int height = DefaultY, Difficulty difficulty = Difficulty.Hard, int maxHeart = 9,  int currentHeart = 1, int potionCount = 5, int magGlassCount = 5, int holyWaterCount = 5, int totalTime = 60)
+    public void StageInitialize(int width = DefaultX ,  int height = DefaultY, Difficulty difficulty = Difficulty.Hard, int maxHeart = 9,  int currentHeart = 1, int potionCount = 5, int magGlassCount = 5, int holyWaterCount = 5, int totalTime = 120)
     {
         isNowInitializing = true;
 

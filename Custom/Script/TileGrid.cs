@@ -92,6 +92,7 @@ public class TileGrid : MonoBehaviour, IGridInterface
         tilemaps[4].ClearAllTiles();
         tilemaps[7].ClearAllTiles();
         tilemaps[8].ClearAllTiles();
+        tilemaps[9].ClearAllTiles();
         tilemaps[10].ClearAllTiles();
         tilemaps[11].ClearAllTiles();
         tilemaps[12].ClearAllTiles();

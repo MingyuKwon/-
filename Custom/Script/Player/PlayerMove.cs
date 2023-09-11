@@ -55,26 +55,51 @@ public class PlayerMove : MonoBehaviour
 
         if(moveVector == twoTileVectorPositons[0])
         {
-            yield return StartCoroutine(MoveOneDirectly(Vector3Int.right));
-            yield return null;
-            yield return StartCoroutine(MoveOneDirectly(Vector3Int.right));
+            if(!TileGrid.CheckObstaclePosition(PlayerManager.instance.PlayerCellPosition + Vector3Int.right))
+            {
+                yield return StartCoroutine(MoveOneDirectly(Vector3Int.right));
+                yield return null;
+                yield return StartCoroutine(MoveOneDirectly(Vector3Int.right));
+            }else
+            {
+                yield return StartCoroutine(MoveTeleport(playerTargetPosition));
+            }
+            
         }else if(moveVector == twoTileVectorPositons[1])
         {
-            yield return StartCoroutine(MoveOneDirectly(Vector3Int.up));
-            yield return null;
-            yield return StartCoroutine(MoveOneDirectly(Vector3Int.up));
+            if(!TileGrid.CheckObstaclePosition(PlayerManager.instance.PlayerCellPosition + Vector3Int.up))
+            {
+                yield return StartCoroutine(MoveOneDirectly(Vector3Int.up));
+                yield return null;
+                yield return StartCoroutine(MoveOneDirectly(Vector3Int.up));
+            }else
+            {
+                yield return StartCoroutine(MoveTeleport(playerTargetPosition));
+            }
         }
         else if(moveVector == twoTileVectorPositons[2])
         {
-            yield return StartCoroutine(MoveOneDirectly(Vector3Int.down));
-            yield return null;
-            yield return StartCoroutine(MoveOneDirectly(Vector3Int.down));
+            if(!TileGrid.CheckObstaclePosition(PlayerManager.instance.PlayerCellPosition + Vector3Int.down))
+            {
+                yield return StartCoroutine(MoveOneDirectly(Vector3Int.down));
+                yield return null;
+                yield return StartCoroutine(MoveOneDirectly(Vector3Int.down));
+            }else
+            {
+                yield return StartCoroutine(MoveTeleport(playerTargetPosition));
+            }
         }
         else if(moveVector == twoTileVectorPositons[3])
         {
-            yield return StartCoroutine(MoveOneDirectly(Vector3Int.left));
-            yield return null;
-            yield return StartCoroutine(MoveOneDirectly(Vector3Int.left));
+            if(!TileGrid.CheckObstaclePosition(PlayerManager.instance.PlayerCellPosition + Vector3Int.left))
+            {
+                yield return StartCoroutine(MoveOneDirectly(Vector3Int.left));
+                yield return null;
+                yield return StartCoroutine(MoveOneDirectly(Vector3Int.left));
+            }else
+            {
+                yield return StartCoroutine(MoveTeleport(playerTargetPosition));
+            }
         }
         else if(moveVector == twoTileVectorPositons[4])
         {
@@ -88,7 +113,7 @@ public class PlayerMove : MonoBehaviour
                 yield return StartCoroutine(MoveOneDirectly(Vector3Int.right));
             }else
             {
-                StartCoroutine(MoveTeleport(playerTargetPosition));
+                yield return StartCoroutine(MoveTeleport(playerTargetPosition));
             }
         }
         else if(moveVector == twoTileVectorPositons[5])
@@ -103,7 +128,7 @@ public class PlayerMove : MonoBehaviour
                 yield return StartCoroutine(MoveOneDirectly(Vector3Int.right));
             }else
             {
-                StartCoroutine(MoveTeleport(playerTargetPosition));
+                yield return StartCoroutine(MoveTeleport(playerTargetPosition));
             }
         }
         else if(moveVector == twoTileVectorPositons[6])
@@ -118,7 +143,7 @@ public class PlayerMove : MonoBehaviour
                 yield return StartCoroutine(MoveOneDirectly(Vector3Int.left));
             }else
             {
-                StartCoroutine(MoveTeleport(playerTargetPosition));
+                yield return StartCoroutine(MoveTeleport(playerTargetPosition));
             }
         }
         else if(moveVector == twoTileVectorPositons[7])
@@ -133,7 +158,7 @@ public class PlayerMove : MonoBehaviour
                 yield return StartCoroutine(MoveOneDirectly(Vector3Int.left));
             }else
             {
-                StartCoroutine(MoveTeleport(playerTargetPosition));
+                yield return StartCoroutine(MoveTeleport(playerTargetPosition));
             }
         }
 
