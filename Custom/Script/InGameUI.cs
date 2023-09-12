@@ -147,12 +147,13 @@ public class InGameUI : MonoBehaviour
             }
 
             totalItemPanel.anchoredPosition = screenPoint;
-            totalItemPanel.gameObject.SetActive(true);
+
+            inGameUIAniimation.Set_Item_Use(true);
             
 
         }else
         {
-            totalItemPanel.gameObject.SetActive(false);
+            inGameUIAniimation.Set_Item_Use(false);
         }
     }
 

@@ -110,6 +110,19 @@ public class InGameUIAniimation : MonoBehaviour
         animator.SetFloat("ItemNum", (int)item - 1);
     }
 
+    public void Set_Item_Use(bool show)
+    {
+        if(show)
+        {
+            animator.SetTrigger("ShowItemPanel");
+        }else
+        {
+            animator.SetTrigger("CloseItemPanel");
+        }
+        
+    }
+
+
     private void Set_UI_Filter(EventType eventType)
     {
         if(StageManager.isNowInitializing) return;

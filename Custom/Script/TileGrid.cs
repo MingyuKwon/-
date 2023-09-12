@@ -332,12 +332,12 @@ public class TileGrid : MonoBehaviour, IGridInterface
 
     public void SetInteract_Ok(Vector3Int[] before , Vector3Int[] after)
     {
-        for(int i=0; i<4; i++)
+        for(int i=0; i<5; i++)
         {
             tilemaps[9].SetTile(before[i], null);
         }
 
-        for(int i=0; i<4; i++)
+        for(int i=0; i<5; i++)
         {
             if(before[i] == Vector3Int.forward) continue;
             tilemaps[9].SetTile(after[i], interactOkTile);

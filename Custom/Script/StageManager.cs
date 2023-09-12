@@ -234,10 +234,10 @@ public class StageManager : MonoBehaviour, IStageManager
         EventManager.instance.Game_Over_Event -= GameOver;
     }
 
-    private Vector3Int[] InteractPosition1 = new Vector3Int[4]{Vector3Int.forward, Vector3Int.forward,Vector3Int.forward,Vector3Int.forward};
-    private Vector3Int[] InteractPosition2 = new Vector3Int[4]{Vector3Int.forward, Vector3Int.forward,Vector3Int.forward,Vector3Int.forward};
+    private Vector3Int[] InteractPosition1 = new Vector3Int[5]{Vector3Int.zero,Vector3Int.forward, Vector3Int.forward,Vector3Int.forward,Vector3Int.forward};
+    private Vector3Int[] InteractPosition2 = new Vector3Int[5]{Vector3Int.zero,Vector3Int.forward, Vector3Int.forward,Vector3Int.forward,Vector3Int.forward};
     private bool is1Next = true;
-    private Vector3Int[] iterateMap = new Vector3Int[4]{Vector3Int.up, Vector3Int.down, Vector3Int.right, Vector3Int.left};
+    private Vector3Int[] iterateMap = new Vector3Int[5]{Vector3Int.zero,Vector3Int.up, Vector3Int.down, Vector3Int.right, Vector3Int.left};
     
     private void SetInteract_Ok()
     {
@@ -245,7 +245,9 @@ public class StageManager : MonoBehaviour, IStageManager
 
        if(is1Next)
        {
-            for(int i=0; i<4; i++)
+            InteractPosition1[0] = playerPosition + iterateMap[0];
+
+            for(int i=1; i<5; i++)
             {
                 if(grid.obstacleTilemap.HasTile(playerPosition + iterateMap[i]))
                 {
@@ -259,7 +261,9 @@ public class StageManager : MonoBehaviour, IStageManager
             grid.SetInteract_Ok(InteractPosition2,InteractPosition1);
        }else
        {
-            for(int i=0; i<4; i++)
+            InteractPosition2[0] = playerPosition + iterateMap[0];
+
+            for(int i=1; i<5; i++)
             {
                 if(grid.obstacleTilemap.HasTile(playerPosition + iterateMap[i]))
                 {
