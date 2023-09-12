@@ -157,7 +157,7 @@ public class StageManager : MonoBehaviour, IStageManager
     private int[] aroundX = {-1,0,1 };
     private int[] aroundY = {-1,0,1 };
 
-    bool isNowInputtingItem = false;
+    static public bool isNowInputtingItem = false;
 
     private void Start() {
         StageInitialize();
@@ -175,6 +175,18 @@ public class StageManager : MonoBehaviour, IStageManager
         tmp.text = "OK";
         tmp.color = Color.green;
 
+        bool input2Ok = false;
+
+        if(Input.GetMouseButtonDown(2))
+        {
+            if(isNowInputtingItem)
+            {
+                isNowInputtingItem = false;
+                input2Ok = true;
+                EventManager.instance.ItemPanelShow_Invoke_Event(currentFocusPosition, false);
+            }
+        }
+
         if(EventSystem.current.IsPointerOverGameObject()) return;
 
         SetFocus();
@@ -190,6 +202,7 @@ public class StageManager : MonoBehaviour, IStageManager
             if(CheckHasObstacle(currentFocusPosition))
             {
                 if(!isNearFlag) return;
+                if(isNowInputtingItem) return;
                 RemoveObstacle(currentFocusPosition);
             }else
             {
@@ -204,40 +217,47 @@ public class StageManager : MonoBehaviour, IStageManager
             SetFlag(currentFocusPosition);
         }else if(Input.GetMouseButtonDown(2) )
         {
-            if(isNowInputtingItem)
-            {
-                isNowInputtingItem = false;
-                EventManager.instance.ItemPanelShow_Invoke_Event(currentFocusPosition, false);
-            }else
+            if(input2Ok) return;
+
+            if(!isNowInputtingItem)
             {
                 if(!interactOkflag) return;
                 isNowInputtingItem = true;
                 EventManager.instance.ItemPanelShow_Invoke_Event(currentFocusPosition, true, holyWaterEnable, TileGrid.CheckObstaclePosition(currentFocusPosition), magGlassEnable , potionEnable);
             }
-        
-            // if(gap != Vector3Int.zero || !magGlassEnable) return;
-            // ChangeTotalToSeperate(currentFocusPosition);
-        }else if(Input.GetMouseButton(3)) { 
-            if(!interactOkflag) return;
-            BombObstacle(currentFocusPosition);
-        }else if(Input.GetMouseButton(4) && holyWaterEnable) { 
-            if(!interactOkflag) return;
-            SetTreasureSearch(currentFocusPosition);
         }
     }
 
     private void OnEnable() {
         EventManager.instance.Game_Over_Event += GameOver;
+        EventManager.instance.ItemUseEvent += ItemUse;
     }
 
     private void OnDisable() {
         EventManager.instance.Game_Over_Event -= GameOver;
+        EventManager.instance.ItemUseEvent -= ItemUse;
     }
 
     private Vector3Int[] InteractPosition1 = new Vector3Int[5]{Vector3Int.zero,Vector3Int.forward, Vector3Int.forward,Vector3Int.forward,Vector3Int.forward};
     private Vector3Int[] InteractPosition2 = new Vector3Int[5]{Vector3Int.zero,Vector3Int.forward, Vector3Int.forward,Vector3Int.forward,Vector3Int.forward};
     private bool is1Next = true;
     private Vector3Int[] iterateMap = new Vector3Int[5]{Vector3Int.zero,Vector3Int.up, Vector3Int.down, Vector3Int.right, Vector3Int.left};
+
+    private void ItemUse(ItemUseType itemUseType)
+    {
+        switch(itemUseType)
+        {
+            case ItemUseType.Holy_Water :
+                SetTreasureSearch(currentFocusPosition);
+            break;
+            case ItemUseType.Crash :
+                BombObstacle(currentFocusPosition);
+            break;
+            case ItemUseType.Mag_Glass :
+                ChangeTotalToSeperate(currentFocusPosition);
+            break;
+        }
+    }
     
     private void SetInteract_Ok()
     {

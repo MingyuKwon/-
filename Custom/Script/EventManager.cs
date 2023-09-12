@@ -30,6 +30,14 @@ public enum Item {
     Holy_Water = 3,
 }
 
+public enum ItemUseType {
+    None = 4,
+    Potion = 3,
+    Mag_Glass = 2,
+    Holy_Water = 0,
+    Crash = 1,
+}
+
 public class EventManager : MonoBehaviour
 {
     #region Event
@@ -55,6 +63,12 @@ public class EventManager : MonoBehaviour
     public void ItemPanelShow_Invoke_Event(Vector3Int position, bool isShow, bool isHolyEnable = false, bool isCrachEnable = false, bool isMagEnable = false, bool isPotionEnable = false)
     {
         ItemPanelShow_Event.Invoke(position, isShow, isHolyEnable , isCrachEnable , isMagEnable , isPotionEnable);
+    }
+
+    public Action<ItemUseType> ItemUseEvent;
+    public void ItemUse_Invoke_Event(ItemUseType itemUseType)
+    {
+        ItemUseEvent.Invoke(itemUseType);
     }
 
     #endregion
