@@ -51,10 +51,10 @@ public class EventManager : MonoBehaviour
         timerEvent.Invoke(timeElapsed, timeLeft);
     }
 
-    public Action<Vector3Int,bool> ItemPanelShow_Event;
-    public void ItemPanelShow_Invoke_Event(Vector3Int position, bool isShow)
+    public Action<Vector3Int,bool, bool, bool, bool, bool> ItemPanelShow_Event;
+    public void ItemPanelShow_Invoke_Event(Vector3Int position, bool isShow, bool isHolyEnable = false, bool isCrachEnable = false, bool isMagEnable = false, bool isPotionEnable = false)
     {
-        ItemPanelShow_Event.Invoke(position, isShow);
+        ItemPanelShow_Event.Invoke(position, isShow, isHolyEnable , isCrachEnable , isMagEnable , isPotionEnable);
     }
 
     #endregion

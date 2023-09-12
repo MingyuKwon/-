@@ -125,13 +125,13 @@ public class StageManager : MonoBehaviour, IStageManager
 
     bool magGlassEnable{
         get{
-            return magGlassCount > 0;
+            return magGlassCount > 0 && !TileGrid.CheckObstaclePosition(currentFocusPosition);
         }
     }
 
     bool holyWaterEnable{
         get{
-            return holyWaterCount > 0;
+            return holyWaterCount > 0 && TileGrid.CheckObstaclePosition(currentFocusPosition);
         }
     }
     #endregion
@@ -182,7 +182,8 @@ public class StageManager : MonoBehaviour, IStageManager
         SetInteract_Ok();
 
         Vector3Int gap = PlayerManager.instance.checkPlayerNearFourDirection(currentFocusPosition);
-        bool isNearFlag = (gap.magnitude == 1 && gap != Vector3Int.forward) ? true : false;
+        bool isNearFlag = ((gap.magnitude == 1 || gap.magnitude == 0) && gap != Vector3Int.forward) ? true : false; // 상하좌우 4개 근처인지를 판단
+        bool interactOkflag = (gap == Vector3Int.zero) || (isNearFlag && TileGrid.CheckObstaclePosition(currentFocusPosition));
 
         if(Input.GetMouseButtonDown(0))
         {
@@ -192,6 +193,7 @@ public class StageManager : MonoBehaviour, IStageManager
                 RemoveObstacle(currentFocusPosition);
             }else
             {
+                if(isNowInputtingItem) return;
                 InputManager.InputEvent.Invoke_Move(currentFocusPosition);
             }
             
@@ -208,17 +210,18 @@ public class StageManager : MonoBehaviour, IStageManager
                 EventManager.instance.ItemPanelShow_Invoke_Event(currentFocusPosition, false);
             }else
             {
+                if(!interactOkflag) return;
                 isNowInputtingItem = true;
-                EventManager.instance.ItemPanelShow_Invoke_Event(currentFocusPosition, true);
+                EventManager.instance.ItemPanelShow_Invoke_Event(currentFocusPosition, true, holyWaterEnable, TileGrid.CheckObstaclePosition(currentFocusPosition), magGlassEnable , potionEnable);
             }
         
             // if(gap != Vector3Int.zero || !magGlassEnable) return;
             // ChangeTotalToSeperate(currentFocusPosition);
         }else if(Input.GetMouseButton(3)) { 
-            if(!isNearFlag) return;
+            if(!interactOkflag) return;
             BombObstacle(currentFocusPosition);
         }else if(Input.GetMouseButton(4) && holyWaterEnable) { 
-            if(!isNearFlag) return;
+            if(!interactOkflag) return;
             SetTreasureSearch(currentFocusPosition);
         }
     }

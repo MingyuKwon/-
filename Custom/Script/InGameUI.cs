@@ -46,7 +46,8 @@ public class InGameUI : MonoBehaviour
     [Space]
     public RectTransform totalItemPanel;
     public RectTransform[] ItemUses; // 0 : right, 1 : down, 2 : left, 3 : up
-
+    private Button[] itemButtons; // 0 : right, 1 : down, 2 : left, 3 : up
+    private Image[] itemimages; // 0 : right, 1 : down, 2 : left, 3 : up
     [Space]
     public Transform potionImage;
     public Transform magGlassImage;
@@ -68,6 +69,9 @@ public class InGameUI : MonoBehaviour
         }
 
         inGameUIAniimation = GetComponent<InGameUIAniimation>();
+
+        itemButtons = totalItemPanel.GetComponentsInChildren<Button>();
+        itemimages = totalItemPanel.GetComponentsInChildren<Image>();
 
         usableItemExplain[0].text = "Restores 1 unit of health";
         usableItemExplain[1].text = "Displays numbers on the ground to distinguish between traps and treasures";
@@ -103,14 +107,49 @@ public class InGameUI : MonoBehaviour
         return screenPosition;
     }
 
-    private void ShowItemUsePanel(Vector3Int position, bool isShow)
+
+    private void ShowItemUsePanel(Vector3Int position, bool isShow, bool isHolyEnable = false, bool isCrachEnable = false, bool isMagEnable = false, bool isPotionEnable = false)
     {
         Vector2 screenPoint = WorldToCanvasPosition(TileGrid.CheckWorldPosition(position));
 
         if(isShow)
         {
+            if(isHolyEnable)
+            {
+                itemButtons[0].interactable = true;
+            }else
+            {
+                itemButtons[0].interactable = false;
+            }
+
+            if(isCrachEnable)
+            {
+                itemButtons[1].interactable = true;
+            }else
+            {
+                itemButtons[1].interactable = false;
+            }
+
+            if(isMagEnable)
+            {
+                itemButtons[2].interactable = true;
+            }else
+            {
+                itemButtons[2].interactable = false;
+            }
+
+            if(isPotionEnable)
+            {
+                itemButtons[3].interactable = true;
+            }else
+            {
+                itemButtons[3].interactable = false;
+            }
+
             totalItemPanel.anchoredPosition = screenPoint;
             totalItemPanel.gameObject.SetActive(true);
+            
+
         }else
         {
             totalItemPanel.gameObject.SetActive(false);
