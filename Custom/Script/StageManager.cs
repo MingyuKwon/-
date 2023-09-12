@@ -9,8 +9,8 @@ using System.Collections;
 
 public class StageManager : MonoBehaviour, IStageManager
 {   
-    const int DefaultX = 10;
-    const int DefaultY = 10;
+    const int DefaultX = 18;
+    const int DefaultY = 12;
 
     static public bool isNowInitializing = false;
 
@@ -157,6 +157,8 @@ public class StageManager : MonoBehaviour, IStageManager
     private int[] aroundX = {-1,0,1 };
     private int[] aroundY = {-1,0,1 };
 
+    bool isNowInputtingItem = false;
+
     private void Start() {
         StageInitialize();
     }
@@ -198,10 +200,20 @@ public class StageManager : MonoBehaviour, IStageManager
         if(Input.GetMouseButtonDown(1))
         {
             SetFlag(currentFocusPosition);
-        }else if(Input.GetMouseButtonDown(2) && magGlassEnable)
+        }else if(Input.GetMouseButtonDown(2) )
         {
-            if(gap != Vector3Int.zero) return;
-            ChangeTotalToSeperate(currentFocusPosition);
+            if(isNowInputtingItem)
+            {
+                isNowInputtingItem = false;
+                EventManager.instance.ItemPanelShow_Invoke_Event(currentFocusPosition, false);
+            }else
+            {
+                isNowInputtingItem = true;
+                EventManager.instance.ItemPanelShow_Invoke_Event(currentFocusPosition, true);
+            }
+        
+            // if(gap != Vector3Int.zero || !magGlassEnable) return;
+            // ChangeTotalToSeperate(currentFocusPosition);
         }else if(Input.GetMouseButton(3)) { 
             if(!isNearFlag) return;
             BombObstacle(currentFocusPosition);
@@ -298,6 +310,7 @@ public class StageManager : MonoBehaviour, IStageManager
 
         if(cellPos == currentFocusPosition) return; // 만약 포커스가 아직 바뀌지 않았다면 요청 무시
         if(grid.boundTilemap.HasTile(cellPos))  return; // 해당 위치가 필드 바깥이면 무시
+        if(isNowInputtingItem) return;
 
         if(CheckHasObstacle(cellPos))  // 해당 위치에 타일이 있는지 확인
         { // 만약 타일이 있다면 상호작용이 가능한 놈만 포커스를 줘야 한다. 
@@ -338,6 +351,7 @@ public class StageManager : MonoBehaviour, IStageManager
                     treasureCount--;
                     UpdateArrayNum(Total_Mine_Treasure.Total); // 갱신
                     UpdateArrayNum(Total_Mine_Treasure.Treasure); // 갱신
+                    UpdateArrayNum(Total_Mine_Treasure.Mine); // 갱신
                     GetItem(true);
                     EventManager.instance.InvokeEvent(EventType.TreasureAppear, cellPos);
                     EventManager.instance.InvokeEvent(EventType.TreasureAppear, treasureCount);
@@ -413,6 +427,7 @@ public class StageManager : MonoBehaviour, IStageManager
                     mineCount--;
                     UpdateArrayNum(Total_Mine_Treasure.Total); // 갱신
                     UpdateArrayNum(Total_Mine_Treasure.Mine); // 갱신
+                    UpdateArrayNum(Total_Mine_Treasure.Treasure); // 갱신
                     EventManager.instance.InvokeEvent(EventType.MineDisappear, cellPos);
                     EventManager.instance.InvokeEvent(EventType.MineDisappear, mineCount);
                     grid.ShowTotalNum(totalNumArray, totalNumMask);
@@ -575,7 +590,7 @@ public class StageManager : MonoBehaviour, IStageManager
 
 
     [Button]
-    public void StageInitialize(int width = DefaultX ,  int height = DefaultY, Difficulty difficulty = Difficulty.Hard, int maxHeart = 9,  int currentHeart = 1, int potionCount = 5, int magGlassCount = 5, int holyWaterCount = 5, int totalTime = 5)
+    public void StageInitialize(int width = DefaultX ,  int height = DefaultY, Difficulty difficulty = Difficulty.Hard, int maxHeart = 9,  int currentHeart = 1, int potionCount = 5, int magGlassCount = 20, int holyWaterCount = 5, int totalTime = 300)
     {
         isNowInitializing = true;
 

@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 
 public class InGameUI : MonoBehaviour
 {
+    #region Serialize
     [Header("Texts")]
     public TextMeshProUGUI width;
     public TextMeshProUGUI height;
@@ -42,9 +44,15 @@ public class InGameUI : MonoBehaviour
     public RectTransform downClockBlackBox;
 
     [Space]
+    public RectTransform totalItemPanel;
+    public RectTransform[] ItemUses; // 0 : right, 1 : down, 2 : left, 3 : up
+
+    [Space]
     public Transform potionImage;
     public Transform magGlassImage;
     public Transform HolyWaterImage;
+
+    #endregion
 
     private Image[] heartImages = new Image[9];
     private InGameUIAniimation inGameUIAniimation;
@@ -72,6 +80,7 @@ public class InGameUI : MonoBehaviour
         EventManager.instance.Set_Width_Height_Event += Set_Width_Height;
         EventManager.instance.Set_Heart_Event += Set_Heart;
         EventManager.instance.Item_Count_Change_Event += Change_Item_Count;
+        EventManager.instance.ItemPanelShow_Event += ShowItemUsePanel;
 
         EventManager.instance.timerEvent += SetTimeTexts;
     }
@@ -81,8 +90,31 @@ public class InGameUI : MonoBehaviour
         EventManager.instance.Set_Width_Height_Event -= Set_Width_Height;
         EventManager.instance.Set_Heart_Event -= Set_Heart;
         EventManager.instance.Item_Count_Change_Event -= Change_Item_Count;
+        EventManager.instance.ItemPanelShow_Event -= ShowItemUsePanel;
 
         EventManager.instance.timerEvent -= SetTimeTexts;
+    }
+
+    public Vector2 WorldToCanvasPosition(Vector3 worldPosition)
+    {
+        Vector3 screenPosition = Camera.main.WorldToScreenPoint(worldPosition);
+        screenPosition -= new Vector3(Screen.width /2 , Screen.height/2 , 0);
+
+        return screenPosition;
+    }
+
+    private void ShowItemUsePanel(Vector3Int position, bool isShow)
+    {
+        Vector2 screenPoint = WorldToCanvasPosition(TileGrid.CheckWorldPosition(position));
+
+        if(isShow)
+        {
+            totalItemPanel.anchoredPosition = screenPoint;
+            totalItemPanel.gameObject.SetActive(true);
+        }else
+        {
+            totalItemPanel.gameObject.SetActive(false);
+        }
     }
 
     private void SetTimeTexts(int elapsedTime, int leftTime)

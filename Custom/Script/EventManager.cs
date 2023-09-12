@@ -51,7 +51,16 @@ public class EventManager : MonoBehaviour
         timerEvent.Invoke(timeElapsed, timeLeft);
     }
 
+    public Action<Vector3Int,bool> ItemPanelShow_Event;
+    public void ItemPanelShow_Invoke_Event(Vector3Int position, bool isShow)
+    {
+        ItemPanelShow_Event.Invoke(position, isShow);
+    }
+
     #endregion
+
+
+
 
     public static EventManager instance = null;
     public static bool isAnimationPlaying{
