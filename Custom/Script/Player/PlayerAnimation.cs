@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 public class PlayerAnimation : MonoBehaviour
@@ -15,6 +16,14 @@ public class PlayerAnimation : MonoBehaviour
 
     private void Update() {
         CheckRotate();
+    }
+
+    private void OnEnable() {
+        EventManager.instance.ItemUseEvent += UseItemAnimation;
+    }
+
+    private void OnDisable() {
+        EventManager.instance.ItemUseEvent -= UseItemAnimation;
     }
 
     public void SetAnimationXY(float x, float y)
@@ -49,6 +58,45 @@ public class PlayerAnimation : MonoBehaviour
                 transform.GetChild(0).gameObject.transform.rotation = Quaternion.Euler(new Vector3 (0, 0, 270));
             }
         }
+    }
+
+    [Button]
+    public void UseItemAnimation(ItemUseType itemUseType, Vector3Int gap)
+    {
+        switch(itemUseType)
+        {
+            case ItemUseType.Shovel :   
+                animator.SetFloat("Item Type", 0);
+            break;
+            case ItemUseType.Holy_Water :   
+                animator.SetFloat("Item Type", 1);
+            break;
+            case ItemUseType.Crash :   
+                animator.SetFloat("Item Type", 2);
+            break;
+            case ItemUseType.Mag_Glass :   
+                animator.SetFloat("Item Type", 3);
+            break;
+            case ItemUseType.Potion :   
+                animator.SetFloat("Item Type", 4);
+            break;
+        }
+
+        if(gap == Vector3Int.up)
+        {
+            SetAnimationXY(0,1);
+        }else if(gap == Vector3Int.right)
+        {
+            SetAnimationXY(1,0);
+        }else if(gap == Vector3Int.left)
+        {
+            SetAnimationXY(-1,0);
+        }else
+        {
+            SetAnimationXY(0,-1);
+        }
+
+        animator.SetTrigger("Item Use");
     }
 
     public void SetAnimationPlayingFlag(int flag)

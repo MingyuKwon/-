@@ -54,7 +54,6 @@ public class PlayerMove : MonoBehaviour
 
     IEnumerator MoveTwoDirectly(Vector3Int moveVector)
     {
-        Debug.Log("MoveTwoDirectly");
         StageManager.stageInputBlock++;
 
         Vector3Int playerTargetPosition = PlayerManager.instance.PlayerCellPosition + moveVector;

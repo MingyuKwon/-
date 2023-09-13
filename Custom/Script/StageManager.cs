@@ -160,6 +160,12 @@ public class StageManager : MonoBehaviour, IStageManager
 
     static public bool isNowInputtingItem = false;
 
+    public Vector3Int gapBetweenPlayerFocus{
+        get{
+            return PlayerManager.instance.checkPlayerNearFourDirection(currentFocusPosition);
+        }
+    } 
+
     private void Awake() {
         if(instance == null)
         {
@@ -208,9 +214,8 @@ public class StageManager : MonoBehaviour, IStageManager
         SetPlayer_Overlay();
         SetInteract_Ok();
 
-        Vector3Int gap = PlayerManager.instance.checkPlayerNearFourDirection(currentFocusPosition);
-        bool isNearFlag = ((gap.magnitude == 1 || gap.magnitude == 0) && gap != Vector3Int.forward) ? true : false; // 상하좌우 4개 근처인지를 판단
-        bool interactOkflag = (gap == Vector3Int.zero) || (isNearFlag && TileGrid.CheckObstaclePosition(currentFocusPosition));
+        bool isNearFlag = ((gapBetweenPlayerFocus.magnitude == 1 || gapBetweenPlayerFocus.magnitude == 0) && gapBetweenPlayerFocus != Vector3Int.forward) ? true : false; // 상하좌우 4개 근처인지를 판단
+        bool interactOkflag = (gapBetweenPlayerFocus == Vector3Int.zero) || (isNearFlag && TileGrid.CheckObstaclePosition(currentFocusPosition));
 
         if(Input.GetMouseButtonDown(0))
         {
@@ -218,6 +223,7 @@ public class StageManager : MonoBehaviour, IStageManager
             {
                 if(!isNearFlag) return;
                 if(isNowInputtingItem) return;
+                EventManager.instance.ItemUse_Invoke_Event(ItemUseType.Shovel, gapBetweenPlayerFocus);
                 RemoveObstacle(currentFocusPosition);
             }else
             {
@@ -259,7 +265,7 @@ public class StageManager : MonoBehaviour, IStageManager
     private bool is1Next = true;
     private Vector3Int[] iterateMap = new Vector3Int[5]{Vector3Int.zero,Vector3Int.up, Vector3Int.down, Vector3Int.right, Vector3Int.left};
 
-    private void ItemUse(ItemUseType itemUseType)
+    private void ItemUse(ItemUseType itemUseType, Vector3Int gap)
     {
         switch(itemUseType)
         {

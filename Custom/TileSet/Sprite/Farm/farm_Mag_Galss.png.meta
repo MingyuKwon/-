@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 0e55ca8da9790ab488d3ccfad69b1251
+guid: 6db4226698ad8544eab0ac6f3ed99990
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -117,7 +117,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: farm_shovel_01_32x32_0
+      name: farm_walk_01_32x32_0
       rect:
         serializedVersion: 2
         x: 0
@@ -131,14 +131,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 69fc9ca5833319b42803517d99a93868
-      internalID: 1355790437
+      spriteID: 89870d352d390e14293a8f9174cfe482
+      internalID: 1716036471
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: farm_shovel_01_32x32_1
+      name: farm_walk_01_32x32_1
       rect:
         serializedVersion: 2
         x: 32
@@ -152,14 +152,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 67182137325efc84790a9aeb665de9d1
-      internalID: -1972171216
+      spriteID: 4c033781a01e2ab478351c401839c4bf
+      internalID: -425086484
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: farm_shovel_01_32x32_2
+      name: farm_walk_01_32x32_2
       rect:
         serializedVersion: 2
         x: 64
@@ -173,14 +173,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: db51e9525166d564e870eb144443001c
-      internalID: -62797650
+      spriteID: bef0617167fcd1840b1f204381cca8c8
+      internalID: -762901399
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: farm_shovel_01_32x32_3
+      name: farm_walk_01_32x32_3
       rect:
         serializedVersion: 2
         x: 0
@@ -194,14 +194,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7dd031963dc39854dbd0db952551f21c
-      internalID: 378738803
+      spriteID: acd9a405374f1af4d83bc36e032e47ae
+      internalID: -1692340864
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: farm_shovel_01_32x32_4
+      name: farm_walk_01_32x32_4
       rect:
         serializedVersion: 2
         x: 32
@@ -215,14 +215,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8bf68bcbd3e938a4c805bf11ce35731b
-      internalID: 1190796325
+      spriteID: 09035c99d4fcd114b8dfa0ac3956a240
+      internalID: 1861822553
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: farm_shovel_01_32x32_5
+      name: farm_walk_01_32x32_5
       rect:
         serializedVersion: 2
         x: 64
@@ -236,14 +236,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b6fe8322174e28b4a877ae5ef68b6f69
-      internalID: -1398579341
+      spriteID: 097564c50e7e8ff498bacb5bda7dce0f
+      internalID: 1004818952
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: farm_shovel_01_32x32_6
+      name: farm_walk_01_32x32_6
       rect:
         serializedVersion: 2
         x: 0
@@ -257,14 +257,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0d067c1bac3205c409d52208d38bff7a
-      internalID: -466895833
+      spriteID: ba591fa0a48e7264f9ec352a217d9dac
+      internalID: 1463926580
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: farm_shovel_01_32x32_7
+      name: farm_walk_01_32x32_7
       rect:
         serializedVersion: 2
         x: 32
@@ -278,14 +278,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a6b7a639f4ae7da418c4cf83af867d23
-      internalID: 293897554
+      spriteID: 0825e9cadba36634998e8de1971ca373
+      internalID: -1440913031
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: farm_shovel_01_32x32_8
+      name: farm_walk_01_32x32_8
       rect:
         serializedVersion: 2
         x: 64
@@ -299,14 +299,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 85452f6a319dc5740b175ab5d2d5c024
-      internalID: -515968130
+      spriteID: 610157daa3c9b4c4aa220023224621e0
+      internalID: -2127232444
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: farm_shovel_01_32x32_9
+      name: farm_walk_01_32x32_9
       rect:
         serializedVersion: 2
         x: 0
@@ -320,14 +320,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 204e389c01c879343a9ede2200918118
-      internalID: -852486355
+      spriteID: 7f4ece43391d72e48aa6f7aeb2cc66d9
+      internalID: 2087172091
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: farm_shovel_01_32x32_10
+      name: farm_walk_01_32x32_10
       rect:
         serializedVersion: 2
         x: 32
@@ -341,14 +341,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6dd1cc1b8f9833d45a16553b98d8cdf8
-      internalID: -1917303866
+      spriteID: fca15ed1cd4d9954ababea9a4a822d3e
+      internalID: 226111601
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: farm_shovel_01_32x32_11
+      name: farm_walk_01_32x32_11
       rect:
         serializedVersion: 2
         x: 64
@@ -362,8 +362,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 00dafb350bc37b348b7013808ad2b7b3
-      internalID: 1095241728
+      spriteID: 372c95c49f43b63488c5b910f6032a6d
+      internalID: 890422953
       vertices: []
       indices: 
       edges: []
@@ -379,18 +379,18 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      farm_shovel_01_32x32_4: 1190796325
-      farm_shovel_01_32x32_5: -1398579341
-      farm_shovel_01_32x32_1: -1972171216
-      farm_shovel_01_32x32_10: -1917303866
-      farm_shovel_01_32x32_11: 1095241728
-      farm_shovel_01_32x32_7: 293897554
-      farm_shovel_01_32x32_9: -852486355
-      farm_shovel_01_32x32_0: 1355790437
-      farm_shovel_01_32x32_6: -466895833
-      farm_shovel_01_32x32_8: -515968130
-      farm_shovel_01_32x32_2: -62797650
-      farm_shovel_01_32x32_3: 378738803
+      farm_walk_01_32x32_9: 2087172091
+      farm_walk_01_32x32_7: -1440913031
+      farm_walk_01_32x32_4: 1861822553
+      farm_walk_01_32x32_3: -1692340864
+      farm_walk_01_32x32_5: 1004818952
+      farm_walk_01_32x32_2: -762901399
+      farm_walk_01_32x32_11: 890422953
+      farm_walk_01_32x32_6: 1463926580
+      farm_walk_01_32x32_0: 1716036471
+      farm_walk_01_32x32_1: -425086484
+      farm_walk_01_32x32_10: 226111601
+      farm_walk_01_32x32_8: -2127232444
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

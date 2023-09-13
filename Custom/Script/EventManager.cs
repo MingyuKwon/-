@@ -31,7 +31,7 @@ public enum Item {
 }
 
 public enum ItemUseType {
-    None = 4,
+    Shovel = 4,
     Potion = 3,
     Mag_Glass = 2,
     Holy_Water = 0,
@@ -76,10 +76,10 @@ public class EventManager : MonoBehaviour
         ItemPanelShow_Event.Invoke(position, isShow, isHolyEnable , isCrachEnable , isMagEnable , isPotionEnable);
     }
 
-    public Action<ItemUseType> ItemUseEvent;
-    public void ItemUse_Invoke_Event(ItemUseType itemUseType)
+    public Action<ItemUseType, Vector3Int> ItemUseEvent;
+    public void ItemUse_Invoke_Event(ItemUseType itemUseType, Vector3Int itemUseDirection)
     {
-        ItemUseEvent.Invoke(itemUseType);
+        ItemUseEvent.Invoke(itemUseType, itemUseDirection);
     }
 
     #endregion

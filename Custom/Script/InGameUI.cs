@@ -61,7 +61,7 @@ public class InGameUI : MonoBehaviour
 
     public void ItemUse(int numtype)
     {
-        EventManager.instance.ItemUse_Invoke_Event((ItemUseType)numtype);
+        EventManager.instance.ItemUse_Invoke_Event((ItemUseType)numtype, StageManager.instance.gapBetweenPlayerFocus);
         EventManager.instance.ItemPanelShow_Invoke_Event(Vector3Int.zero, false);
         StageManager.isNowInputtingItem = false;
     }
