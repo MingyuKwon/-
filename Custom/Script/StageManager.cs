@@ -617,7 +617,7 @@ public class StageManager : MonoBehaviour, IStageManager
 
 
     [Button]
-    public void StageInitialize(int width = DefaultX ,  int height = DefaultY, Difficulty difficulty = Difficulty.Hard, int maxHeart = 9,  int currentHeart = 1, int potionCount = 5, int magGlassCount = 20, int holyWaterCount = 5, int totalTime = 300)
+    public void StageInitialize(int width = DefaultX ,  int height = DefaultY, Difficulty difficulty = Difficulty.Hard, int maxHeart = 9,  int currentHeart = 1, int potionCount = 5, int magGlassCount = 20, int holyWaterCount = 5, int totalTime = 10)
     {
         isNowInitializing = true;
 
@@ -910,6 +910,12 @@ public class StageManager : MonoBehaviour, IStageManager
     {
         if(isGameOver)
         {
+            if(isNowInputtingItem)
+            {
+                EventManager.instance.ItemPanelShow_Invoke_Event(Vector3Int.zero, false);
+                isNowInputtingItem = false;
+            }
+            
             stageInputBlock++;
             StopCoroutine(timerCoroutine);
             reStartEnable = true;
