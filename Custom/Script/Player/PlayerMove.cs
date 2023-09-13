@@ -47,15 +47,21 @@ public class PlayerMove : MonoBehaviour
         new Vector3Int(-1,-1,0)
     };
 
+    private bool isPlayerCanTransparent(Vector3Int position)
+    {
+        return !TileGrid.CheckObstaclePosition(position) && !StageManager.instance.hasTrapInPosition(position);
+    }   
+
     IEnumerator MoveTwoDirectly(Vector3Int moveVector)
     {
+        Debug.Log("MoveTwoDirectly");
         StageManager.stageInputBlock++;
 
         Vector3Int playerTargetPosition = PlayerManager.instance.PlayerCellPosition + moveVector;
 
         if(moveVector == twoTileVectorPositons[0])
         {
-            if(!TileGrid.CheckObstaclePosition(PlayerManager.instance.PlayerCellPosition + Vector3Int.right))
+            if(isPlayerCanTransparent(PlayerManager.instance.PlayerCellPosition + Vector3Int.right))
             {
                 yield return StartCoroutine(MoveOneDirectly(Vector3Int.right));
                 yield return null;
@@ -67,7 +73,7 @@ public class PlayerMove : MonoBehaviour
             
         }else if(moveVector == twoTileVectorPositons[1])
         {
-            if(!TileGrid.CheckObstaclePosition(PlayerManager.instance.PlayerCellPosition + Vector3Int.up))
+            if(isPlayerCanTransparent(PlayerManager.instance.PlayerCellPosition + Vector3Int.up))
             {
                 yield return StartCoroutine(MoveOneDirectly(Vector3Int.up));
                 yield return null;
@@ -79,7 +85,7 @@ public class PlayerMove : MonoBehaviour
         }
         else if(moveVector == twoTileVectorPositons[2])
         {
-            if(!TileGrid.CheckObstaclePosition(PlayerManager.instance.PlayerCellPosition + Vector3Int.down))
+            if(isPlayerCanTransparent(PlayerManager.instance.PlayerCellPosition + Vector3Int.down))
             {
                 yield return StartCoroutine(MoveOneDirectly(Vector3Int.down));
                 yield return null;
@@ -91,7 +97,7 @@ public class PlayerMove : MonoBehaviour
         }
         else if(moveVector == twoTileVectorPositons[3])
         {
-            if(!TileGrid.CheckObstaclePosition(PlayerManager.instance.PlayerCellPosition + Vector3Int.left))
+            if(isPlayerCanTransparent(PlayerManager.instance.PlayerCellPosition + Vector3Int.left))
             {
                 yield return StartCoroutine(MoveOneDirectly(Vector3Int.left));
                 yield return null;
@@ -103,11 +109,11 @@ public class PlayerMove : MonoBehaviour
         }
         else if(moveVector == twoTileVectorPositons[4])
         {
-            if(!TileGrid.CheckObstaclePosition(PlayerManager.instance.PlayerCellPosition + Vector3Int.right))
+            if(isPlayerCanTransparent(PlayerManager.instance.PlayerCellPosition + Vector3Int.right))
             {
                 yield return StartCoroutine(MoveOneDirectly(Vector3Int.right));
                 yield return StartCoroutine(MoveOneDirectly(Vector3Int.up));
-            }else if(!TileGrid.CheckObstaclePosition(PlayerManager.instance.PlayerCellPosition + Vector3Int.up))
+            }else if(isPlayerCanTransparent(PlayerManager.instance.PlayerCellPosition + Vector3Int.up))
             {
                 yield return StartCoroutine(MoveOneDirectly(Vector3Int.up));
                 yield return StartCoroutine(MoveOneDirectly(Vector3Int.right));
@@ -118,11 +124,11 @@ public class PlayerMove : MonoBehaviour
         }
         else if(moveVector == twoTileVectorPositons[5])
         {
-            if(!TileGrid.CheckObstaclePosition(PlayerManager.instance.PlayerCellPosition + Vector3Int.right))
+            if(isPlayerCanTransparent(PlayerManager.instance.PlayerCellPosition + Vector3Int.right))
             {
                 yield return StartCoroutine(MoveOneDirectly(Vector3Int.right));
                 yield return StartCoroutine(MoveOneDirectly(Vector3Int.down));
-            }else if(!TileGrid.CheckObstaclePosition(PlayerManager.instance.PlayerCellPosition + Vector3Int.down))
+            }else if(isPlayerCanTransparent(PlayerManager.instance.PlayerCellPosition + Vector3Int.down))
             {
                 yield return StartCoroutine(MoveOneDirectly(Vector3Int.down));
                 yield return StartCoroutine(MoveOneDirectly(Vector3Int.right));
@@ -133,11 +139,11 @@ public class PlayerMove : MonoBehaviour
         }
         else if(moveVector == twoTileVectorPositons[6])
         {
-            if(!TileGrid.CheckObstaclePosition(PlayerManager.instance.PlayerCellPosition + Vector3Int.left))
+            if(isPlayerCanTransparent(PlayerManager.instance.PlayerCellPosition + Vector3Int.left))
             {
                 yield return StartCoroutine(MoveOneDirectly(Vector3Int.left));
                 yield return StartCoroutine(MoveOneDirectly(Vector3Int.up));
-            }else if(!TileGrid.CheckObstaclePosition(PlayerManager.instance.PlayerCellPosition + Vector3Int.up))
+            }else if(isPlayerCanTransparent(PlayerManager.instance.PlayerCellPosition + Vector3Int.up))
             {
                 yield return StartCoroutine(MoveOneDirectly(Vector3Int.up));
                 yield return StartCoroutine(MoveOneDirectly(Vector3Int.left));
@@ -148,11 +154,11 @@ public class PlayerMove : MonoBehaviour
         }
         else if(moveVector == twoTileVectorPositons[7])
         {
-            if(!TileGrid.CheckObstaclePosition(PlayerManager.instance.PlayerCellPosition + Vector3Int.left))
+            if(isPlayerCanTransparent(PlayerManager.instance.PlayerCellPosition + Vector3Int.left))
             {
                 yield return StartCoroutine(MoveOneDirectly(Vector3Int.left));
                 yield return StartCoroutine(MoveOneDirectly(Vector3Int.down));
-            }else if(!TileGrid.CheckObstaclePosition(PlayerManager.instance.PlayerCellPosition + Vector3Int.down))
+            }else if(isPlayerCanTransparent(PlayerManager.instance.PlayerCellPosition + Vector3Int.down))
             {
                 yield return StartCoroutine(MoveOneDirectly(Vector3Int.down));
                 yield return StartCoroutine(MoveOneDirectly(Vector3Int.left));

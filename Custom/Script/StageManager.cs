@@ -9,6 +9,7 @@ using System.Collections;
 
 public class StageManager : MonoBehaviour, IStageManager
 {   
+    public static StageManager instance;
     const int DefaultX = 18;
     const int DefaultY = 12;
 
@@ -159,6 +160,20 @@ public class StageManager : MonoBehaviour, IStageManager
 
     static public bool isNowInputtingItem = false;
 
+    private void Awake() {
+        if(instance == null)
+        {
+            instance = this;
+        }else
+        {
+            Debug.LogError("Youre now trying to reInstantiate StageManager while there is Original StageManager");
+        }
+    }
+
+    private void OnDestroy() {
+        instance = null;
+    }
+
     private void Start() {
         StageInitialize();
     }
@@ -207,6 +222,7 @@ public class StageManager : MonoBehaviour, IStageManager
             }else
             {
                 if(isNowInputtingItem) return;
+                if(hasTrapInPosition(currentFocusPosition)) return;
                 InputManager.InputEvent.Invoke_Move(currentFocusPosition);
             }
             
@@ -931,6 +947,17 @@ public class StageManager : MonoBehaviour, IStageManager
             stageInputBlock =0;
         }
         
+    }
+
+        public bool hasTrapInPosition(Vector3Int position){
+        
+        Vector3Int arrayPos = ChangeCellPosToArrayPos(position);
+        if(mineTreasureArray[arrayPos.y, arrayPos.x] == -1){
+            return true;
+        }else
+        {
+            return false;
+        }
     }
 
     bool reStartEnable = false;
