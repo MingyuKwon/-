@@ -44,13 +44,24 @@ public class EventManager : MonoBehaviour
 
     public Action<EventType, Vector3Int> SetAnimationTileEvent;
     public Action<Vector2> Set_Width_Height_Event;
-    public Action<int, int> Set_Heart_Event;
+
     public Action<EventType, int> mine_treasure_count_Change_Event;
     public Action<EventType> Set_UI_Filter_Event;
 
     public Action<EventType,Item, int> Item_Count_Change_Event;
 
     public Action<bool, GameOver_Reason> Game_Over_Event;
+
+    public Action<int, int> Reduce_Heart_Event;
+    public void Reduce_HeartInvokeEvent(int currentHeart, int maxHeart)
+    {
+        Reduce_Heart_Event.Invoke(currentHeart, maxHeart);
+    }
+    public Action<int, int> Heal_Heart_Event;
+    public void Heal_HeartInvokeEvent(int currentHeart, int maxHeart)
+    {
+        Heal_Heart_Event.Invoke(currentHeart, maxHeart);
+    }
 
 
     public Action<int, int> timerEvent;
@@ -120,15 +131,8 @@ public class EventManager : MonoBehaviour
 
         if(param1 is int)
         {
-            if(param2 is int)
-            {
-                Set_Heart_Event.Invoke((int)param1, (int)param2);
-            }else
-            {
-                mine_treasure_count_Change_Event.Invoke(eventType, (int)param1);
-                Set_UI_Filter_Event.Invoke(eventType);
-            }
-            
+            mine_treasure_count_Change_Event.Invoke(eventType, (int)param1);
+            Set_UI_Filter_Event.Invoke(eventType);
         }
 
         if(param1 is Vector3Int)

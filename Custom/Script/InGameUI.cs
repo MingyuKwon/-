@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
@@ -89,7 +90,9 @@ public class InGameUI : MonoBehaviour
     private void OnEnable() {
         EventManager.instance.mine_treasure_count_Change_Event += Change_Mine_Treasure_Count;
         EventManager.instance.Set_Width_Height_Event += Set_Width_Height;
-        EventManager.instance.Set_Heart_Event += Set_Heart;
+        EventManager.instance.Reduce_Heart_Event += Reduce_Heart;
+        EventManager.instance.Heal_Heart_Event += Heal_Heart;
+
         EventManager.instance.Item_Count_Change_Event += Change_Item_Count;
         EventManager.instance.ItemPanelShow_Event += ShowItemUsePanel;
 
@@ -99,7 +102,9 @@ public class InGameUI : MonoBehaviour
     private void OnDisable() {
         EventManager.instance.mine_treasure_count_Change_Event -= Change_Mine_Treasure_Count;
         EventManager.instance.Set_Width_Height_Event -= Set_Width_Height;
-        EventManager.instance.Set_Heart_Event -= Set_Heart;
+        EventManager.instance.Reduce_Heart_Event -= Reduce_Heart;
+        EventManager.instance.Heal_Heart_Event -= Heal_Heart;
+
         EventManager.instance.Item_Count_Change_Event -= Change_Item_Count;
         EventManager.instance.ItemPanelShow_Event -= ShowItemUsePanel;
 
@@ -365,7 +370,7 @@ public class InGameUI : MonoBehaviour
         textMeshProUGUI.color = standardColor;
     }
 
-    private void Set_Heart(int currentHeart, int maxHeart)
+    private void Reduce_Heart(int currentHeart, int maxHeart)
     {
         for(int i=0; i<maxHeart; i++)
         {
@@ -382,6 +387,23 @@ public class InGameUI : MonoBehaviour
         StartCoroutine(heartReducing(currentHeart));
     }
 
+    private void Heal_Heart(int currentHeart, int maxHeart)
+    {
+        for(int i=0; i<maxHeart; i++)
+        {
+            heartImages[i].sprite = heartEmpty;
+        }
+
+        for(int i=0; i<currentHeart-1; i++)
+        {
+            heartImages[i].sprite = heartFill;
+        }
+
+        if(StageManager.isNowInitializing) return;
+
+        StartCoroutine(heartHealing(currentHeart-1));
+    }
+
     IEnumerator heartReducing(int index)
     {
         float changeUnit = 0.1f;
@@ -392,6 +414,30 @@ public class InGameUI : MonoBehaviour
         }
         
         foreach(Sprite sprite in heartReducingAnimationSprite)
+        {
+            heartImages[index].sprite = sprite;
+            yield return new WaitForSeconds(0.05f);
+        }
+
+        for(int i=0; i< 5; i++)
+        {
+            heartImages[index].gameObject.transform.localScale = new Vector3(1 + (4 - i)* changeUnit,1 + (4 - i) * changeUnit,1);
+            yield return new WaitForSeconds(0.02f);
+        }
+
+        heartImages[index].gameObject.transform.localScale = Vector3.one;
+    }
+
+    IEnumerator heartHealing(int index)
+    {
+        float changeUnit = 0.1f;
+        for(int i=0; i< 5; i++)
+        {
+            heartImages[index].gameObject.transform.localScale = new Vector3(1 + i * changeUnit,1 + i * changeUnit,1);
+            yield return new WaitForSeconds(0.02f);
+        }
+        
+        foreach(Sprite sprite in heartReducingAnimationSprite.Reverse().ToArray())
         {
             heartImages[index].sprite = sprite;
             yield return new WaitForSeconds(0.05f);

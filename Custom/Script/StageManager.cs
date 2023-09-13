@@ -119,7 +119,7 @@ public class StageManager : MonoBehaviour, IStageManager
 
     bool potionEnable{
         get{
-            return potionCount > 0;
+            return potionCount > 0 && !TileGrid.CheckObstaclePosition(currentFocusPosition) && (currentHeart != maxHeart);
         }
     }
 
@@ -255,6 +255,11 @@ public class StageManager : MonoBehaviour, IStageManager
             break;
             case ItemUseType.Mag_Glass :
                 ChangeTotalToSeperate(currentFocusPosition);
+            break;
+            case ItemUseType.Potion :
+                potionCount--;
+                EventManager.instance.InvokeEvent(EventType.Item_Use, Item.Potion, potionCount);
+                HeartChange(1);
             break;
         }
     }
@@ -617,7 +622,7 @@ public class StageManager : MonoBehaviour, IStageManager
 
 
     [Button]
-    public void StageInitialize(int width = DefaultX ,  int height = DefaultY, Difficulty difficulty = Difficulty.Hard, int maxHeart = 9,  int currentHeart = 1, int potionCount = 5, int magGlassCount = 20, int holyWaterCount = 5, int totalTime = 10)
+    public void StageInitialize(int width = DefaultX ,  int height = DefaultY, Difficulty difficulty = Difficulty.Hard, int maxHeart = 9,  int currentHeart = 1, int potionCount = 5, int magGlassCount = 20, int holyWaterCount = 5, int totalTime = 300)
     {
         isNowInitializing = true;
 
@@ -646,7 +651,7 @@ public class StageManager : MonoBehaviour, IStageManager
 
         if(Application.isPlaying)
         {
-            EventManager.instance.InvokeEvent(EventType.Set_Heart, currentHeart, maxHeart);
+            EventManager.instance.Reduce_HeartInvokeEvent(currentHeart, maxHeart);
 
             EventManager.instance.InvokeEvent(EventType.Item_Obtain, Item.Potion, potionCount);
             EventManager.instance.InvokeEvent(EventType.Item_Obtain, Item.Mag_Glass, magGlassCount);
@@ -940,8 +945,16 @@ public class StageManager : MonoBehaviour, IStageManager
     {
         currentHeart += changeValue;
         if(currentHeart < 0) currentHeart = 0;
+        if(currentHeart > maxHeart) currentHeart = maxHeart;
 
-        EventManager.instance.InvokeEvent(EventType.Set_Heart, currentHeart, maxHeart);
+        if(changeValue <0)
+        {
+            EventManager.instance.Reduce_HeartInvokeEvent( currentHeart, maxHeart);
+        }else if(changeValue > 0)
+        {
+            EventManager.instance.Heal_HeartInvokeEvent( currentHeart, maxHeart);
+        }
+        
 
         if(currentHeart == 0)
         {
