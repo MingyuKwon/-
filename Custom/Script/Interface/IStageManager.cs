@@ -23,5 +23,5 @@ public enum Total_Mine_Treasure{
 
 public interface IStageManager
 {
-    public void StageInitialize(int width, int height, Difficulty difficulty, int maxHeart,  int currentHeart, int potionCount, int magGlassCount, int holyWaterCount, int totalTime);
+    public void DungeonInitialize(int width, int height, Difficulty difficulty, int maxHeart,  int currentHeart, int potionCount, int magGlassCount, int holyWaterCount, int totalTime);
 }

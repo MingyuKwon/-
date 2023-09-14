@@ -189,6 +189,8 @@ public class StageManager : MonoBehaviour, IStageManager
         {
             Debug.LogError("Youre now trying to reInstantiate StageManager while there is Original StageManager");
         }
+
+        isDungeon = false;
     }
 
     private void OnDestroy() {
@@ -198,10 +200,10 @@ public class StageManager : MonoBehaviour, IStageManager
     private void Start() {
         if(isDungeon)
         {
-            StageInitialize();
+            DungeonInitialize();
         }else
         {
-
+            RestPlaveInitialize();
         }
         
     }
@@ -237,7 +239,12 @@ public class StageManager : MonoBehaviour, IStageManager
         }else
         {
             if(isNowInputtingItem) return;
-            if(hasTrapInPosition(currentFocusPosition)) return;
+
+            if(isDungeon)
+            {
+                if(hasTrapInPosition(currentFocusPosition)) return;
+            }
+            
             InputManager.InputEvent.Invoke_Move(currentFocusPosition);
         }
     }
@@ -257,8 +264,13 @@ public class StageManager : MonoBehaviour, IStageManager
         if(EventSystem.current.IsPointerOverGameObject()) return;
 
         SetFocus();
-        SetPlayer_Overlay();
-        SetInteract_Ok();
+
+        if(isDungeon)
+        {
+            SetPlayer_Overlay();
+            SetInteract_Ok();
+        }
+        
         
     }
 
@@ -566,6 +578,7 @@ public class StageManager : MonoBehaviour, IStageManager
 
     private void ChangeTotalToSeperate(Vector3Int cellPos)
     {
+        if(!isDungeon) return;
         Vector3Int arrayPos = ChangeCellPosToArrayPos(cellPos);
         if(CheckHasObstacle(cellPos)) return; // 해당 위치에 장애물 타일이 있으면 그 자리에서 반환
         if(totalNumArray[arrayPos.y, arrayPos.x] == 0) return; // 만약 해당 위치가 0이어도 반환 (써도 의미가 없음)
@@ -659,9 +672,32 @@ public class StageManager : MonoBehaviour, IStageManager
         }
     }
 
+    public void RestPlaveInitialize(int maxHeart = 9,  int currentHeart = 1, int potionCount = 5, int magGlassCount = 20, int holyWaterCount = 5, int totalTime = 300)
+    {
+        isNowInitializing = true;
+
+        this.maxHeart = maxHeart;
+        this.currentHeart = currentHeart;
+        EventManager.instance.Reduce_HeartInvokeEvent(currentHeart, maxHeart);
+
+        this.potionCount = potionCount;
+        this.magGlassCount = magGlassCount;
+        this.holyWaterCount = holyWaterCount;
+        EventManager.instance.InvokeEvent(EventType.Item_Obtain, Item.Potion, potionCount);
+        EventManager.instance.InvokeEvent(EventType.Item_Obtain, Item.Mag_Glass, magGlassCount);
+        EventManager.instance.InvokeEvent(EventType.Item_Obtain, Item.Holy_Water, holyWaterCount);
+
+        this.totalTime = totalTime;
+        EventManager.instance.TimerInvokeEvent(0, totalTime);
+
+        isNowInitializing = false;
+        PlayerManager.instance.SetPlayerPositionStart();
+        
+    }
+
 
     [Button]
-    public void StageInitialize(int width = DefaultX ,  int height = DefaultY, Difficulty difficulty = Difficulty.Hard, int maxHeart = 9,  int currentHeart = 1, int potionCount = 5, int magGlassCount = 20, int holyWaterCount = 5, int totalTime = 300)
+    public void DungeonInitialize(int width = DefaultX ,  int height = DefaultY, Difficulty difficulty = Difficulty.Hard, int maxHeart = 9,  int currentHeart = 1, int potionCount = 5, int magGlassCount = 20, int holyWaterCount = 5, int totalTime = 300)
     {
         isNowInitializing = true;
 
@@ -688,14 +724,12 @@ public class StageManager : MonoBehaviour, IStageManager
         this.magGlassCount = magGlassCount;
         this.holyWaterCount = holyWaterCount;
 
-        if(Application.isPlaying)
-        {
-            EventManager.instance.Reduce_HeartInvokeEvent(currentHeart, maxHeart);
+        EventManager.instance.Reduce_HeartInvokeEvent(currentHeart, maxHeart);
 
-            EventManager.instance.InvokeEvent(EventType.Item_Obtain, Item.Potion, potionCount);
-            EventManager.instance.InvokeEvent(EventType.Item_Obtain, Item.Mag_Glass, magGlassCount);
-            EventManager.instance.InvokeEvent(EventType.Item_Obtain, Item.Holy_Water, holyWaterCount);
-        }
+        EventManager.instance.InvokeEvent(EventType.Item_Obtain, Item.Potion, potionCount);
+        EventManager.instance.InvokeEvent(EventType.Item_Obtain, Item.Mag_Glass, magGlassCount);
+        EventManager.instance.InvokeEvent(EventType.Item_Obtain, Item.Holy_Water, holyWaterCount);
+        
         
         MakeMineTreasureArray(width, height, difficulty);
 
@@ -966,13 +1000,15 @@ public class StageManager : MonoBehaviour, IStageManager
             timerCoroutine = null;
         }else
         {
-            StageInitialize();
+            DungeonInitialize();
             stageInputBlock =0;
         }
         
     }
 
-        public bool hasTrapInPosition(Vector3Int position){
+    public bool hasTrapInPosition(Vector3Int position){
+
+        if(!isDungeon) return false;
         
         Vector3Int arrayPos = ChangeCellPosToArrayPos(position);
         if(mineTreasureArray[arrayPos.y, arrayPos.x] == -1){
