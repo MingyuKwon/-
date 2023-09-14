@@ -10,6 +10,7 @@ using System.Collections;
 public class StageManager : MonoBehaviour, IStageManager
 {   
     public static StageManager instance;
+    public static bool isDungeon = true;
     const int DefaultX = 18;
     const int DefaultY = 12;
 
@@ -166,6 +167,20 @@ public class StageManager : MonoBehaviour, IStageManager
         }
     } 
 
+    public bool isNearFlag{
+        get{
+            // 상하좌우 4개 근처인지를 판단
+            return ((gapBetweenPlayerFocus.magnitude == 1 || gapBetweenPlayerFocus.magnitude == 0) && gapBetweenPlayerFocus != Vector3Int.forward) ? true : false; 
+        }
+    }
+
+    public bool interactOkflag{
+        get{
+            return (gapBetweenPlayerFocus == Vector3Int.zero) || (isNearFlag && TileGrid.CheckObstaclePosition(currentFocusPosition)); 
+        }
+    }
+             
+         
     private void Awake() {
         if(instance == null)
         {
@@ -181,7 +196,50 @@ public class StageManager : MonoBehaviour, IStageManager
     }
 
     private void Start() {
-        StageInitialize();
+        if(isDungeon)
+        {
+            StageInitialize();
+        }else
+        {
+
+        }
+        
+    }
+
+    public void ItemPanelShow(bool flag)
+    {
+        if(flag)
+        {
+            if(!isNowInputtingItem)
+            {
+                if(!interactOkflag) return;
+                isNowInputtingItem = true;
+                EventManager.instance.ItemPanelShow_Invoke_Event(currentFocusPosition, true, holyWaterEnable, TileGrid.CheckObstaclePosition(currentFocusPosition), magGlassEnable , potionEnable);
+            }
+        }else
+        {
+            if(isNowInputtingItem)
+            {
+                isNowInputtingItem = false;
+                EventManager.instance.ItemPanelShow_Invoke_Event(currentFocusPosition, false);
+            }
+        }
+    }
+
+    public void MoveOrShovel()
+    {
+        if(CheckHasObstacle(currentFocusPosition))
+        {
+            if(!isNearFlag) return;
+            if(isNowInputtingItem) return;
+            EventManager.instance.ItemUse_Invoke_Event(ItemUseType.Shovel, gapBetweenPlayerFocus);
+            RemoveObstacle(currentFocusPosition);
+        }else
+        {
+            if(isNowInputtingItem) return;
+            if(hasTrapInPosition(currentFocusPosition)) return;
+            InputManager.InputEvent.Invoke_Move(currentFocusPosition);
+        }
     }
 
     private void Update() {
@@ -196,58 +254,12 @@ public class StageManager : MonoBehaviour, IStageManager
         tmp.text = "OK";
         tmp.color = Color.green;
 
-        bool input2Ok = false;
-
-        if(Input.GetMouseButtonDown(2))
-        {
-            if(isNowInputtingItem)
-            {
-                isNowInputtingItem = false;
-                input2Ok = true;
-                EventManager.instance.ItemPanelShow_Invoke_Event(currentFocusPosition, false);
-            }
-        }
-
         if(EventSystem.current.IsPointerOverGameObject()) return;
 
         SetFocus();
         SetPlayer_Overlay();
         SetInteract_Ok();
-
-        bool isNearFlag = ((gapBetweenPlayerFocus.magnitude == 1 || gapBetweenPlayerFocus.magnitude == 0) && gapBetweenPlayerFocus != Vector3Int.forward) ? true : false; // 상하좌우 4개 근처인지를 판단
-        bool interactOkflag = (gapBetweenPlayerFocus == Vector3Int.zero) || (isNearFlag && TileGrid.CheckObstaclePosition(currentFocusPosition));
-
-        if(Input.GetMouseButtonDown(0))
-        {
-            if(CheckHasObstacle(currentFocusPosition))
-            {
-                if(!isNearFlag) return;
-                if(isNowInputtingItem) return;
-                EventManager.instance.ItemUse_Invoke_Event(ItemUseType.Shovel, gapBetweenPlayerFocus);
-                RemoveObstacle(currentFocusPosition);
-            }else
-            {
-                if(isNowInputtingItem) return;
-                if(hasTrapInPosition(currentFocusPosition)) return;
-                InputManager.InputEvent.Invoke_Move(currentFocusPosition);
-            }
-            
-        }
         
-        if(Input.GetMouseButtonDown(1))
-        {
-            SetFlag(currentFocusPosition);
-        }else if(Input.GetMouseButtonDown(2) )
-        {
-            if(input2Ok) return;
-
-            if(!isNowInputtingItem)
-            {
-                if(!interactOkflag) return;
-                isNowInputtingItem = true;
-                EventManager.instance.ItemPanelShow_Invoke_Event(currentFocusPosition, true, holyWaterEnable, TileGrid.CheckObstaclePosition(currentFocusPosition), magGlassEnable , potionEnable);
-            }
-        }
     }
 
     private void OnEnable() {
@@ -566,6 +578,11 @@ public class StageManager : MonoBehaviour, IStageManager
         SetPlayer_Overlay(true);
         grid.UpdateSeperateNum(mineNumArray, treasureNumArray, cellPos);
 
+    }
+
+    public void SetFlag()
+    {
+        SetFlag(currentFocusPosition);
     }
 
     private void SetFlag(Vector3Int cellPos, bool forceful = false)

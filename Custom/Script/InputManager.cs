@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Rewired;
 using System;
+using UnityEngine.EventSystems;
 
 public enum IngameInputHardWare
 {
@@ -165,6 +166,40 @@ public class InputManager : MonoBehaviour
                 changePlayerInputRule(1);
                 break;
         }
+    }
+
+    private void Update() {
+        if(StageManager.isStageInputBlocked) return;
+
+        bool input2Ok = false;
+
+        if(Input.GetMouseButtonDown(2))
+        {
+            if(StageManager.isNowInputtingItem)
+            {
+                input2Ok = true;
+                StageManager.instance.ItemPanelShow(false);
+            }
+            
+        }
+
+        if(EventSystem.current.IsPointerOverGameObject()) return;
+
+        if(Input.GetMouseButtonDown(0))
+        {
+            StageManager.instance.MoveOrShovel();
+        }
+
+        if(Input.GetMouseButtonDown(1))
+        {
+            StageManager.instance.SetFlag();
+        }else if(Input.GetMouseButtonDown(2) )
+        {
+            if(input2Ok) return;
+
+            StageManager.instance.ItemPanelShow(true);
+        }
+
     }
 
     private void OnEnable() {

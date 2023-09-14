@@ -9,6 +9,7 @@ using UnityEngine.UI;
 
 public class InGameUI : MonoBehaviour
 {
+    static public InGameUI instance;
     #region Serialize
     [Header("Texts")]
     public TextMeshProUGUI width;
@@ -67,6 +68,15 @@ public class InGameUI : MonoBehaviour
     }
 
     private void Awake() {
+        if(instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }else
+        {
+            Destroy(this.gameObject);
+        }
+        
         for(int i=0; i<3; i++)
         {
             for(int j=0; j<3; j++)
