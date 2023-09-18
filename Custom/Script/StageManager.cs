@@ -15,6 +15,8 @@ public class StageManager : MonoBehaviour, IStageManager
 
         public static Difficulty difficulty = Difficulty.Hard;
 
+        public static Vector3Int treasurePosition = new Vector3Int(-4,-1,0);
+
         public static int NextWidth = -1;  
         public static int NextHeight = -1;  
 
@@ -67,6 +69,8 @@ public class StageManager : MonoBehaviour, IStageManager
     private float hardMineRatio = 0.23f;
     private float professionalMineRatio = 0.28f;
     private float mineToTreasureRatio = 0.4f;
+
+    Vector3Int BigTreasurePosition;
 
     int startX = -1;
     int startY = -1;
@@ -235,7 +239,7 @@ public class StageManager : MonoBehaviour, IStageManager
             
         }else
         {
-            RestPlaceInitialize(StageSaveManager.NextmaxHeart, StageSaveManager.NextcurrentHeart, StageSaveManager.NextpotionCount, StageSaveManager. NextmagGlassCount, StageSaveManager. NextholyWaterCount, StageSaveManager. NexttotalTime);
+            RestPlaceInitialize(StageSaveManager.treasurePosition, StageSaveManager.NextmaxHeart, StageSaveManager.NextcurrentHeart, StageSaveManager.NextpotionCount, StageSaveManager. NextmagGlassCount, StageSaveManager. NextholyWaterCount, StageSaveManager. NexttotalTime);
         }
         
     }
@@ -260,14 +264,21 @@ public class StageManager : MonoBehaviour, IStageManager
         }
     }
 
-    public void MoveOrShovel()
+    public void MoveOrShovelOrInteract()
     {
-        if(CheckHasObstacle(currentFocusPosition))
+        if(TileGrid.CheckObstaclePosition(currentFocusPosition))
         {
             if(!isNearFlag) return;
             if(isNowInputtingItem) return;
-            EventManager.instance.ItemUse_Invoke_Event(ItemUseType.Shovel, gapBetweenPlayerFocus);
-            RemoveObstacle(currentFocusPosition);
+            if(isDungeon)
+            {
+                EventManager.instance.ItemUse_Invoke_Event(ItemUseType.Shovel, gapBetweenPlayerFocus);
+                RemoveObstacle(currentFocusPosition);            
+            }else
+            {
+                if(BigTreasurePosition == currentFocusPosition) EventManager.instance.ObtainBigItem_Invoke_Event();
+            }
+
         }else
         {
             if(isNowInputtingItem) return;
@@ -705,9 +716,10 @@ public class StageManager : MonoBehaviour, IStageManager
         }
     }
 
-    public void RestPlaceInitialize(int maxHeart = 9,  int currentHeart = 1, int potionCount = 5, int magGlassCount = 20, int holyWaterCount = 5, int totalTime = 300)
+    public void RestPlaceInitialize(Vector3Int treasurePosition, int maxHeart = 9,  int currentHeart = 1, int potionCount = 5, int magGlassCount = 20, int holyWaterCount = 5, int totalTime = 300)
     {
         isDungeon = StageSaveManager.isnextStageDungeon;
+        BigTreasurePosition = treasurePosition;
 
         isNowInitializing = true;
 

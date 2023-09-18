@@ -82,6 +82,13 @@ public class EventManager : MonoBehaviour
         ItemUseEvent.Invoke(itemUseType, itemUseDirection);
     }
 
+    public Action ObtainBigItemEvent;
+    public void ObtainBigItem_Invoke_Event()
+    {
+        Debug.Log("ObtainBigItem_Invoke_Event");
+        ObtainBigItemEvent.Invoke();
+    }
+
     #endregion
 
 

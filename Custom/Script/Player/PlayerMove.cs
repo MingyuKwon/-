@@ -14,6 +14,7 @@ public class PlayerMove : MonoBehaviour
 
     private void MovePlayer(Vector3Int cellPosition)
     {
+        if(TileGrid.CheckObstaclePosition(cellPosition)) return;
         Vector3Int gap = PlayerManager.instance.checkPlayerNearFourDirection(cellPosition);
 
         if(gap == Vector3Int.zero) return;

@@ -187,7 +187,7 @@ public class InputManager : MonoBehaviour
 
         if(Input.GetMouseButtonDown(0))
         {
-            StageManager.instance.MoveOrShovel();
+            StageManager.instance.MoveOrShovelOrInteract();
         }
 
         if(Input.GetMouseButtonDown(1))

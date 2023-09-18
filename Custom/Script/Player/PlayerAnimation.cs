@@ -14,10 +14,6 @@ public class PlayerAnimation : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
-    private void Update() {
-        CheckRotate();
-    }
-
     private void OnEnable() {
         EventManager.instance.ItemUseEvent += UseItemAnimation;
     }
