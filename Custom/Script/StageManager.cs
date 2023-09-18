@@ -733,10 +733,7 @@ public class StageManager : MonoBehaviour, IStageManager
         StageSaveManager.NextpotionCount = -1; 
         StageSaveManager. NextmagGlassCount = -1; 
         StageSaveManager. NextholyWaterCount = -1;
-        StageSaveManager. NexttotalTime = -1;
-
-        Debug.Log("RestPlaceInitialize");
-        
+        StageSaveManager. NexttotalTime = -1;        
     }
 
 
@@ -1016,25 +1013,6 @@ public class StageManager : MonoBehaviour, IStageManager
 
             
         }
-
-        // String str = "";
-        // for(int i=0; i< height; i++)
-        // {
-        //     for(int j=0; j< width; j++)
-        //     {
-        //         str += mineTreasureArray[i, j].ToString();
-        //         str += "  ";
-        //     }
-
-        //     str += "\n";
-        // }
-
-        // str += "\nmineCount : " + mineCount;
-        // str += "\ntreasureCount : " + treasureCount;
-
-
-        // Debug.Log(str);
-
     }
 
     private void GameOver(bool isGameOver, GameOver_Reason reason)
@@ -1064,7 +1042,6 @@ public class StageManager : MonoBehaviour, IStageManager
         if(!isDungeon) return false;
         
         Vector3Int arrayPos = ChangeCellPosToArrayPos(position);
-        Debug.Log("hasTrapInPosition : " + gameObject.GetHashCode());
         if(mineTreasureArray[arrayPos.y, arrayPos.x] == -1){
             return true;
         }else

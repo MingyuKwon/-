@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class WARP : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D other) {
-        SceneManager.LoadScene("Cave Rest");
-        StageManager.isNowInitializing = true;
+        SceneManager.LoadScene("Loading");
+        LoadingInformation.loadingSceneName = "Cave Rest";
     }
 }
