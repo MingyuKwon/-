@@ -28,6 +28,7 @@ public enum Item {
     Potion = 1,
     Mag_Glass = 2,
     Holy_Water = 3,
+    Heart_Container = 4,
 }
 
 public enum ItemUseType {
@@ -85,7 +86,6 @@ public class EventManager : MonoBehaviour
     public Action ObtainBigItemEvent;
     public void ObtainBigItem_Invoke_Event()
     {
-        Debug.Log("ObtainBigItem_Invoke_Event");
         ObtainBigItemEvent.Invoke();
     }
 

@@ -249,8 +249,6 @@ public class InGameUI : MonoBehaviour
             flag = true;
         }
 
-        Debug.Log(eventType + " " +  usableItem + " " + count);
-
         switch(usableItem)
         {
             case Item.Potion :

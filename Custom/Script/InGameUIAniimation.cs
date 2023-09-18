@@ -16,11 +16,14 @@ public class InGameUIAniimation : MonoBehaviour
     private void OnEnable() {
         EventManager.instance.Set_UI_Filter_Event += Set_UI_Filter;
         EventManager.instance.Game_Over_Event += GameOverAnimation;
+        EventManager.instance.ObtainBigItemEvent += Set_BIG_ITEM_UI_Filter;
+
     }
 
     private void OnDisable() {
         EventManager.instance.Set_UI_Filter_Event -= Set_UI_Filter;
         EventManager.instance.Game_Over_Event -= GameOverAnimation;
+        EventManager.instance.ObtainBigItemEvent -= Set_BIG_ITEM_UI_Filter;
     }
 
     bool isShowingMinimap = false;
@@ -120,6 +123,12 @@ public class InGameUIAniimation : MonoBehaviour
             animator.SetTrigger("CloseItemPanel");
         }
         
+    }
+
+    private void Set_BIG_ITEM_UI_Filter()
+    {
+        SetItem_Use_Obtain_Flag(Item.Heart_Container);
+        animator.SetTrigger("Big Treasure Find");
     }
 
 

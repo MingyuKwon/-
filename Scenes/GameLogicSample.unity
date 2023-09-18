@@ -1147,6 +1147,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: InGameStageUI
       objectReference: {fileID: 0}
+    - target: {fileID: 3429522036412058242, guid: 3905f62a3aec3c84aab1f50bce86bf71, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3429522036412058246, guid: 3905f62a3aec3c84aab1f50bce86bf71, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -1230,6 +1234,30 @@ PrefabInstance:
     - target: {fileID: 3429522036412058246, guid: 3905f62a3aec3c84aab1f50bce86bf71, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3429522036537624784, guid: 3905f62a3aec3c84aab1f50bce86bf71, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3429522036537624790, guid: 3905f62a3aec3c84aab1f50bce86bf71, type: 3}
+      propertyPath: m_Color.a
+      value: 0.47058824
+      objectReference: {fileID: 0}
+    - target: {fileID: 3429522036872188476, guid: 3905f62a3aec3c84aab1f50bce86bf71, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 3429522036872188476, guid: 3905f62a3aec3c84aab1f50bce86bf71, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 220
+      objectReference: {fileID: 0}
+    - target: {fileID: 3429522037183980932, guid: 3905f62a3aec3c84aab1f50bce86bf71, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 3429522037183980932, guid: 3905f62a3aec3c84aab1f50bce86bf71, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 3429522037706338983, guid: 3905f62a3aec3c84aab1f50bce86bf71, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
