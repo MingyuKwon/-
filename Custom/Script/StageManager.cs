@@ -9,6 +9,23 @@ using System.Collections;
 
 public class StageManager : MonoBehaviour, IStageManager
 {   
+    public class StageSaveManager
+    {
+        public static bool isnextStageDungeon = true;
+
+        public static Difficulty difficulty = Difficulty.Hard;
+
+        public static int NextWidth = -1;  
+        public static int NextHeight = -1;  
+
+        public static int NextmaxHeart = -1;  
+        public static int NextcurrentHeart = -1; 
+        public static int NextpotionCount = -1; 
+        public static int NextmagGlassCount = -1; 
+        public static int NextholyWaterCount = -1;
+        public static int NexttotalTime = -1;
+    }
+
     public static StageManager instance;
     public static bool isDungeon = true;
     const int DefaultX = 18;
@@ -190,20 +207,35 @@ public class StageManager : MonoBehaviour, IStageManager
             Debug.LogError("Youre now trying to reInstantiate StageManager while there is Original StageManager");
         }
 
-        isDungeon = false;
     }
 
     private void OnDestroy() {
         instance = null;
+
+        StageSaveManager.isnextStageDungeon = !StageSaveManager.isnextStageDungeon;
+
+        StageSaveManager.NextmaxHeart = maxHeart;  
+        StageSaveManager.NextcurrentHeart = currentHeart; 
+        StageSaveManager.NextpotionCount = potionCount; 
+        StageSaveManager. NextmagGlassCount = magGlassCount; 
+        StageSaveManager. NextholyWaterCount = holyWaterCount;
+        StageSaveManager. NexttotalTime = totalTime;
     }
 
     private void Start() {
-        if(isDungeon)
+        if(StageSaveManager.isnextStageDungeon)
         {
-            DungeonInitialize();
+            if(StageSaveManager.NextmaxHeart == -1)
+            {
+                DungeonInitialize();
+            }else
+            {
+                DungeonInitialize(StageSaveManager.NextWidth, StageSaveManager.NextHeight ,StageSaveManager.difficulty ,StageSaveManager.NextmaxHeart, StageSaveManager.NextcurrentHeart, StageSaveManager.NextpotionCount, StageSaveManager. NextmagGlassCount, StageSaveManager. NextholyWaterCount, StageSaveManager. NexttotalTime);
+            }
+            
         }else
         {
-            RestPlaveInitialize();
+            RestPlaceInitialize(StageSaveManager.NextmaxHeart, StageSaveManager.NextcurrentHeart, StageSaveManager.NextpotionCount, StageSaveManager. NextmagGlassCount, StageSaveManager. NextholyWaterCount, StageSaveManager. NexttotalTime);
         }
         
     }
@@ -334,7 +366,7 @@ public class StageManager : MonoBehaviour, IStageManager
        {
             InteractPosition2[0] = playerPosition + iterateMap[0];
 
-            for(int i=1; i<5; i++)
+            for(int i=1; i<5; i++)  
             {
                 if(grid.obstacleTilemap.HasTile(playerPosition + iterateMap[i]))
                 {
@@ -364,6 +396,7 @@ public class StageManager : MonoBehaviour, IStageManager
         grid.ShowOverlayNum(currentPlayerPosition,false, true);
 
         currentPlayerPosition = playerPosition;
+
 
         if(totalNumMask[arrayPos.y, arrayPos.x]) // 만약 돋보기를 쓴 경우
         {
@@ -672,8 +705,10 @@ public class StageManager : MonoBehaviour, IStageManager
         }
     }
 
-    public void RestPlaveInitialize(int maxHeart = 9,  int currentHeart = 1, int potionCount = 5, int magGlassCount = 20, int holyWaterCount = 5, int totalTime = 300)
+    public void RestPlaceInitialize(int maxHeart = 9,  int currentHeart = 1, int potionCount = 5, int magGlassCount = 20, int holyWaterCount = 5, int totalTime = 300)
     {
+        isDungeon = StageSaveManager.isnextStageDungeon;
+
         isNowInitializing = true;
 
         this.maxHeart = maxHeart;
@@ -692,6 +727,15 @@ public class StageManager : MonoBehaviour, IStageManager
 
         isNowInitializing = false;
         PlayerManager.instance.SetPlayerPositionStart();
+
+        StageSaveManager.NextmaxHeart = -1;  
+        StageSaveManager.NextcurrentHeart = -1; 
+        StageSaveManager.NextpotionCount = -1; 
+        StageSaveManager. NextmagGlassCount = -1; 
+        StageSaveManager. NextholyWaterCount = -1;
+        StageSaveManager. NexttotalTime = -1;
+
+        Debug.Log("RestPlaceInitialize");
         
     }
 
@@ -699,6 +743,8 @@ public class StageManager : MonoBehaviour, IStageManager
     [Button]
     public void DungeonInitialize(int width = DefaultX ,  int height = DefaultY, Difficulty difficulty = Difficulty.Hard, int maxHeart = 9,  int currentHeart = 1, int potionCount = 5, int magGlassCount = 20, int holyWaterCount = 5, int totalTime = 300)
     {
+        isDungeon = StageSaveManager.isnextStageDungeon;
+
         isNowInitializing = true;
 
         totalNumArray = null;
@@ -751,6 +797,13 @@ public class StageManager : MonoBehaviour, IStageManager
         PlayerManager.instance.SetPlayerPositionStart();
 
         isNowInitializing = false;
+
+        StageSaveManager.NextmaxHeart = -1;  
+        StageSaveManager.NextcurrentHeart = -1; 
+        StageSaveManager.NextpotionCount = -1; 
+        StageSaveManager. NextmagGlassCount = -1; 
+        StageSaveManager. NextholyWaterCount = -1;
+        StageSaveManager. NexttotalTime = -1;
     }
 
     IEnumerator StartTimer(int totalTime)
@@ -1011,6 +1064,7 @@ public class StageManager : MonoBehaviour, IStageManager
         if(!isDungeon) return false;
         
         Vector3Int arrayPos = ChangeCellPosToArrayPos(position);
+        Debug.Log("hasTrapInPosition : " + gameObject.GetHashCode());
         if(mineTreasureArray[arrayPos.y, arrayPos.x] == -1){
             return true;
         }else
