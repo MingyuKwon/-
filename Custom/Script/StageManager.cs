@@ -228,7 +228,7 @@ public class StageManager : MonoBehaviour, IStageManager
         StageSaveManager.NextpotionCount = potionCount; 
         StageSaveManager. NextmagGlassCount = magGlassCount; 
         StageSaveManager. NextholyWaterCount = holyWaterCount;
-        StageSaveManager. NexttotalTime = totalTime;
+        StageSaveManager. NexttotalTime = timeLeft;
     }
 
     private void Start() {
@@ -281,7 +281,11 @@ public class StageManager : MonoBehaviour, IStageManager
                 RemoveObstacle(currentFocusPosition);            
             }else
             {
-                if(BigTreasurePosition == currentFocusPosition) EventManager.instance.ObtainBigItem_Invoke_Event();
+                if(BigTreasurePosition == currentFocusPosition) 
+                {
+                    EventManager.instance.ObtainBigItem_Invoke_Event();
+                }
+                
             }
 
         }else

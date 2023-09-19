@@ -28,25 +28,24 @@ public enum Item {
     Potion = 1,
     Mag_Glass = 2,
     Holy_Water = 3,
-    Heart_Container = 4,
 
-    Potion_Plus = 5,
+    Potion_Plus = 4,
 
-    Glass_Plus = 6,
+    Glass_Plus =5,
 
-    Water_Plus = 7,
+    Water_Plus = 6,
 
-    Potion_PercentageUP = 8,
+    Potion_PercentageUP = 7,
 
-    Glass_PercentageUP = 9,
+    Glass_PercentageUP = 8,
 
-    Water_PercentageUP = 10,
+    Water_PercentageUP = 9,
 
-    ALL_PercentageUP = 11,
+    ALL_PercentageUP = 10,
 
-    Time_Plus = 12,
+    Time_Plus = 11,
 
-    Heart_UP = 13,
+    Heart_UP = 12,
 }
 
 public enum ItemUseType {
@@ -55,6 +54,19 @@ public enum ItemUseType {
     Mag_Glass = 2,
     Holy_Water = 0,
     Crash = 1,
+}
+
+public class EquippedItem
+{
+    public static Item[] playerEquippedItem = new Item[5] {Item.None,Item.None,Item.None,Item.None,Item.None };
+
+    public static Item nextObtainItem = Item.None;
+
+    public static void SetNextEquippedItem()
+    {
+        nextObtainItem = (Item)UnityEngine.Random.Range(4, 13);
+    }
+
 }
 
 public class EventManager : MonoBehaviour
@@ -104,6 +116,7 @@ public class EventManager : MonoBehaviour
     public Action ObtainBigItemEvent;
     public void ObtainBigItem_Invoke_Event()
     {
+        EquippedItem.SetNextEquippedItem();
         ObtainBigItemEvent.Invoke();
     }
 
