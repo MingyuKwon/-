@@ -67,6 +67,26 @@ public class EquippedItem
         nextObtainItem = (Item)UnityEngine.Random.Range(4, 13);
     }
 
+    public static void ObtainNextEquippedItem()
+    {
+        if(equippedItemCount == playerEquippedItem.Length) Debug.LogError("Count is Bigger than Box Size");
+
+        playerEquippedItem[equippedItemCount] = nextObtainItem;
+        nextObtainItem = Item.None;
+    }
+
+    public static int equippedItemCount{
+        get{
+            int i=0;
+            for(; i<playerEquippedItem.Length; i++)
+            {
+                if(playerEquippedItem[i] == Item.None) break;
+            }
+
+            return i;
+        }
+    }
+
 }
 
 public class EventManager : MonoBehaviour
@@ -118,6 +138,14 @@ public class EventManager : MonoBehaviour
     {
         EquippedItem.SetNextEquippedItem();
         ObtainBigItemEvent.Invoke();
+        EquippedItem.ObtainNextEquippedItem();
+        UpdateMenuPanel_Invoke_Event();
+    }
+
+    public Action UpdateMenuPanelEvent;
+    public void UpdateMenuPanel_Invoke_Event()
+    {
+        UpdateMenuPanelEvent.Invoke();
     }
 
     #endregion

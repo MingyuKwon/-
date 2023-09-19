@@ -39,6 +39,13 @@ public class InGameUI : MonoBehaviour
     public RectTransform[] heartPanels; 
 
     [Space]
+    [Header("Equipped Panel")]
+    public Sprite[] EquippedItemSprites;
+    public Image[] EquippedItemImages;
+    public TextMeshProUGUI[] EquippedItemTexts;
+
+
+    [Space]
     [Header("Transforms")]
     float blackBoxMaxSize = 86f;
     public RectTransform SandClockTrans;
@@ -107,6 +114,8 @@ public class InGameUI : MonoBehaviour
         EventManager.instance.ItemPanelShow_Event += ShowItemUsePanel;
 
         EventManager.instance.timerEvent += SetTimeTexts;
+
+        EventManager.instance.UpdateMenuPanelEvent += UpdateMenuPanel;
     }
 
     private void OnDisable() {
@@ -119,6 +128,7 @@ public class InGameUI : MonoBehaviour
         EventManager.instance.ItemPanelShow_Event -= ShowItemUsePanel;
 
         EventManager.instance.timerEvent -= SetTimeTexts;
+        EventManager.instance.UpdateMenuPanelEvent -= UpdateMenuPanel;
     }
 
     public Vector2 WorldToCanvasPosition(Vector3 worldPosition)
@@ -336,6 +346,22 @@ public class InGameUI : MonoBehaviour
                 treasureCount.text = count.ToString();
                 StartCoroutine(changeTextColorShortly(treasureCount, Color.yellow, Color.white));
                 break;
+        }
+    }
+
+    [Button]
+    private void UpdateMenuPanel()
+    {
+        for(int i=0; i<5; i++)
+        {
+            EquippedItemImages[i].sprite = EquippedItemSprites[0];
+            EquippedItemTexts[i].text = "";
+        }
+
+        for(int i=0; i<EquippedItem.equippedItemCount; i++)
+        {
+            EquippedItemImages[i].sprite = EquippedItemSprites[(int)EquippedItem.playerEquippedItem[i] - 4 + 1];
+            EquippedItemTexts[i].text = "";
         }
     }
 

@@ -127,7 +127,13 @@ public class InGameUIAniimation : MonoBehaviour
 
     private void Set_BIG_ITEM_UI_Filter()
     {
-        SetItem_Use_Obtain_Flag(EquippedItem.nextObtainItem);
+        if(EquippedItem.nextObtainItem == Item.None)
+        {
+            Debug.LogError("Item.None is Obtained");
+        }else{
+            SetItem_Use_Obtain_Flag(EquippedItem.nextObtainItem);
+        }
+        
         animator.SetTrigger("Big Treasure Find");
     }
 

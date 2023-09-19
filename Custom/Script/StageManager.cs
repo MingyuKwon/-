@@ -283,6 +283,7 @@ public class StageManager : MonoBehaviour, IStageManager
             {
                 if(BigTreasurePosition == currentFocusPosition) 
                 {
+                    BigTreasurePosition = Vector3Int.forward;
                     EventManager.instance.ObtainBigItem_Invoke_Event();
                 }
                 

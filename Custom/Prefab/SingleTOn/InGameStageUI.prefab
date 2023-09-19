@@ -2794,6 +2794,16 @@ MonoBehaviour:
   - {fileID: 3429522036092435045}
   - {fileID: 3429522037265365650}
   - {fileID: 3429522035901831319}
+  EquippedItemSprites:
+  - {fileID: 737739311, guid: 95d873b2338fd1641b472b89f6d465d3, type: 3}
+  - {fileID: 72588465, guid: 95d873b2338fd1641b472b89f6d465d3, type: 3}
+  - {fileID: -996523702, guid: 95d873b2338fd1641b472b89f6d465d3, type: 3}
+  - {fileID: 620448876, guid: 95d873b2338fd1641b472b89f6d465d3, type: 3}
+  - {fileID: -704523093, guid: 95d873b2338fd1641b472b89f6d465d3, type: 3}
+  - {fileID: 1589239496, guid: 95d873b2338fd1641b472b89f6d465d3, type: 3}
+  - {fileID: 639831912, guid: 95d873b2338fd1641b472b89f6d465d3, type: 3}
+  - {fileID: -23239103, guid: 95d873b2338fd1641b472b89f6d465d3, type: 3}
+  - {fileID: 643601561, guid: 95d873b2338fd1641b472b89f6d465d3, type: 3}
   SandClockTrans: {fileID: 3429522037756491624}
   upClockBlackBox: {fileID: 3429522036332294565}
   downClockBlackBox: {fileID: 3429522037070844174}
@@ -4601,7 +4611,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 100, y: 220}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3429522036872188866
 CanvasRenderer:
