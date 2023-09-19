@@ -3,7 +3,7 @@ guid: 9e0d88770e70fa248828953c61c6e351
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -63,6 +63,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -2601,9 +2602,9 @@ TextureImporter:
       FDR_Caves_Animated_81: -1757047092
       FDR_Caves_Animated_32: -1456483272
       FDR_Caves_Animated_14: -1112023769
-      FDR_Caves_Animated_41: 796584492
       FDR_Caves_Animated_100: -881312008
       FDR_Caves_Animated_21: -404341913
+      FDR_Caves_Animated_41: 796584492
       FDR_Caves_Animated_58: 1270961617
       FDR_Caves_Animated_54: 642103766
       FDR_Caves_Animated_18: -1018001187
