@@ -1,13 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine;
 
-public class WARP : MonoBehaviour
+public class Dungeon_Start : MonoBehaviour
 {
     public string loadSceneName;
-    private void OnTriggerEnter2D(Collider2D other) {
+
+    void Start()
+    {
+        StageManager.StageSaveManager.isnextStageDungeon = true;
+
         SceneManager.LoadScene("Loading");
         LoadingInformation.loadingSceneName = loadSceneName;
     }
+
 }

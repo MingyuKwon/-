@@ -29,6 +29,24 @@ public enum Item {
     Mag_Glass = 2,
     Holy_Water = 3,
     Heart_Container = 4,
+
+    Potion_Plus = 5,
+
+    Glass_Plus = 6,
+
+    Water_Plus = 7,
+
+    Potion_PercentageUP = 8,
+
+    Glass_PercentageUP = 9,
+
+    Water_PercentageUP = 10,
+
+    ALL_PercentageUP = 11,
+
+    Time_Plus = 12,
+
+    Heart_UP = 13,
 }
 
 public enum ItemUseType {

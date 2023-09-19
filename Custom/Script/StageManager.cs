@@ -7,6 +7,7 @@ using TMPro;
 using UnityEngine.EventSystems;
 using System.Collections;
 
+
 public class StageManager : MonoBehaviour, IStageManager
 {   
     public class StageSaveManager
@@ -218,6 +219,10 @@ public class StageManager : MonoBehaviour, IStageManager
 
         StageSaveManager.isnextStageDungeon = !StageSaveManager.isnextStageDungeon;
 
+        StageSaveManager.NextWidth = 30;
+        StageSaveManager.NextHeight = 16;
+
+
         StageSaveManager.NextmaxHeart = maxHeart;  
         StageSaveManager.NextcurrentHeart = currentHeart; 
         StageSaveManager.NextpotionCount = potionCount; 
@@ -305,6 +310,7 @@ public class StageManager : MonoBehaviour, IStageManager
         tmp.color = Color.green;
 
         if(EventSystem.current.IsPointerOverGameObject()) return;
+        if(isNowInitializing) return;
 
         SetFocus();
 
