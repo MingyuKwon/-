@@ -284,6 +284,8 @@ public class StageManager : MonoBehaviour, IStageManager
                 if(BigTreasurePosition == currentFocusPosition) 
                 {
                     BigTreasurePosition = Vector3Int.forward;
+                    EquippedItem.SetNextEquippedItem();
+                    if(EquippedItem.nextObtainItem == Item.Heart_UP) MaxHeartUP();
                     EventManager.instance.ObtainBigItem_Invoke_Event();
                 }
                 
@@ -777,7 +779,7 @@ public class StageManager : MonoBehaviour, IStageManager
 
 
     [Button]
-    public void DungeonInitialize(int width = DefaultX ,  int height = DefaultY, Difficulty difficulty = Difficulty.Hard, int maxHeart = 9,  int currentHeart = 1, int potionCount = 5, int magGlassCount = 20, int holyWaterCount = 5, int totalTime = 300)
+    public void DungeonInitialize(int width = DefaultX ,  int height = DefaultY, Difficulty difficulty = Difficulty.Hard, int maxHeart = 3,  int currentHeart = 2, int potionCount = 5, int magGlassCount = 20, int holyWaterCount = 5, int totalTime = 300)
     {
         isDungeon = StageSaveManager.isnextStageDungeon;
 
@@ -1097,6 +1099,15 @@ public class StageManager : MonoBehaviour, IStageManager
         EventManager.instance.InvokeEvent(EventType.Game_Restart);
     }
 
+    private void MaxHeartUP()
+    {
+        if(maxHeart == 9) return;
+
+        maxHeart += 3;
+        currentHeart += 3;
+        EventManager.instance.Heal_HeartInvokeEvent( currentHeart, maxHeart, true);
+
+    }
     private void HeartChange(int changeValue)
     {
         currentHeart += changeValue;

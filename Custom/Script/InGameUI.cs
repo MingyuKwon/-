@@ -425,21 +425,47 @@ public class InGameUI : MonoBehaviour
         StartCoroutine(heartReducing(currentHeart));
     }
 
-    private void Heal_Heart(int currentHeart, int maxHeart)
+    private void Heal_Heart(int currentHeart, int maxHeart, bool isMaxUP)
     {
         for(int i=0; i<maxHeart; i++)
         {
             heartImages[i].sprite = heartEmpty;
         }
 
-        for(int i=0; i<currentHeart-1; i++)
+        if(isMaxUP)
         {
-            heartImages[i].sprite = heartFill;
+            for(int i=0; i<currentHeart-3; i++)
+            {
+                heartImages[i].sprite = heartFill;
+            }
+
+        }else
+        {
+            for(int i=0; i<currentHeart-1; i++)
+            {
+                heartImages[i].sprite = heartFill;
+            }
         }
+
+        
 
         if(StageManager.isNowInitializing) return;
 
-        StartCoroutine(heartHealing(currentHeart-1));
+        if(isMaxUP)
+        {
+            StartCoroutine(hearMaxUP(currentHeart-1));
+        }else
+        {
+            StartCoroutine(heartHealing(currentHeart-1));
+        }
+        
+    }
+
+    IEnumerator hearMaxUP(int index)
+    {
+        yield return StartCoroutine(heartHealing(index-2));
+        yield return StartCoroutine(heartHealing(index-1));
+        yield return StartCoroutine(heartHealing(index));
     }
 
     IEnumerator heartReducing(int index)

@@ -63,7 +63,8 @@ public class EquippedItem
 
     public static void SetNextEquippedItem()
     {
-        nextObtainItem = (Item)UnityEngine.Random.Range(4, 13);
+        nextObtainItem = Item.Heart_UP;
+        //nextObtainItem = (Item)UnityEngine.Random.Range(4, 13);
     }
 
     public static void ObtainNextEquippedItem()
@@ -71,6 +72,7 @@ public class EquippedItem
         if(equippedItemCount == playerEquippedItem.Length) Debug.LogError("Count is Bigger than Box Size");
 
         playerEquippedItem[equippedItemCount] = nextObtainItem;
+
         nextObtainItem = Item.None;
     }
 
@@ -247,10 +249,10 @@ public class EventManager : MonoBehaviour
     {
         Reduce_Heart_Event.Invoke(currentHeart, maxHeart);
     }
-    public Action<int, int> Heal_Heart_Event;
-    public void Heal_HeartInvokeEvent(int currentHeart, int maxHeart)
+    public Action<int, int, bool> Heal_Heart_Event;
+    public void Heal_HeartInvokeEvent(int currentHeart, int maxHeart, bool isMaxUP = false)
     {
-        Heal_Heart_Event.Invoke(currentHeart, maxHeart);
+        Heal_Heart_Event.Invoke(currentHeart, maxHeart, isMaxUP);
     }
 
 
@@ -275,7 +277,6 @@ public class EventManager : MonoBehaviour
     public Action ObtainBigItemEvent;
     public void ObtainBigItem_Invoke_Event()
     {
-        EquippedItem.SetNextEquippedItem();
         ObtainBigItemEvent.Invoke();
         EquippedItem.ObtainNextEquippedItem();
         UpdateMenuPanel_Invoke_Event();
