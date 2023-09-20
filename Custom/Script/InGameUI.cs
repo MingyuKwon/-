@@ -245,11 +245,15 @@ public class InGameUI : MonoBehaviour
     }
 
     [Button]
-    private void Change_Item_Count(EventType eventType, Item usableItem , int count)
+    private void Change_Item_Count(EventType eventType, Item usableItem , int count, int changeAmount)
     {
         bool flag = false;
 
-        inGameUIAniimation.SetItem_Use_Obtain_Flag(usableItem);
+        if(eventType == EventType.Item_Obtain && changeAmount > 0)
+        {
+            inGameUIAniimation.SetItem_Use_Obtain_Flag(usableItem, changeAmount);
+        }
+        
         
         if(eventType == EventType.Item_Use)
         {

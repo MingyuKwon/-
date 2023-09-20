@@ -59,7 +59,6 @@ public enum ItemUseType {
 public class EquippedItem
 {
     public static Item[] playerEquippedItem = new Item[5] {Item.None,Item.None,Item.None,Item.None,Item.None };
-
     public static Item nextObtainItem = Item.None;
 
     public static void SetNextEquippedItem()
@@ -87,6 +86,90 @@ public class EquippedItem
         }
     }
 
+    private static float percentageCalculator(Item item)
+    {
+        float percentage = 0;
+
+        foreach(Item equippedItem in playerEquippedItem)
+        {
+            if(item == Item.Potion && equippedItem == Item.Potion_PercentageUP )
+            {
+                percentage += 0.4f;
+            }else if(item == Item.Mag_Glass && equippedItem == Item.Glass_PercentageUP )
+            {
+                percentage += 0.4f;
+            }else if(item == Item.Holy_Water && equippedItem == Item.Water_PercentageUP )
+            {
+                percentage += 0.4f;
+            }else if(Item.ALL_PercentageUP == item && Item.ALL_PercentageUP == equippedItem)
+            {
+                percentage += 0.2f;
+            }
+
+        }
+
+        return (percentage > 1) ? 1 : percentage;
+    }
+
+    private static int GetRandomValue(double probabilityOfOne)
+    {
+        if (probabilityOfOne < 0 || probabilityOfOne > 1)
+        {
+            throw new ArgumentOutOfRangeException(nameof(probabilityOfOne), "Probability must be between 0.0 and 1.0");
+        }
+
+        System.Random _random = new System.Random();
+        return _random.NextDouble() < probabilityOfOne ? 1 : 0;
+    }
+
+
+    public static float AllPlus_percentage
+    {
+        get{
+            return percentageCalculator(Item.ALL_PercentageUP);
+        }
+    }
+
+    public static float HeartPlus_percentage
+    {
+        get{
+            return percentageCalculator(Item.Potion);
+        }
+    }
+
+    public static float GlassPlus_percentage
+    {
+        get{
+            return percentageCalculator(Item.Mag_Glass);
+        }
+    }
+
+    public static float HolyPlus_percentage
+    {
+        get{
+            return percentageCalculator(Item.Holy_Water);
+        }
+    }
+
+    public static int canObtainPlusItem(Item item)
+    {
+        if(item == Item.Potion)
+        {
+            return GetRandomValue(HeartPlus_percentage);
+        }else if(item == Item.Mag_Glass)
+        {
+            return GetRandomValue(GlassPlus_percentage);
+        }else if(item == Item.Holy_Water)
+        {
+            return GetRandomValue(HolyPlus_percentage);
+        }else if(item == Item.ALL_PercentageUP)
+        {
+            return GetRandomValue(AllPlus_percentage);
+        }
+
+        return 0;
+    }
+
 }
 
 public class EventManager : MonoBehaviour
@@ -99,7 +182,12 @@ public class EventManager : MonoBehaviour
     public Action<EventType, int> mine_treasure_count_Change_Event;
     public Action<EventType> Set_UI_Filter_Event;
 
-    public Action<EventType,Item, int> Item_Count_Change_Event;
+    public Action<EventType,Item, int, int> Item_Count_Change_Event;
+    public void Item_Count_Change_Invoke_Event(EventType eventType, Item item, int count, int changeAmount = 0 )
+    {
+        Item_Count_Change_Event.Invoke(eventType, item, count, changeAmount);
+    }
+
 
     public Action<bool, GameOver_Reason> Game_Over_Event;
 
@@ -211,11 +299,6 @@ public class EventManager : MonoBehaviour
             Set_Width_Height_Event.Invoke( (Vector2)param1);
         }
         
-
-        if(param1 is Item)
-        {
-            Item_Count_Change_Event.Invoke(eventType, (Item)param1, (int)param2);
-        }
     }
 
 

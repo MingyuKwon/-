@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Potion Treasure
+  m_Name: MagGlass 3 Treasure
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -168,7 +168,7 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
-      value: {fileID: 1281206549, guid: b2b1132f5fee74c4fa1c7458bc097721, type: 3}
+      value: {fileID: -135602614, guid: 24ee4d221df446947a5ddaf1adf1ec49, type: 3}
     attribute: m_Sprite
     path: Filter/Filter Sub Sub Image
     classID: 114
@@ -216,7 +216,7 @@ AnimationClip:
       customType: 0
       isPPtrCurve: 1
     pptrCurveMapping:
-    - {fileID: 1281206549, guid: b2b1132f5fee74c4fa1c7458bc097721, type: 3}
+    - {fileID: -135602614, guid: 24ee4d221df446947a5ddaf1adf1ec49, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}

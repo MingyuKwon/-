@@ -108,8 +108,9 @@ public class InGameUIAniimation : MonoBehaviour
         
     }
 
-    public void SetItem_Use_Obtain_Flag(Item item)
+    public void SetItem_Use_Obtain_Flag(Item item, int count)
     {
+        animator.SetFloat("itemCount", count);
         animator.SetFloat("ItemNum", (int)item - 1);
     }
 
@@ -131,7 +132,7 @@ public class InGameUIAniimation : MonoBehaviour
         {
             Debug.LogError("Item.None is Obtained");
         }else{
-            SetItem_Use_Obtain_Flag(EquippedItem.nextObtainItem);
+            SetItem_Use_Obtain_Flag(EquippedItem.nextObtainItem, 0);
         }
         
         animator.SetTrigger("Big Treasure Find");
