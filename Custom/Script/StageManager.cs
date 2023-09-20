@@ -802,9 +802,9 @@ public class StageManager : MonoBehaviour, IStageManager
         this.width = width;
         this.height = height;
 
-        this.potionCount = potionCount;
-        this.magGlassCount = magGlassCount;
-        this.holyWaterCount = holyWaterCount;
+        this.potionCount = potionCount + EquippedItem.Heart_StageBonus;
+        this.magGlassCount = magGlassCount + EquippedItem.Glass_StageBonus;
+        this.holyWaterCount = holyWaterCount+ EquippedItem.Holy_StageBonus;
 
         EventManager.instance.Reduce_HeartInvokeEvent(currentHeart, maxHeart);
 
@@ -828,7 +828,7 @@ public class StageManager : MonoBehaviour, IStageManager
 
         CameraSize_Change.ChangeCameraSizeFit();
 
-        timerCoroutine = StartCoroutine(StartTimer(totalTime)); 
+        timerCoroutine = StartCoroutine(StartTimer(totalTime + EquippedItem.Time_StageBonus)); 
 
         PlayerManager.instance.SetPlayerPositionStart();
 

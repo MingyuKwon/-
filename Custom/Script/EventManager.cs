@@ -86,6 +86,30 @@ public class EquippedItem
         }
     }
 
+    private static int StageBonusCalculator(Item item)
+    {
+        int amount = 0;
+
+        foreach(Item equippedItem in playerEquippedItem)
+        {
+            if(item == Item.Potion && equippedItem == Item.Potion_Plus )
+            {
+                amount += 2;
+            }else if(item == Item.Mag_Glass && equippedItem == Item.Glass_Plus )
+            {
+                amount += 2;
+            }else if(item == Item.Holy_Water && equippedItem == Item.Water_Plus )
+            {
+                amount += 2;
+            }else if(Item.Time_Plus == item && Item.Time_Plus == equippedItem)
+            {
+                amount += 30;
+            }
+        }
+
+        return amount;
+    }
+
     private static float percentageCalculator(Item item)
     {
         float percentage = 0;
@@ -105,7 +129,6 @@ public class EquippedItem
             {
                 percentage += 0.2f;
             }
-
         }
 
         return (percentage > 1) ? 1 : percentage;
@@ -120,6 +143,34 @@ public class EquippedItem
 
         System.Random _random = new System.Random();
         return _random.NextDouble() < probabilityOfOne ? 1 : 0;
+    }
+
+    public static int Time_StageBonus
+    {
+        get{
+            return StageBonusCalculator(Item.Time_Plus);
+        }
+    }
+
+    public static int Heart_StageBonus
+    {
+        get{
+            return StageBonusCalculator(Item.Potion);
+        }
+    }
+
+    public static int Glass_StageBonus
+    {
+        get{
+            return StageBonusCalculator(Item.Mag_Glass);
+        }
+    }
+
+    public static int Holy_StageBonus
+    {
+        get{
+            return StageBonusCalculator(Item.Holy_Water);
+        }
     }
 
 
