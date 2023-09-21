@@ -774,7 +774,9 @@ public class StageManager : MonoBehaviour, IStageManager
         StageSaveManager.NextpotionCount = -1; 
         StageSaveManager. NextmagGlassCount = -1; 
         StageSaveManager. NextholyWaterCount = -1;
-        StageSaveManager. NexttotalTime = -1;        
+        StageSaveManager. NexttotalTime = -1;       
+
+        EventManager.instance.StairOpen_Invoke_Event(); 
     }
 
 

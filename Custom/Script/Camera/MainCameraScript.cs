@@ -6,6 +6,8 @@ public class MainCameraScript : MonoBehaviour
 {
     Transform thisTransform;
     Transform player;
+
+    public static Vector3 CameraForcePosition = Vector3.forward;
     private void Awake() {
         thisTransform = GetComponent<Transform>();
     }
@@ -15,6 +17,12 @@ public class MainCameraScript : MonoBehaviour
     }
     void Update()
     {
-        thisTransform.position = new Vector3(player.position.x, player.position.y,thisTransform.position.z); 
+        if(CameraForcePosition == Vector3.forward)
+        {
+            thisTransform.position = new Vector3(player.position.x, player.position.y,thisTransform.position.z); 
+        }else
+        {
+            thisTransform.position = new Vector3(CameraForcePosition.x, CameraForcePosition.y,thisTransform.position.z); 
+        }
     }
 }

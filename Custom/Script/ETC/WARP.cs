@@ -35,6 +35,9 @@ public class WARP : MonoBehaviour
     {
         EventManager.isAnimationPlaying = true;
 
+        yield return new WaitForSeconds(0.3f);
+        MainCameraScript.CameraForcePosition = transform.position;
+
         spriteRenderer.sprite = openStairSprite[0];
         yield return new WaitForSeconds(0.2f);
 
@@ -53,6 +56,8 @@ public class WARP : MonoBehaviour
         spriteRenderer.sprite = openStairSprite[5];
 
         circleCollider2D.enabled = true;
+        MainCameraScript.CameraForcePosition = Vector3.forward;
+        
         EventManager.isAnimationPlaying = false;
     }
 
