@@ -288,6 +288,12 @@ public class EventManager : MonoBehaviour
         UpdateMenuPanelEvent.Invoke();
     }
 
+    public Action StairOpenEvent;
+    public void StairOpen_Invoke_Event()
+    {
+        StairOpenEvent.Invoke();
+    }
+
     #endregion
 
 

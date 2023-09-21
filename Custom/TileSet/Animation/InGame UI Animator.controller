@@ -155,7 +155,7 @@ BlendTree:
     m_CycleOffset: 0
     m_DirectBlendParameter: ItemNum
     m_Mirror: 0
-  m_BlendParameter: ItemNum
+  m_BlendParameter: itemCount
   m_BlendParameterY: Blend
   m_MinThreshold: 1
   m_MaxThreshold: 3
@@ -471,7 +471,7 @@ BlendTree:
     m_CycleOffset: 0
     m_DirectBlendParameter: ItemNum
     m_Mirror: 0
-  m_BlendParameter: ItemNum
+  m_BlendParameter: itemCount
   m_BlendParameterY: Blend
   m_MinThreshold: 1
   m_MaxThreshold: 3

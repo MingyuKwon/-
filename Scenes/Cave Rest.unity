@@ -320,121 +320,6 @@ MonoBehaviour:
   - {fileID: 1422658324, guid: be4dcaf5cb433e445816ddf161c8fb26, type: 3}
   - {fileID: 22626641, guid: be4dcaf5cb433e445816ddf161c8fb26, type: 3}
   - {fileID: -800884406, guid: be4dcaf5cb433e445816ddf161c8fb26, type: 3}
---- !u!1 &963036533
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 963036537}
-  - component: {fileID: 963036536}
-  - component: {fileID: 963036535}
-  - component: {fileID: 963036534}
-  m_Layer: 0
-  m_Name: WARP
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!212 &963036534
-SpriteRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 963036533}
-  m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 2124930459
-  m_SortingLayer: 12
-  m_SortingOrder: 1
-  m_Sprite: {fileID: -1767677108, guid: 5cf69d93dc6ba3548bc85b7b7667a20e, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
---- !u!114 &963036535
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 963036533}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1dac9a13406140440850a316e822f1ee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  loadSceneName: Cave Dungeon
---- !u!58 &963036536
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 963036533}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.23
---- !u!4 &963036537
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 963036533}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.5, y: -3.5, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 7
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1127217965
 GameObject:
   m_ObjectHideFlags: 0
@@ -671,6 +556,67 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1294532520}
   m_CullTransparentMesh: 1
+--- !u!1001 &1856126872
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1315878161522638088, guid: 6e07ac9a798634a4db44ad8d506fbf6a, type: 3}
+      propertyPath: m_Name
+      value: WARP
+      objectReference: {fileID: 0}
+    - target: {fileID: 1315878161522638089, guid: 6e07ac9a798634a4db44ad8d506fbf6a, type: 3}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1315878161522638089, guid: 6e07ac9a798634a4db44ad8d506fbf6a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -8.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1315878161522638089, guid: 6e07ac9a798634a4db44ad8d506fbf6a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1315878161522638089, guid: 6e07ac9a798634a4db44ad8d506fbf6a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1315878161522638089, guid: 6e07ac9a798634a4db44ad8d506fbf6a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1315878161522638089, guid: 6e07ac9a798634a4db44ad8d506fbf6a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1315878161522638089, guid: 6e07ac9a798634a4db44ad8d506fbf6a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1315878161522638089, guid: 6e07ac9a798634a4db44ad8d506fbf6a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1315878161522638089, guid: 6e07ac9a798634a4db44ad8d506fbf6a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1315878161522638089, guid: 6e07ac9a798634a4db44ad8d506fbf6a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1315878161522638089, guid: 6e07ac9a798634a4db44ad8d506fbf6a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1315878161522638103, guid: 6e07ac9a798634a4db44ad8d506fbf6a, type: 3}
+      propertyPath: loadSceneName
+      value: Cave Dungeon
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 6e07ac9a798634a4db44ad8d506fbf6a, type: 3}
 --- !u!114 &2103102379 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3542116993338337992, guid: f3eea40b90e65ba4fbe016e142894283, type: 3}
@@ -25008,6 +24954,14 @@ PrefabInstance:
     - target: {fileID: 3542116992855831114, guid: f3eea40b90e65ba4fbe016e142894283, type: 3}
       propertyPath: m_Tiles.Array.data[1173].second.m_TileObjectToInstantiateIndex
       value: 65535
+      objectReference: {fileID: 0}
+    - target: {fileID: 3542116992855831115, guid: f3eea40b90e65ba4fbe016e142894283, type: 3}
+      propertyPath: m_ChunkCullingBounds.x
+      value: 0.03333336
+      objectReference: {fileID: 0}
+    - target: {fileID: 3542116992855831115, guid: f3eea40b90e65ba4fbe016e142894283, type: 3}
+      propertyPath: m_ChunkCullingBounds.y
+      value: 0.03333336
       objectReference: {fileID: 0}
     - target: {fileID: 3542116993247273666, guid: f3eea40b90e65ba4fbe016e142894283, type: 3}
       propertyPath: m_Size.x
