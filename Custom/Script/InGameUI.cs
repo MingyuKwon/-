@@ -17,6 +17,7 @@ public class InGameUI : MonoBehaviour
 
     [Space]
     public TextMeshProUGUI[] usableItemExplain;
+    public TextMeshProUGUI[] equipppedItemExplain;
 
     [Space]
     public TextMeshProUGUI leftTimeText;
@@ -42,7 +43,6 @@ public class InGameUI : MonoBehaviour
     [Header("Equipped Panel")]
     public Sprite[] EquippedItemSprites;
     public Image[] EquippedItemImages;
-    public TextMeshProUGUI[] EquippedItemTexts;
 
 
     [Space]
@@ -61,6 +61,45 @@ public class InGameUI : MonoBehaviour
     public Transform potionImage;
     public Transform magGlassImage;
     public Transform HolyWaterImage;
+
+
+    [Space]
+    [Header("Texts")]
+    public string[] EnglishUsableText = {"Restores 1 unit of health", "Displays numbers on the ground to distinguish between traps and treasures", "When sprinkled on an obstacle, it reveals whether there's a treasure underneath or not"};
+    public string[] KoreanUsableText = {"체력을 1칸 회복합니다", "바닥에 있는 숫자를 함정과 보물을 구분해서 보여줍니다", "장애물 아래에 보물이 있는지 없는지를 확인해 줍니다"};
+
+    public string[] EnglishEquippedText = {
+        "",
+        "",
+        "",
+        "",
+        "At the start of the stage, you receive an additional potion.",
+        "At the start of the stage, you receive an additional magnifying glass.",
+        "At the start of the stage, you receive an additional holy water.",
+        "When obtaining a potion, the probability to get an additional potion increases.",
+        "When obtaining a magnifying glass, the probability to get an additional magnifying glass increases.",  
+        "When obtaining holy water, the probability to get an additional holy water increases.",
+        "When obtaining an item, the probability to get an additional item of any kind increases.",
+        "At the start of the stage, you receive additional time.",
+        "Your maximum health increases by 3.",
+
+    };
+
+    public string[] KoreanEquippedText = {
+        "",
+        "",
+        "",
+        "",
+        "스테이지 시작시, 포션을 추가로 지급받습니다",
+        "스테이지 시작시, 돋보기를 추가로 지급받습니다",
+        "스테이지 시작시, 성수를 추가로 지급받습니다",
+        "포션 획득 시, 포션을 추가로 얻을 확률이 올라갑니다",
+        "돋보기 획득 시, 돋보기를 추가로 얻을 확률이 올라갑니다",
+        "성수 획득 시, 성수를 추가로 얻을 확률이 올라갑니다",
+        "아이템 획득 시, 모든 아이템이 추가로 얻을 확률이 올라갑니다",
+        "스테이지 시작시, 제한시간을 추가로 지급받습니다",
+        "최대 체력이 3 올라갑니다",
+    };
 
     #endregion
 
@@ -98,9 +137,46 @@ public class InGameUI : MonoBehaviour
         itemButtons = totalItemPanel.GetComponentsInChildren<Button>();
         itemimages = totalItemPanel.GetComponentsInChildren<Image>();
 
-        usableItemExplain[0].text = "Restores 1 unit of health";
-        usableItemExplain[1].text = "Displays numbers on the ground to distinguish between traps and treasures";
-        usableItemExplain[2].text = "When sprinkled on an obstacle, it reveals whether there's a treasure underneath or not";
+        for(int i=0; i<equipppedItemExplain.Length; i++)
+            {
+                equipppedItemExplain[i].text = "";
+            }
+
+        usableItemExplain[0].text = KoreanUsableText[0];
+        usableItemExplain[1].text = KoreanUsableText[1];
+        usableItemExplain[2].text = KoreanUsableText[2];
+    }
+
+    private void SetLanguage(char langauage)
+    {
+        for(int i=0; i<equipppedItemExplain.Length; i++)
+        {
+            equipppedItemExplain[i].text = "";
+        }
+
+        if(langauage == 'e')
+        {
+            usableItemExplain[0].text = EnglishUsableText[0];
+            usableItemExplain[1].text = EnglishUsableText[1];
+            usableItemExplain[2].text = EnglishUsableText[2];
+
+            for(int i=0; i<EquippedItem.equippedItemCount; i++)
+            {
+                equipppedItemExplain[i].text = EnglishEquippedText[(int)EquippedItem.playerEquippedItem[i]];
+            }
+
+            
+        }else if(langauage == 'k')
+        {
+            usableItemExplain[0].text = KoreanUsableText[0];
+            usableItemExplain[1].text = KoreanUsableText[1];
+            usableItemExplain[2].text = KoreanUsableText[2];
+
+            for(int i=0; i<EquippedItem.equippedItemCount; i++)
+            {
+                equipppedItemExplain[i].text = KoreanEquippedText[(int)EquippedItem.playerEquippedItem[i]];
+            }
+        }
     }
 
 
@@ -359,14 +435,16 @@ public class InGameUI : MonoBehaviour
         for(int i=0; i<5; i++)
         {
             EquippedItemImages[i].sprite = EquippedItemSprites[0];
-            EquippedItemTexts[i].text = "";
+            equipppedItemExplain[i].text = "";
         }
 
         for(int i=0; i<EquippedItem.equippedItemCount; i++)
         {
             EquippedItemImages[i].sprite = EquippedItemSprites[(int)EquippedItem.playerEquippedItem[i] - 4 + 1];
-            EquippedItemTexts[i].text = "";
+            equipppedItemExplain[i].text = "";
         }
+
+        SetLanguage('k');
     }
 
     IEnumerator changeTextColorShortly(TextMeshProUGUI textMeshProUGUI, Color standardColor, Color changeColor)

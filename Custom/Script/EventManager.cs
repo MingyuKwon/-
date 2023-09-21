@@ -63,8 +63,7 @@ public class EquippedItem
 
     public static void SetNextEquippedItem()
     {
-        nextObtainItem = Item.Heart_UP;
-        //nextObtainItem = (Item)UnityEngine.Random.Range(4, 13);
+        nextObtainItem = (Item)UnityEngine.Random.Range(4, 13);
     }
 
     public static void ObtainNextEquippedItem()
