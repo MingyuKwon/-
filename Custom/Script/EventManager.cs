@@ -14,6 +14,7 @@ public enum EventType {
     Game_Restart = 7,
     Item_Use = 8,
     Item_Obtain = 9,
+    None = 10
 }
 
 public enum GameOver_Reason {
@@ -229,8 +230,6 @@ public class EventManager : MonoBehaviour
     #region Event
 
     public Action<EventType, Vector3Int> SetAnimationTileEvent;
-    public Action<Vector2> Set_Width_Height_Event;
-
     public Action<EventType, int> mine_treasure_count_Change_Event;
     public Action<EventType> Set_UI_Filter_Event;
 
@@ -278,13 +277,19 @@ public class EventManager : MonoBehaviour
     {
         ObtainBigItemEvent.Invoke();
         EquippedItem.ObtainNextEquippedItem();
-        UpdateMenuPanel_Invoke_Event();
+        UpdateRightPanel_Invoke_Event();
     }
 
-    public Action UpdateMenuPanelEvent;
-    public void UpdateMenuPanel_Invoke_Event()
+    public Action UpdateRightPanelEvent;
+    public void UpdateRightPanel_Invoke_Event()
     {
-        UpdateMenuPanelEvent.Invoke();
+        UpdateRightPanelEvent.Invoke();
+    }
+
+    public Action UpdateLeftPanelEvent;
+    public void UpdateLeftPanel_Invoke_Event()
+    {
+        UpdateLeftPanelEvent.Invoke();
     }
 
     public Action StairOpenEvent;
@@ -349,11 +354,6 @@ public class EventManager : MonoBehaviour
         if(param1 is Vector3Int)
         {
             SetAnimationTileEvent.Invoke(eventType, (Vector3Int)param1);
-        }
-
-        if(param1 is Vector2)
-        {
-            Set_Width_Height_Event.Invoke( (Vector2)param1);
         }
         
     }

@@ -245,7 +245,7 @@ public class StageManager : MonoBehaviour, IStageManager
     private void OnDestroy() {
         instance = null;
 
-        if(StageInformationManager.isnextStageDungeon)
+        if(!StageInformationManager.isnextStageDungeon)
         {
             StageInformationManager.currentStageIndex++;
             StageInformationManager.NextWidth = StageInformationManager.stageWidthMin[StageInformationManager.currentStagetype,StageInformationManager.currentStageIndex];
@@ -787,6 +787,10 @@ public class StageManager : MonoBehaviour, IStageManager
 
     public void RestPlaceInitialize(Vector3Int treasurePosition, int maxHeart = 9,  int currentHeart = 1, int potionCount = 5, int magGlassCount = 20, int holyWaterCount = 5, int totalTime = 300)
     {
+        EventManager.instance.UpdateLeftPanel_Invoke_Event();
+
+        EventManager.instance.InvokeEvent(EventType.None, 0);
+
         isDungeon = StageInformationManager.isnextStageDungeon;
         BigTreasurePosition = treasurePosition;
 
@@ -807,14 +811,7 @@ public class StageManager : MonoBehaviour, IStageManager
         EventManager.instance.TimerInvokeEvent(0, totalTime);
 
         isNowInitializing = false;
-        PlayerManager.instance.SetPlayerPositionStart();
-
-        StageInformationManager.NextmaxHeart = -1;  
-        StageInformationManager.NextcurrentHeart = -1; 
-        StageInformationManager.NextpotionCount = -1; 
-        StageInformationManager. NextmagGlassCount = -1; 
-        StageInformationManager. NextholyWaterCount = -1;
-        StageInformationManager. NexttotalTime = -1;       
+        PlayerManager.instance.SetPlayerPositionStart();    
 
         EventManager.instance.StairOpen_Invoke_Event(); 
     }
@@ -824,6 +821,8 @@ public class StageManager : MonoBehaviour, IStageManager
     public void DungeonInitialize(int width = DefaultX ,  int height = DefaultY, Difficulty difficulty = Difficulty.Hard, int maxHeart = 3,  int currentHeart = 2, int potionCount = 5, int magGlassCount = 20, int holyWaterCount = 5, int totalTime = 300)
     {
         isDungeon = StageInformationManager.isnextStageDungeon;
+        
+        EventManager.instance.UpdateLeftPanel_Invoke_Event();
 
         isNowInitializing = true;
 
@@ -856,6 +855,7 @@ public class StageManager : MonoBehaviour, IStageManager
         EventManager.instance.Item_Count_Change_Invoke_Event(EventType.Item_Obtain, Item.Mag_Glass, magGlassCount);
         EventManager.instance.Item_Count_Change_Invoke_Event(EventType.Item_Obtain, Item.Holy_Water, holyWaterCount);
         
+        EventManager.instance.UpdateLeftPanel_Invoke_Event();
         
         MakeMineTreasureArray(width, height, difficulty);
 
@@ -877,13 +877,6 @@ public class StageManager : MonoBehaviour, IStageManager
         PlayerManager.instance.SetPlayerPositionStart();
 
         isNowInitializing = false;
-
-        StageInformationManager.NextmaxHeart = -1;  
-        StageInformationManager.NextcurrentHeart = -1; 
-        StageInformationManager.NextpotionCount = -1; 
-        StageInformationManager. NextmagGlassCount = -1; 
-        StageInformationManager. NextholyWaterCount = -1;
-        StageInformationManager. NexttotalTime = -1;
     }
 
     IEnumerator StartTimer(int totalTime)
@@ -991,20 +984,6 @@ public class StageManager : MonoBehaviour, IStageManager
             }
         }
 
-        // String str = "";
-        // for(int i=0; i< height; i++)
-        // {
-        //     for(int j=0; j< width; j++)
-        //     {
-        //         str += targetNumArray[i, j].ToString();
-        //         str += "  ";
-        //     }
-
-        //     str += "\n";
-        // }
-
-        // Debug.Log(str);
-
     }
 
 
@@ -1013,8 +992,6 @@ public class StageManager : MonoBehaviour, IStageManager
     {
         mineTreasureArray = new int[height, width];
         int totalBockNum = height * width;
-
-        EventManager.instance.InvokeEvent(EventType.Set_Width_Height, new Vector2(width, height));
         
         float mineRatio = 0;
         switch(difficulty)

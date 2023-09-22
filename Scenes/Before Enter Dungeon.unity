@@ -707,6 +707,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &694738024 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3429522036981985964, guid: 3905f62a3aec3c84aab1f50bce86bf71, type: 3}
+  m_PrefabInstance: {fileID: 3429522037480188099}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1007134539
 GameObject:
   m_ObjectHideFlags: 0
@@ -752,6 +763,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   loadSceneName: Cave Dungeon
+--- !u!114 &1306477231 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3429522036326531536, guid: 3905f62a3aec3c84aab1f50bce86bf71, type: 3}
+  m_PrefabInstance: {fileID: 3429522037480188099}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2067357482 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3429522036579190330, guid: 3905f62a3aec3c84aab1f50bce86bf71, type: 3}
+  m_PrefabInstance: {fileID: 3429522037480188099}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1471513318204533682
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -903,6 +936,34 @@ PrefabInstance:
     - target: {fileID: 3429522036412058246, guid: 3905f62a3aec3c84aab1f50bce86bf71, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3429522036412058250, guid: 3905f62a3aec3c84aab1f50bce86bf71, type: 3}
+      propertyPath: stageType
+      value: 
+      objectReference: {fileID: 694738024}
+    - target: {fileID: 3429522036412058250, guid: 3905f62a3aec3c84aab1f50bce86bf71, type: 3}
+      propertyPath: stageIndex
+      value: 
+      objectReference: {fileID: 1306477231}
+    - target: {fileID: 3429522036412058250, guid: 3905f62a3aec3c84aab1f50bce86bf71, type: 3}
+      propertyPath: stageDifficulty
+      value: 
+      objectReference: {fileID: 2067357482}
+    - target: {fileID: 3429522036579190330, guid: 3905f62a3aec3c84aab1f50bce86bf71, type: 3}
+      propertyPath: m_fontColor.b
+      value: 0.3160377
+      objectReference: {fileID: 0}
+    - target: {fileID: 3429522036579190330, guid: 3905f62a3aec3c84aab1f50bce86bf71, type: 3}
+      propertyPath: m_fontColor.g
+      value: 0.3160377
+      objectReference: {fileID: 0}
+    - target: {fileID: 3429522036579190330, guid: 3905f62a3aec3c84aab1f50bce86bf71, type: 3}
+      propertyPath: m_fontColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3429522036579190330, guid: 3905f62a3aec3c84aab1f50bce86bf71, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4283519487
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3905f62a3aec3c84aab1f50bce86bf71, type: 3}

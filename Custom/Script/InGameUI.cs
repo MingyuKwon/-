@@ -14,6 +14,9 @@ public class InGameUI : MonoBehaviour
     [Header("Texts")]
     public TextMeshProUGUI width;
     public TextMeshProUGUI height;
+    public TextMeshProUGUI stageDifficulty;
+    public TextMeshProUGUI stageType;
+    public TextMeshProUGUI stageIndex;
 
     [Space]
     public TextMeshProUGUI[] usableItemExplain;
@@ -187,7 +190,6 @@ public class InGameUI : MonoBehaviour
 
     private void OnEnable() {
         EventManager.instance.mine_treasure_count_Change_Event += Change_Mine_Treasure_Count;
-        EventManager.instance.Set_Width_Height_Event += Set_Width_Height;
         EventManager.instance.Reduce_Heart_Event += Reduce_Heart;
         EventManager.instance.Heal_Heart_Event += Heal_Heart;
 
@@ -196,12 +198,12 @@ public class InGameUI : MonoBehaviour
 
         EventManager.instance.timerEvent += SetTimeTexts;
 
-        EventManager.instance.UpdateMenuPanelEvent += UpdateMenuPanel;
+        EventManager.instance.UpdateRightPanelEvent += UpdateRightPanel;
+        EventManager.instance.UpdateLeftPanelEvent += UpdateLeftPanel;
     }
 
     private void OnDisable() {
         EventManager.instance.mine_treasure_count_Change_Event -= Change_Mine_Treasure_Count;
-        EventManager.instance.Set_Width_Height_Event -= Set_Width_Height;
         EventManager.instance.Reduce_Heart_Event -= Reduce_Heart;
         EventManager.instance.Heal_Heart_Event -= Heal_Heart;
 
@@ -209,7 +211,8 @@ public class InGameUI : MonoBehaviour
         EventManager.instance.ItemPanelShow_Event -= ShowItemUsePanel;
 
         EventManager.instance.timerEvent -= SetTimeTexts;
-        EventManager.instance.UpdateMenuPanelEvent -= UpdateMenuPanel;
+        EventManager.instance.UpdateRightPanelEvent -= UpdateRightPanel;
+        EventManager.instance.UpdateLeftPanelEvent -= UpdateLeftPanel;
     }
 
     public Vector2 WorldToCanvasPosition(Vector3 worldPosition)
@@ -431,11 +434,17 @@ public class InGameUI : MonoBehaviour
                 treasureCount.text = count.ToString();
                 StartCoroutine(changeTextColorShortly(treasureCount, Color.yellow, Color.white));
                 break;
+            case EventType.None :
+                treasureCount.text = count.ToString();
+                mineCount.text = count.ToString();
+                StartCoroutine(changeTextColorShortly(treasureCount, Color.yellow, Color.white));
+                StartCoroutine(changeTextColorShortly(mineCount, Color.red, Color.white));
+                break;
         }
     }
 
-    [Button]
-    private void UpdateMenuPanel()
+
+    private void UpdateRightPanel()
     {
         for(int i=0; i<5; i++)
         {
@@ -448,6 +457,41 @@ public class InGameUI : MonoBehaviour
             EquippedItemImages[i].sprite = EquippedItemSprites[(int)EquippedItem.playerEquippedItem[i] - 4 + 1];
             equipppedItemExplain[i].text = "";
         }
+
+        SetLanguage('k');
+    }
+
+    private void UpdateLeftPanel()
+    {
+        width.text = "Width : " + StageInformationManager.NextWidth.ToString();
+        height.text = "Height : " + StageInformationManager.NextHeight.ToString();
+
+        switch(StageInformationManager.difficulty)
+        {
+            case Difficulty.Easy :
+                stageDifficulty.text = "Easy";
+                break;
+            case Difficulty.Normal :
+                stageDifficulty.text = "Normal";
+                break;
+            case Difficulty.Hard :
+                stageDifficulty.text = "Hard";
+                break;
+        }
+        switch(StageInformationManager.currentStagetype)
+        {
+            case 0 :
+                stageType.text = "Cave";
+                break;
+            case 1 :
+                stageType.text = "???";
+                break;
+            case 2 :
+                stageType.text = "!!!";
+                break;
+        }
+
+        stageIndex.text = "레벨 " + ((StageInformationManager.currentStageIndex + 1).ToString());
 
         SetLanguage('k');
     }
@@ -597,12 +641,6 @@ public class InGameUI : MonoBehaviour
         }
 
         heartImages[index].gameObject.transform.localScale = Vector3.one;
-    }
-
-    private void Set_Width_Height(Vector2 vector2)
-    {
-        width.text = "Width : " + vector2.x.ToString();
-        height.text = "Height : " + vector2.y.ToString();
     }
 
 }
