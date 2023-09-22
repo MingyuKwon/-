@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class WARP : MonoBehaviour
 {
     public string loadSceneName;
+    public string LastStageSceneName;
     private CircleCollider2D circleCollider2D;
     private SpriteRenderer spriteRenderer;
 
@@ -64,6 +65,15 @@ public class WARP : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other) {
         SceneManager.LoadScene("Loading");
-        LoadingInformation.loadingSceneName = loadSceneName;
+        
+        if(StageInformationManager.currentStageIndex < 5)
+        {
+            LoadingInformation.loadingSceneName = loadSceneName;
+        }else
+        {
+            LoadingInformation.loadingSceneName = LastStageSceneName;
+        }
+        
+        
     }
 }

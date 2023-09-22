@@ -1101,6 +1101,9 @@ public class StageManager : MonoBehaviour, IStageManager
             StageInformationManager. NextmagGlassCount = 5;
             StageInformationManager. NextholyWaterCount = 5; 
             StageInformationManager. NexttotalTime = StageInformationManager.TimeDefaultForStage;
+
+            EquippedItem.ClearEquippedItem();
+            EventManager.instance.UpdateRightPanel_Invoke_Event();
             
             DungeonInitialize(StageInformationManager.NextWidth, StageInformationManager.NextHeight ,StageInformationManager.difficulty ,StageInformationManager.NextmaxHeart, StageInformationManager.NextcurrentHeart, StageInformationManager.NextpotionCount, StageInformationManager. NextmagGlassCount, StageInformationManager. NextholyWaterCount, StageInformationManager. NexttotalTime);
             stageInputBlock =0;

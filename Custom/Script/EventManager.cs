@@ -62,9 +62,19 @@ public class EquippedItem
     public static Item[] playerEquippedItem = new Item[5] {Item.None,Item.None,Item.None,Item.None,Item.None };
     public static Item nextObtainItem = Item.None;
 
+    public static void ClearEquippedItem()
+    {
+        for(int i=0; i<playerEquippedItem.Length; i++)
+        {
+            playerEquippedItem[i] = Item.None;
+        }
+        nextObtainItem = Item.None;
+    }
+
     public static void SetNextEquippedItem()
     {
         nextObtainItem = (Item)UnityEngine.Random.Range(4, 13);
+        nextObtainItem = Item.Heart_UP;
     }
 
     public static void ObtainNextEquippedItem()
@@ -295,7 +305,7 @@ public class EventManager : MonoBehaviour
     public Action StairOpenEvent;
     public void StairOpen_Invoke_Event()
     {
-        StairOpenEvent.Invoke();
+        StairOpenEvent?.Invoke();
     }
 
     #endregion

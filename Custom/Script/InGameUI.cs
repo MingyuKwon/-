@@ -537,8 +537,14 @@ public class InGameUI : MonoBehaviour
 
     private void Reduce_Heart(int currentHeart, int maxHeart)
     {
+        for(int i=0; i<heartImages.Length; i++)
+        {
+            heartImages[i].gameObject.SetActive(false);
+        }
+
         for(int i=0; i<maxHeart; i++)
         {
+            heartImages[i].gameObject.SetActive(true);
             heartImages[i].sprite = heartEmpty;
         }
 
@@ -554,8 +560,14 @@ public class InGameUI : MonoBehaviour
 
     private void Heal_Heart(int currentHeart, int maxHeart, bool isMaxUP)
     {
+        for(int i=0; i<heartImages.Length; i++)
+        {
+            heartImages[i].gameObject.SetActive(false);
+        }
+
         for(int i=0; i<maxHeart; i++)
         {
+            heartImages[i].gameObject.SetActive(true);
             heartImages[i].sprite = heartEmpty;
         }
 

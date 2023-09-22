@@ -63,6 +63,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   loadSceneName: Cave Rest
+  LastStageSceneName: Cave Last
   openStairSprite:
   - {fileID: -403007700, guid: 511bbe6af8b186e459e56b94be8a0b07, type: 3}
   - {fileID: -140455253, guid: 511bbe6af8b186e459e56b94be8a0b07, type: 3}
