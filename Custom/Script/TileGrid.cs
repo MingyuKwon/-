@@ -86,18 +86,23 @@ public class TileGrid : MonoBehaviour, IGridInterface
     [Button]
     public void ShowEnvironment(int width = 10, int height = 10)
     {
-        tilemaps[0].ClearAllTiles();
-        tilemaps[1].ClearAllTiles();
-        tilemaps[3].ClearAllTiles();
-        tilemaps[4].ClearAllTiles();
-        tilemaps[7].ClearAllTiles();
-        tilemaps[8].ClearAllTiles();
-        tilemaps[9].ClearAllTiles();
-        tilemaps[10].ClearAllTiles();
-        tilemaps[11].ClearAllTiles();
-        tilemaps[12].ClearAllTiles();
-        tilemaps[13].ClearAllTiles();
-        tilemaps[14].ClearAllTiles();
+        foreach(Tilemap a in tilemaps)
+        {
+            a.ClearAllTiles();
+        }
+        // tilemaps[0].ClearAllTiles();
+        // tilemaps[1].ClearAllTiles();
+        // tilemaps[2].ClearAllTiles();
+        // tilemaps[3].ClearAllTiles();
+        // tilemaps[4].ClearAllTiles();
+        // tilemaps[7].ClearAllTiles();
+        // tilemaps[8].ClearAllTiles();
+        // tilemaps[9].ClearAllTiles();
+        // tilemaps[10].ClearAllTiles();
+        // tilemaps[11].ClearAllTiles();
+        // tilemaps[12].ClearAllTiles();
+        // tilemaps[13].ClearAllTiles();
+        // tilemaps[14].ClearAllTiles();
 
         int groundstartX;
         int groundendX;

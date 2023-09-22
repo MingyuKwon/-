@@ -7,28 +7,59 @@ using TMPro;
 using UnityEngine.EventSystems;
 using System.Collections;
 
+ public class StageInformationManager
+{
+    public static float easyMineRatio = 0.15f;
+    public static float normalMineRatio = 0.18f;
+    public static float hardMineRatio = 0.23f;
+
+    public static int TimeDefaultForStage = 100;
+    public static int[] TimeperStage = {150, 200, 250 };
+
+    public static int[,] stageWidthMin = 
+    {
+        {8 , 9, 10, 11, 12,13},
+        {15, 16, 17, 18, 19,20},
+        {28 , 29, 30, 31, 32,33},
+    };
+    public static int[,] stageWidthMax = 
+    {
+        {10 , 11, 12, 13, 14,15},
+        {17 , 18, 19, 20, 21,22},
+        {30 , 31, 32, 33, 34,35},
+    };
+    
+    public static int[,] stageHeightMin = {
+        {8 , 8, 8, 8, 8,8},
+        {14 , 14, 15, 15, 16,16},
+        {16 , 16, 16, 16, 17,17},
+    };
+    public static int[,] stageHeightMax = {
+        {9 , 9, 9, 10, 10,10},
+        {16 , 16, 16, 17, 17,18},
+        {18 , 19, 20, 21, 22,23},
+    };
+
+    public static int currentStagetype = 0;
+    public static int currentStageIndex = 0;
+    public static bool isnextStageDungeon = true;
+    public static Difficulty difficulty = Difficulty.Hard;
+
+    public static Vector3Int treasurePosition = new Vector3Int(-4,-1,0);
+
+    public static int NextWidth = -1;  
+    public static int NextHeight = -1;  
+
+    public static int NextmaxHeart = -1;  
+    public static int NextcurrentHeart = -1; 
+    public static int NextpotionCount = -1; 
+    public static int NextmagGlassCount = -1; 
+    public static int NextholyWaterCount = -1;
+    public static int NexttotalTime = -1;
+}
 
 public class StageManager : MonoBehaviour, IStageManager
 {   
-    public class StageSaveManager
-    {
-        public static bool isnextStageDungeon = true;
-
-        public static Difficulty difficulty = Difficulty.Hard;
-
-        public static Vector3Int treasurePosition = new Vector3Int(-4,-1,0);
-
-        public static int NextWidth = -1;  
-        public static int NextHeight = -1;  
-
-        public static int NextmaxHeart = -1;  
-        public static int NextcurrentHeart = -1; 
-        public static int NextpotionCount = -1; 
-        public static int NextmagGlassCount = -1; 
-        public static int NextholyWaterCount = -1;
-        public static int NexttotalTime = -1;
-    }
-
     public static StageManager instance;
     public static bool isDungeon = true;
     const int DefaultX = 18;
@@ -65,9 +96,6 @@ public class StageManager : MonoBehaviour, IStageManager
     [Header("For Debug")]
     [SerializeField] private TextMeshProUGUI tmp;
 
-    private float easyMineRatio = 0.15f;
-    private float normalMineRatio = 0.18f;
-    private float hardMineRatio = 0.23f;
     private float professionalMineRatio = 0.28f;
     private float mineToTreasureRatio = 0.4f;
 
@@ -217,34 +245,46 @@ public class StageManager : MonoBehaviour, IStageManager
     private void OnDestroy() {
         instance = null;
 
-        StageSaveManager.isnextStageDungeon = !StageSaveManager.isnextStageDungeon;
+        if(StageInformationManager.isnextStageDungeon)
+        {
+            StageInformationManager.currentStageIndex++;
+            StageInformationManager.NextWidth = StageInformationManager.stageWidthMin[StageInformationManager.currentStagetype,StageInformationManager.currentStageIndex];
+            StageInformationManager.NextHeight = StageInformationManager.stageHeightMin[StageInformationManager.currentStagetype,StageInformationManager.currentStageIndex];
+        }
+        
+        StageInformationManager.NextmaxHeart = maxHeart;  
+        StageInformationManager.NextcurrentHeart = currentHeart; 
+        StageInformationManager.NextpotionCount = potionCount; 
+        StageInformationManager. NextmagGlassCount = magGlassCount; 
+        StageInformationManager. NextholyWaterCount = holyWaterCount;
+        StageInformationManager. NexttotalTime = timeLeft;
 
-        StageSaveManager.NextWidth = 30;
-        StageSaveManager.NextHeight = 16;
-
-
-        StageSaveManager.NextmaxHeart = maxHeart;  
-        StageSaveManager.NextcurrentHeart = currentHeart; 
-        StageSaveManager.NextpotionCount = potionCount; 
-        StageSaveManager. NextmagGlassCount = magGlassCount; 
-        StageSaveManager. NextholyWaterCount = holyWaterCount;
-        StageSaveManager. NexttotalTime = timeLeft;
+        StageInformationManager.isnextStageDungeon = !StageInformationManager.isnextStageDungeon;
     }
 
     private void Start() {
-        if(StageSaveManager.isnextStageDungeon)
+        if(StageInformationManager.isnextStageDungeon)
         {
-            if(StageSaveManager.NextmaxHeart == -1)
+            if(StageInformationManager.NextmaxHeart == -1)
             {
-                DungeonInitialize();
-            }else
-            {
-                DungeonInitialize(StageSaveManager.NextWidth, StageSaveManager.NextHeight ,StageSaveManager.difficulty ,StageSaveManager.NextmaxHeart, StageSaveManager.NextcurrentHeart, StageSaveManager.NextpotionCount, StageSaveManager. NextmagGlassCount, StageSaveManager. NextholyWaterCount, StageSaveManager. NexttotalTime);
+                StageInformationManager.currentStageIndex = 0;
+                StageInformationManager.NextWidth = StageInformationManager.stageWidthMin[StageInformationManager.currentStagetype,StageInformationManager.currentStageIndex];
+                StageInformationManager.NextHeight= StageInformationManager.stageHeightMin[StageInformationManager.currentStagetype,StageInformationManager.currentStageIndex];
+                
+                StageInformationManager.NextmaxHeart = 3; 
+                StageInformationManager.NextcurrentHeart = 3; 
+                StageInformationManager.NextpotionCount = 5; 
+                StageInformationManager. NextmagGlassCount = 5;
+                StageInformationManager. NextholyWaterCount = 5; 
+                StageInformationManager. NexttotalTime = StageInformationManager.TimeDefaultForStage;
             }
+
+            DungeonInitialize(StageInformationManager.NextWidth, StageInformationManager.NextHeight ,StageInformationManager.difficulty ,StageInformationManager.NextmaxHeart, StageInformationManager.NextcurrentHeart, StageInformationManager.NextpotionCount, StageInformationManager. NextmagGlassCount, StageInformationManager. NextholyWaterCount, StageInformationManager. NexttotalTime);
+            
             
         }else
         {
-            RestPlaceInitialize(StageSaveManager.treasurePosition, StageSaveManager.NextmaxHeart, StageSaveManager.NextcurrentHeart, StageSaveManager.NextpotionCount, StageSaveManager. NextmagGlassCount, StageSaveManager. NextholyWaterCount, StageSaveManager. NexttotalTime);
+            RestPlaceInitialize(StageInformationManager.treasurePosition, StageInformationManager.NextmaxHeart, StageInformationManager.NextcurrentHeart, StageInformationManager.NextpotionCount, StageInformationManager. NextmagGlassCount, StageInformationManager. NextholyWaterCount, StageInformationManager. NexttotalTime);
         }
         
     }
@@ -747,7 +787,7 @@ public class StageManager : MonoBehaviour, IStageManager
 
     public void RestPlaceInitialize(Vector3Int treasurePosition, int maxHeart = 9,  int currentHeart = 1, int potionCount = 5, int magGlassCount = 20, int holyWaterCount = 5, int totalTime = 300)
     {
-        isDungeon = StageSaveManager.isnextStageDungeon;
+        isDungeon = StageInformationManager.isnextStageDungeon;
         BigTreasurePosition = treasurePosition;
 
         isNowInitializing = true;
@@ -769,12 +809,12 @@ public class StageManager : MonoBehaviour, IStageManager
         isNowInitializing = false;
         PlayerManager.instance.SetPlayerPositionStart();
 
-        StageSaveManager.NextmaxHeart = -1;  
-        StageSaveManager.NextcurrentHeart = -1; 
-        StageSaveManager.NextpotionCount = -1; 
-        StageSaveManager. NextmagGlassCount = -1; 
-        StageSaveManager. NextholyWaterCount = -1;
-        StageSaveManager. NexttotalTime = -1;       
+        StageInformationManager.NextmaxHeart = -1;  
+        StageInformationManager.NextcurrentHeart = -1; 
+        StageInformationManager.NextpotionCount = -1; 
+        StageInformationManager. NextmagGlassCount = -1; 
+        StageInformationManager. NextholyWaterCount = -1;
+        StageInformationManager. NexttotalTime = -1;       
 
         EventManager.instance.StairOpen_Invoke_Event(); 
     }
@@ -783,7 +823,7 @@ public class StageManager : MonoBehaviour, IStageManager
     [Button]
     public void DungeonInitialize(int width = DefaultX ,  int height = DefaultY, Difficulty difficulty = Difficulty.Hard, int maxHeart = 3,  int currentHeart = 2, int potionCount = 5, int magGlassCount = 20, int holyWaterCount = 5, int totalTime = 300)
     {
-        isDungeon = StageSaveManager.isnextStageDungeon;
+        isDungeon = StageInformationManager.isnextStageDungeon;
 
         isNowInitializing = true;
 
@@ -832,18 +872,18 @@ public class StageManager : MonoBehaviour, IStageManager
 
         CameraSize_Change.ChangeCameraSizeFit();
 
-        timerCoroutine = StartCoroutine(StartTimer(totalTime + EquippedItem.Time_StageBonus)); 
+        timerCoroutine = StartCoroutine(StartTimer(totalTime + EquippedItem.Time_StageBonus + StageInformationManager.TimeperStage[StageInformationManager.currentStagetype])); 
 
         PlayerManager.instance.SetPlayerPositionStart();
 
         isNowInitializing = false;
 
-        StageSaveManager.NextmaxHeart = -1;  
-        StageSaveManager.NextcurrentHeart = -1; 
-        StageSaveManager.NextpotionCount = -1; 
-        StageSaveManager. NextmagGlassCount = -1; 
-        StageSaveManager. NextholyWaterCount = -1;
-        StageSaveManager. NexttotalTime = -1;
+        StageInformationManager.NextmaxHeart = -1;  
+        StageInformationManager.NextcurrentHeart = -1; 
+        StageInformationManager.NextpotionCount = -1; 
+        StageInformationManager. NextmagGlassCount = -1; 
+        StageInformationManager. NextholyWaterCount = -1;
+        StageInformationManager. NexttotalTime = -1;
     }
 
     IEnumerator StartTimer(int totalTime)
@@ -980,13 +1020,13 @@ public class StageManager : MonoBehaviour, IStageManager
         switch(difficulty)
         {
             case Difficulty.Easy :
-                mineRatio = easyMineRatio;
+                mineRatio = StageInformationManager.easyMineRatio;
                 break;
             case Difficulty.Normal :
-                mineRatio = normalMineRatio;
+                mineRatio = StageInformationManager.normalMineRatio;
                 break;
             case Difficulty.Hard :
-                mineRatio = hardMineRatio;
+                mineRatio = StageInformationManager.hardMineRatio;
                 break;
             case Difficulty.Professional :
                 mineRatio = professionalMineRatio;
@@ -1074,7 +1114,18 @@ public class StageManager : MonoBehaviour, IStageManager
             timerCoroutine = null;
         }else
         {
-            DungeonInitialize();
+            StageInformationManager.currentStageIndex = 0;
+            StageInformationManager.NextWidth = StageInformationManager.stageWidthMin[StageInformationManager.currentStagetype,StageInformationManager.currentStageIndex];
+            StageInformationManager.NextHeight= StageInformationManager.stageHeightMin[StageInformationManager.currentStagetype,StageInformationManager.currentStageIndex];
+                
+            StageInformationManager.NextmaxHeart = 3; 
+            StageInformationManager.NextcurrentHeart = 3; 
+            StageInformationManager.NextpotionCount = 5; 
+            StageInformationManager. NextmagGlassCount = 5;
+            StageInformationManager. NextholyWaterCount = 5; 
+            StageInformationManager. NexttotalTime = StageInformationManager.TimeDefaultForStage;
+            
+            DungeonInitialize(StageInformationManager.NextWidth, StageInformationManager.NextHeight ,StageInformationManager.difficulty ,StageInformationManager.NextmaxHeart, StageInformationManager.NextcurrentHeart, StageInformationManager.NextpotionCount, StageInformationManager. NextmagGlassCount, StageInformationManager. NextholyWaterCount, StageInformationManager. NexttotalTime);
             stageInputBlock =0;
         }
         

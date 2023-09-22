@@ -9,7 +9,7 @@ public class Dungeon_Start : MonoBehaviour
 
     void Start()
     {
-        StageManager.StageSaveManager.isnextStageDungeon = true;
+        StageInformationManager.isnextStageDungeon = true;
 
         SceneManager.LoadScene("Loading");
         LoadingInformation.loadingSceneName = loadSceneName;

@@ -106,6 +106,11 @@ public class InGameUI : MonoBehaviour
     private Image[] heartImages = new Image[9];
     private InGameUIAniimation inGameUIAniimation;
 
+    public void GameRestart()
+    {
+        EventManager.instance.InvokeEvent(EventType.Game_Restart, GameOver_Reason.Heart0);
+    }
+
     public void ItemUse(int numtype)
     {
         EventManager.instance.ItemUse_Invoke_Event((ItemUseType)numtype, StageManager.instance.gapBetweenPlayerFocus);
