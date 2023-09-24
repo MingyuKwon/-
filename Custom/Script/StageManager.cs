@@ -248,7 +248,9 @@ public class StageManager : MonoBehaviour, IStageManager
         if(!StageInformationManager.isnextStageDungeon)
         {
             StageInformationManager.currentStageIndex++;
-            StageInformationManager.NextWidth = StageInformationManager.stageWidthMin[StageInformationManager.currentStagetype,StageInformationManager.currentStageIndex];
+            int min = StageInformationManager.stageWidthMin[StageInformationManager.currentStagetype,StageInformationManager.currentStageIndex];
+            int max = StageInformationManager.stageWidthMax[StageInformationManager.currentStagetype,StageInformationManager.currentStageIndex];
+            StageInformationManager.NextWidth = UnityEngine.Random.Range(min, max+1); 
             StageInformationManager.NextHeight = StageInformationManager.stageHeightMin[StageInformationManager.currentStagetype,StageInformationManager.currentStageIndex];
         }
         
