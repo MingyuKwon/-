@@ -74,7 +74,6 @@ public class EquippedItem
     public static void SetNextEquippedItem()
     {
         nextObtainItem = (Item)UnityEngine.Random.Range(4, 13);
-        nextObtainItem = Item.Heart_UP;
     }
 
     public static void ObtainNextEquippedItem()
@@ -282,12 +281,20 @@ public class EventManager : MonoBehaviour
         ItemUseEvent.Invoke(itemUseType, itemUseDirection);
     }
 
+    public Action StageClearEvent;
     public Action ObtainBigItemEvent;
     public void ObtainBigItem_Invoke_Event()
     {
-        ObtainBigItemEvent.Invoke();
-        EquippedItem.ObtainNextEquippedItem();
-        UpdateRightPanel_Invoke_Event();
+        if(StageInformationManager.currentStageIndex < 5)
+        {
+            ObtainBigItemEvent.Invoke();
+            EquippedItem.ObtainNextEquippedItem();
+            UpdateRightPanel_Invoke_Event();
+        }else
+        {
+            StageClearEvent.Invoke();
+        }
+        
     }
 
     public Action UpdateRightPanelEvent;

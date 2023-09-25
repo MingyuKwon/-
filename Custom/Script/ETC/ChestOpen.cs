@@ -15,10 +15,12 @@ public class ChestOpen : MonoBehaviour
 
     private void OnEnable() {
         EventManager.instance.ObtainBigItemEvent += OpenChest;
+        EventManager.instance.StageClearEvent += OpenChest;
     }
 
     private void OnDisable() {
         EventManager.instance.ObtainBigItemEvent -= OpenChest;
+        EventManager.instance.StageClearEvent -= OpenChest;
     }
 
 

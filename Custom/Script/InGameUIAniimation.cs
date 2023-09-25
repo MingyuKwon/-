@@ -17,6 +17,7 @@ public class InGameUIAniimation : MonoBehaviour
         EventManager.instance.Set_UI_Filter_Event += Set_UI_Filter;
         EventManager.instance.Game_Over_Event += GameOverAnimation;
         EventManager.instance.ObtainBigItemEvent += Set_BIG_ITEM_UI_Filter;
+        EventManager.instance.StageClearEvent += Game_Clear;
 
     }
 
@@ -24,6 +25,7 @@ public class InGameUIAniimation : MonoBehaviour
         EventManager.instance.Set_UI_Filter_Event -= Set_UI_Filter;
         EventManager.instance.Game_Over_Event -= GameOverAnimation;
         EventManager.instance.ObtainBigItemEvent -= Set_BIG_ITEM_UI_Filter;
+        EventManager.instance.StageClearEvent -= Game_Clear;
     }
 
     bool isShowingMinimap = false;
@@ -136,6 +138,11 @@ public class InGameUIAniimation : MonoBehaviour
         }
         
         animator.SetTrigger("Big Treasure Find");
+    }
+
+    private void Game_Clear()
+    {        
+        animator.SetTrigger("Stage Clear");
     }
 
 
