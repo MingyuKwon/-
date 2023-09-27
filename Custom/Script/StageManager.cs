@@ -141,6 +141,10 @@ public class StageManager : MonoBehaviour, IStageManager
         }
         set{
             _treasureCount = value;
+            if(_treasureCount == 0)
+            {
+                EventManager.instance.StairOpen_Invoke_Event();
+            }
         }
     }
 

@@ -185,11 +185,6 @@ public class InputManager : MonoBehaviour
 
         if(EventSystem.current.IsPointerOverGameObject()) return;
 
-        if(Input.GetMouseButtonDown(3))
-        {
-            EventManager.instance.StairOpen_Invoke_Event();
-        }
-
         if(Input.GetMouseButtonDown(0))
         {
             StageManager.instance.MoveOrShovelOrInteract();
