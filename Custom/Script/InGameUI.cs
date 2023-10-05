@@ -12,11 +12,18 @@ public class InGameUI : MonoBehaviour
     static public InGameUI instance;
     #region Serialize
     [Header("Texts")]
+    public TextMeshProUGUI difficulty;
     public TextMeshProUGUI width;
     public TextMeshProUGUI height;
     public TextMeshProUGUI stageDifficulty;
     public TextMeshProUGUI stageType;
     public TextMeshProUGUI stageIndex;
+
+    public TextMeshProUGUI trapDamage;
+    public TextMeshProUGUI potionPlus;
+    public TextMeshProUGUI magGlassPlus;
+    public TextMeshProUGUI holyWaterPlus;
+    public TextMeshProUGUI TimePlus;
 
     [Space]
     public TextMeshProUGUI[] usableItemExplain;
@@ -463,8 +470,30 @@ public class InGameUI : MonoBehaviour
 
     private void UpdateLeftPanel()
     {
+        switch(StageInformationManager.difficulty)
+        {
+            case Difficulty.Easy :
+                difficulty.text = "Easy";
+                break;
+            case Difficulty.Normal :
+                difficulty.text = "Normal";
+                break;
+            case Difficulty.Hard :
+                difficulty.text = "Hard";
+                break;
+            case Difficulty.Professional :
+                difficulty.text = "Professional";
+                break;
+        }
+        
         width.text = "Width : " + StageInformationManager.NextWidth.ToString();
         height.text = "Height : " + StageInformationManager.NextHeight.ToString();
+
+        trapDamage.text = "X" + StageInformationManager.DefaultTrapDamage[(int)StageInformationManager.difficulty].ToString();
+        potionPlus.text = "+" + (StageInformationManager.plusPotion_Default_perStage + EquippedItem.Heart_StageBonus).ToString();
+        magGlassPlus.text = "+" + (StageInformationManager.plusMag_Default_perStage + EquippedItem.Glass_StageBonus).ToString();
+        holyWaterPlus.text = "+" + (StageInformationManager.plusHoly_Default_perStage + EquippedItem.Holy_StageBonus).ToString();
+        TimePlus.text = "+" +  (StageInformationManager.DefaultTimeperStage[(int)StageInformationManager.difficulty] + EquippedItem.Time_StageBonus).ToString();
 
         switch(StageInformationManager.difficulty)
         {

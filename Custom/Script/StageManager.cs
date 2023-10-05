@@ -200,10 +200,10 @@ public class StageManager : MonoBehaviour, IStageManager
         if(!StageInformationManager.isnextStageDungeon)
         {
             StageInformationManager.currentStageIndex++;
-            int min = StageInformationManager.stageWidthMin[StageInformationManager.currentStagetype,StageInformationManager.currentStageIndex];
-            int max = StageInformationManager.stageWidthMax[StageInformationManager.currentStagetype,StageInformationManager.currentStageIndex];
+            int min = StageInformationManager.stageWidthMin[(int)StageInformationManager.difficulty,StageInformationManager.currentStageIndex];
+            int max = StageInformationManager.stageWidthMax[(int)StageInformationManager.difficulty,StageInformationManager.currentStageIndex];
             StageInformationManager.NextWidth = UnityEngine.Random.Range(min, max+1); 
-            StageInformationManager.NextHeight = StageInformationManager.stageHeightMin[StageInformationManager.currentStagetype,StageInformationManager.currentStageIndex];
+            StageInformationManager.NextHeight = StageInformationManager.stageHeightMin[(int)StageInformationManager.difficulty,StageInformationManager.currentStageIndex];
         }
         
         StageInformationManager.NextmaxHeart = maxHeart;  
@@ -222,15 +222,15 @@ public class StageManager : MonoBehaviour, IStageManager
             if(StageInformationManager.NextmaxHeart == -1)
             {
                 StageInformationManager.currentStageIndex = 0;
-                StageInformationManager.NextWidth = StageInformationManager.stageWidthMin[StageInformationManager.currentStagetype,StageInformationManager.currentStageIndex];
-                StageInformationManager.NextHeight= StageInformationManager.stageHeightMin[StageInformationManager.currentStagetype,StageInformationManager.currentStageIndex];
+                StageInformationManager.NextWidth = StageInformationManager.stageWidthMin[(int)StageInformationManager.difficulty,StageInformationManager.currentStageIndex];
+                StageInformationManager.NextHeight= StageInformationManager.stageHeightMin[(int)StageInformationManager.difficulty,StageInformationManager.currentStageIndex];
                 
                 StageInformationManager.NextmaxHeart = 3; 
                 StageInformationManager.NextcurrentHeart = 3; 
                 StageInformationManager.NextpotionCount = 5; 
                 StageInformationManager. NextmagGlassCount = 5;
                 StageInformationManager. NextholyWaterCount = 5; 
-                StageInformationManager. NexttotalTime = StageInformationManager.TimeDefaultForStage;
+                StageInformationManager. NexttotalTime = StageInformationManager.DefaultTimeforEntireGame;
             }
 
             DungeonInitialize(StageInformationManager.NextWidth, StageInformationManager.NextHeight ,StageInformationManager.difficulty ,StageInformationManager.NextmaxHeart, StageInformationManager.NextcurrentHeart, StageInformationManager.NextpotionCount, StageInformationManager. NextmagGlassCount, StageInformationManager. NextholyWaterCount, StageInformationManager. NexttotalTime);
@@ -355,7 +355,7 @@ public class StageManager : MonoBehaviour, IStageManager
             case ItemUseType.Potion :
                 potionCount--;
                 EventManager.instance.Item_Count_Change_Invoke_Event(EventType.Item_Use, Item.Potion, potionCount);
-                HeartChange(1);
+                HeartChange(StageInformationManager.DefaultTrapDamage[(int)StageInformationManager.difficulty]);
             break;
         }
     }
@@ -799,9 +799,9 @@ public class StageManager : MonoBehaviour, IStageManager
         this.width = width;
         this.height = height;
 
-        this.potionCount = potionCount + EquippedItem.Heart_StageBonus + 3;
-        this.magGlassCount = magGlassCount + EquippedItem.Glass_StageBonus + 3;
-        this.holyWaterCount = holyWaterCount+ EquippedItem.Holy_StageBonus + 3;
+        this.potionCount = potionCount + EquippedItem.Heart_StageBonus + StageInformationManager.plusPotion_Default_perStage;
+        this.magGlassCount = magGlassCount + EquippedItem.Glass_StageBonus + StageInformationManager.plusMag_Default_perStage;
+        this.holyWaterCount = holyWaterCount+ EquippedItem.Holy_StageBonus + StageInformationManager.plusHoly_Default_perStage;
 
         EventManager.instance.Reduce_HeartInvokeEvent(currentHeart, maxHeart);
 
@@ -826,7 +826,7 @@ public class StageManager : MonoBehaviour, IStageManager
 
         CameraSize_Change.ChangeCameraSizeFit();
 
-        timerCoroutine = StartCoroutine(StartTimer(totalTime + EquippedItem.Time_StageBonus + StageInformationManager.TimeperStage[StageInformationManager.currentStagetype])); 
+        timerCoroutine = StartCoroutine(StartTimer(totalTime + EquippedItem.Time_StageBonus + StageInformationManager.DefaultTimeperStage[(int)StageInformationManager.difficulty])); 
 
         PlayerManager.instance.SetPlayerPositionStart();
 
@@ -1046,15 +1046,15 @@ public class StageManager : MonoBehaviour, IStageManager
         }else
         {
             StageInformationManager.currentStageIndex = 0;
-            StageInformationManager.NextWidth = StageInformationManager.stageWidthMin[StageInformationManager.currentStagetype,StageInformationManager.currentStageIndex];
-            StageInformationManager.NextHeight= StageInformationManager.stageHeightMin[StageInformationManager.currentStagetype,StageInformationManager.currentStageIndex];
+            StageInformationManager.NextWidth = StageInformationManager.stageWidthMin[(int)StageInformationManager.difficulty,StageInformationManager.currentStageIndex];
+            StageInformationManager.NextHeight= StageInformationManager.stageHeightMin[(int)StageInformationManager.difficulty,StageInformationManager.currentStageIndex];
                 
             StageInformationManager.NextmaxHeart = 3; 
             StageInformationManager.NextcurrentHeart = 3; 
             StageInformationManager.NextpotionCount = 5; 
             StageInformationManager. NextmagGlassCount = 5;
             StageInformationManager. NextholyWaterCount = 5; 
-            StageInformationManager. NexttotalTime = StageInformationManager.TimeDefaultForStage;
+            StageInformationManager. NexttotalTime = StageInformationManager.DefaultTimeforEntireGame;
 
             EquippedItem.ClearEquippedItem();
             EventManager.instance.UpdateRightPanel_Invoke_Event();

@@ -105,16 +105,16 @@ public class EquippedItem
         {
             if(item == Item.Potion && equippedItem == Item.Potion_Plus )
             {
-                amount += 2;
+                amount += StageInformationManager.plusPotion_byItem_perStage;
             }else if(item == Item.Mag_Glass && equippedItem == Item.Glass_Plus )
             {
-                amount += 2;
+                amount += StageInformationManager.plusMag_byItem_perStage;
             }else if(item == Item.Holy_Water && equippedItem == Item.Water_Plus )
             {
-                amount += 2;
+                amount += StageInformationManager.plusHoly_byItem_perStage;
             }else if(Item.Time_Plus == item && Item.Time_Plus == equippedItem)
             {
-                amount += 30;
+                amount += StageInformationManager.plusTime_byItem_perStage;
             }
         }
 
