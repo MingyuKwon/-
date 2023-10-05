@@ -7,56 +7,7 @@ using TMPro;
 using UnityEngine.EventSystems;
 using System.Collections;
 
- public class StageInformationManager
-{
-    public static float easyMineRatio = 0.15f;
-    public static float normalMineRatio = 0.18f;
-    public static float hardMineRatio = 0.23f;
 
-    public static int TimeDefaultForStage = 100;
-    public static int[] TimeperStage = {150, 200, 250 };
-
-    public static int[,] stageWidthMin = 
-    {
-        {8 , 9, 10, 11, 12,13},
-        {15, 16, 17, 18, 19,20},
-        {28 , 29, 30, 31, 32,33},
-    };
-    public static int[,] stageWidthMax = 
-    {
-        {10 , 11, 12, 13, 14,15},
-        {17 , 18, 19, 20, 21,22},
-        {30 , 31, 32, 33, 34,35},
-    };
-    
-    public static int[,] stageHeightMin = {
-        {8 , 8, 8, 8, 8,8},
-        {14 , 14, 15, 15, 16,16},
-        {16 , 16, 16, 16, 17,17},
-    };
-    public static int[,] stageHeightMax = {
-        {9 , 9, 9, 10, 10,10},
-        {16 , 16, 16, 17, 17,18},
-        {18 , 19, 20, 21, 22,23},
-    };
-
-    public static int currentStagetype = 0;
-    public static int currentStageIndex = 0;
-    public static bool isnextStageDungeon = true;
-    public static Difficulty difficulty = Difficulty.Hard;
-
-    public static Vector3Int treasurePosition = new Vector3Int(-4,-1,0);
-
-    public static int NextWidth = -1;  
-    public static int NextHeight = -1;  
-
-    public static int NextmaxHeart = -1;  
-    public static int NextcurrentHeart = -1; 
-    public static int NextpotionCount = -1; 
-    public static int NextmagGlassCount = -1; 
-    public static int NextholyWaterCount = -1;
-    public static int NexttotalTime = -1;
-}
 
 public class StageManager : MonoBehaviour, IStageManager
 {   
@@ -95,9 +46,6 @@ public class StageManager : MonoBehaviour, IStageManager
     [Space]
     [Header("For Debug")]
     [SerializeField] private TextMeshProUGUI tmp;
-
-    private float professionalMineRatio = 0.28f;
-    private float mineToTreasureRatio = 0.4f;
 
     Vector3Int BigTreasurePosition;
 
@@ -851,9 +799,9 @@ public class StageManager : MonoBehaviour, IStageManager
         this.width = width;
         this.height = height;
 
-        this.potionCount = potionCount + EquippedItem.Heart_StageBonus;
-        this.magGlassCount = magGlassCount + EquippedItem.Glass_StageBonus;
-        this.holyWaterCount = holyWaterCount+ EquippedItem.Holy_StageBonus;
+        this.potionCount = potionCount + EquippedItem.Heart_StageBonus + 3;
+        this.magGlassCount = magGlassCount + EquippedItem.Glass_StageBonus + 3;
+        this.holyWaterCount = holyWaterCount+ EquippedItem.Holy_StageBonus + 3;
 
         EventManager.instance.Reduce_HeartInvokeEvent(currentHeart, maxHeart);
 
@@ -1012,12 +960,12 @@ public class StageManager : MonoBehaviour, IStageManager
                 mineRatio = StageInformationManager.hardMineRatio;
                 break;
             case Difficulty.Professional :
-                mineRatio = professionalMineRatio;
+                mineRatio = StageInformationManager.professionalMineRatio;
                 break;
         }
 
         int totalCount = (int)(totalBockNum * mineRatio);
-        mineCount = (int)(totalCount * (1 - mineToTreasureRatio));
+        mineCount = (int)(totalCount * (1 - StageInformationManager.mineToTreasureRatio));
         treasureCount = totalCount - mineCount;
 
         EventManager.instance.InvokeEvent(EventType.MineAppear, mineCount);
