@@ -74,6 +74,7 @@ public class EquippedItem
     public static void SetNextEquippedItem()
     {
         nextObtainItem = (Item)UnityEngine.Random.Range(4, 13);
+        nextObtainItem = Item.Glass_Plus;
     }
 
     public static void ObtainNextEquippedItem()

@@ -227,9 +227,9 @@ public class StageManager : MonoBehaviour, IStageManager
                 
                 StageInformationManager.NextmaxHeart = 3; 
                 StageInformationManager.NextcurrentHeart = 3; 
-                StageInformationManager.NextpotionCount = 5; 
-                StageInformationManager. NextmagGlassCount = 5;
-                StageInformationManager. NextholyWaterCount = 5; 
+                StageInformationManager.NextpotionCount = 0; 
+                StageInformationManager. NextmagGlassCount = 0;
+                StageInformationManager. NextholyWaterCount = 0; 
                 StageInformationManager. NexttotalTime = StageInformationManager.DefaultTimeforEntireGame;
             }
 
@@ -772,7 +772,7 @@ public class StageManager : MonoBehaviour, IStageManager
 
 
     [Button]
-    public void DungeonInitialize(int width = DefaultX ,  int height = DefaultY, Difficulty difficulty = Difficulty.Hard, int maxHeart = 3,  int currentHeart = 2, int potionCount = 5, int magGlassCount = 20, int holyWaterCount = 5, int totalTime = 300)
+    public void DungeonInitialize(int width = DefaultX ,  int height = DefaultY, Difficulty difficulty = Difficulty.Hard, int maxHeart = 3,  int currentHeart = 2, int potionCount = 0, int magGlassCount = 0, int holyWaterCount = 0, int totalTime = 300)
     {
         isDungeon = StageInformationManager.isnextStageDungeon;
         
@@ -805,9 +805,9 @@ public class StageManager : MonoBehaviour, IStageManager
 
         EventManager.instance.Reduce_HeartInvokeEvent(currentHeart, maxHeart);
 
-        EventManager.instance.Item_Count_Change_Invoke_Event(EventType.Item_Obtain, Item.Potion, potionCount);
-        EventManager.instance.Item_Count_Change_Invoke_Event(EventType.Item_Obtain, Item.Mag_Glass, magGlassCount);
-        EventManager.instance.Item_Count_Change_Invoke_Event(EventType.Item_Obtain, Item.Holy_Water, holyWaterCount);
+        EventManager.instance.Item_Count_Change_Invoke_Event(EventType.Item_Obtain, Item.Potion, this.potionCount);
+        EventManager.instance.Item_Count_Change_Invoke_Event(EventType.Item_Obtain, Item.Mag_Glass, this.magGlassCount);
+        EventManager.instance.Item_Count_Change_Invoke_Event(EventType.Item_Obtain, Item.Holy_Water, this.holyWaterCount);
         
         EventManager.instance.UpdateLeftPanel_Invoke_Event();
         
