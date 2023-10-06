@@ -741,6 +741,7 @@ public class StageManager : MonoBehaviour, IStageManager
 
     public void RestPlaceInitialize(Vector3Int treasurePosition, int maxHeart = 9,  int currentHeart = 1, int potionCount = 5, int magGlassCount = 20, int holyWaterCount = 5, int totalTime = 300)
     {
+        GameAudioManager.instance.PlayBackGroundMusic(BackGroundAudioType.RestRoom);
         EventManager.instance.UpdateLeftPanel_Invoke_Event();
 
         EventManager.instance.InvokeEvent(EventType.None, 0);
@@ -775,6 +776,7 @@ public class StageManager : MonoBehaviour, IStageManager
     public void DungeonInitialize(int width = DefaultX ,  int height = DefaultY, Difficulty difficulty = Difficulty.Hard, int maxHeart = 3,  int currentHeart = 2, int potionCount = 0, int magGlassCount = 0, int holyWaterCount = 0, int totalTime = 300)
     {
         isDungeon = StageInformationManager.isnextStageDungeon;
+        GameAudioManager.instance.PlayBackGroundMusic(BackGroundAudioType.Cave);
         
         EventManager.instance.UpdateLeftPanel_Invoke_Event();
 
