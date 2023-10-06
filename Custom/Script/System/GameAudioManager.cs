@@ -16,6 +16,19 @@ public enum BackGroundAudioType{
 
 public enum SFXAudioType{
     GetItem = 0,  
+    Shovel = 1,  
+    Bomb = 2,  
+    flag = 3,  
+    potion = 4,  
+    Mag_Glass = 5,  
+    HolyWater = 6,  
+    GetBigItem = 7,  
+    GateOpen = 8,  
+    GetDamage = 9,  
+    Move = 10,
+    MoveTeleport = 11,
+    itemMenuShow = 12,
+    itemMenuClose = 13,
 }
 
 public enum UIAudioType{
@@ -161,7 +174,7 @@ public class GameAudioManager : MonoBehaviour
     public static float default_totalVolme = 1f;
     public static float default_currentBackGroundVolume = 0.5f;
     public static float default_currentUIVolume = 0.3f;
-    public static float default_currentSFXVolume = 0.5f;
+    public static float default_currentSFXVolume = 0.3f;
     public static float default_currentEnvironmentVolume = 0.7f;
     #endregion
 

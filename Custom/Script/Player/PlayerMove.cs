@@ -21,6 +21,7 @@ public class PlayerMove : MonoBehaviour
         
         if(gap != Vector3Int.forward)
         {
+            GameAudioManager.instance.PlaySFXMusic(SFXAudioType.Move);
             if(gap.magnitude == 1) 
             {
                 StartCoroutine(MoveOneDirectly(gap));
@@ -32,6 +33,7 @@ public class PlayerMove : MonoBehaviour
             
         }else
         {
+            GameAudioManager.instance.PlaySFXMusic(SFXAudioType.MoveTeleport);
             StartCoroutine(MoveTeleport(cellPosition));
         }
     }

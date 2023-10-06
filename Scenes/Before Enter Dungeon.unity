@@ -759,6 +759,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 122872215751301037, guid: 1c111943c186a5d418dbc5ddcba6c422, type: 3}
+      propertyPath: sfxAudioClip.Array.size
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 122872215751301037, guid: 1c111943c186a5d418dbc5ddcba6c422, type: 3}
+      propertyPath: sfxAudioClip.Array.data[12]
+      value: 
+      objectReference: {fileID: 8300000, guid: a5c58aede7954b54297aa2c770e76193, type: 3}
+    - target: {fileID: 122872215751301037, guid: 1c111943c186a5d418dbc5ddcba6c422, type: 3}
+      propertyPath: sfxAudioClip.Array.data[13]
+      value: 
+      objectReference: {fileID: 8300000, guid: 685f3d1c0a6b644459f1921c84568ced, type: 3}
     - target: {fileID: 122872215751301038, guid: 1c111943c186a5d418dbc5ddcba6c422, type: 3}
       propertyPath: m_RootOrder
       value: 8

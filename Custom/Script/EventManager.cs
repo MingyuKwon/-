@@ -74,7 +74,6 @@ public class EquippedItem
     public static void SetNextEquippedItem()
     {
         nextObtainItem = (Item)UnityEngine.Random.Range(4, 13);
-        nextObtainItem = Item.Glass_Plus;
     }
 
     public static void ObtainNextEquippedItem()
@@ -314,6 +313,7 @@ public class EventManager : MonoBehaviour
     public void StairOpen_Invoke_Event()
     {
         StairOpenEvent?.Invoke();
+        GameAudioManager.instance.PlaySFXMusic(SFXAudioType.GateOpen);
     }
 
     #endregion

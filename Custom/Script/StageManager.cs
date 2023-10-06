@@ -227,9 +227,9 @@ public class StageManager : MonoBehaviour, IStageManager
                 
                 StageInformationManager.NextmaxHeart = 3; 
                 StageInformationManager.NextcurrentHeart = 3; 
-                StageInformationManager.NextpotionCount = 0; 
-                StageInformationManager. NextmagGlassCount = 0;
-                StageInformationManager. NextholyWaterCount = 0; 
+                StageInformationManager.NextpotionCount = 2; 
+                StageInformationManager. NextmagGlassCount = 2;
+                StageInformationManager. NextholyWaterCount = 2; 
                 StageInformationManager. NexttotalTime = StageInformationManager.DefaultTimeforEntireGame;
             }
 
@@ -252,6 +252,7 @@ public class StageManager : MonoBehaviour, IStageManager
                 if(!interactOkflag) return;
                 isNowInputtingItem = true;
                 EventManager.instance.ItemPanelShow_Invoke_Event(currentFocusPosition, true, holyWaterEnable, TileGrid.CheckObstaclePosition(currentFocusPosition), magGlassEnable , potionEnable);
+                GameAudioManager.instance.PlaySFXMusic(SFXAudioType.itemMenuShow);
             }
         }else
         {
@@ -259,6 +260,7 @@ public class StageManager : MonoBehaviour, IStageManager
             {
                 isNowInputtingItem = false;
                 EventManager.instance.ItemPanelShow_Invoke_Event(currentFocusPosition, false);
+                GameAudioManager.instance.PlaySFXMusic(SFXAudioType.itemMenuClose);
             }
         }
     }
@@ -272,6 +274,7 @@ public class StageManager : MonoBehaviour, IStageManager
             if(isDungeon)
             {
                 EventManager.instance.ItemUse_Invoke_Event(ItemUseType.Shovel, gapBetweenPlayerFocus);
+                GameAudioManager.instance.PlaySFXMusic(SFXAudioType.Shovel);
                 RemoveObstacle(currentFocusPosition);            
             }else
             {
@@ -281,6 +284,7 @@ public class StageManager : MonoBehaviour, IStageManager
                     EquippedItem.SetNextEquippedItem();
                     if(EquippedItem.nextObtainItem == Item.Heart_UP) MaxHeartUP();
                     EventManager.instance.ObtainBigItem_Invoke_Event();
+                    GameAudioManager.instance.PlaySFXMusic(SFXAudioType.GetBigItem);
                 }
                 
             }
@@ -345,17 +349,21 @@ public class StageManager : MonoBehaviour, IStageManager
         {
             case ItemUseType.Holy_Water :
                 SetTreasureSearch(currentFocusPosition);
+                GameAudioManager.instance.PlaySFXMusic(SFXAudioType.HolyWater);
             break;
             case ItemUseType.Crash :
                 BombObstacle(currentFocusPosition);
+                GameAudioManager.instance.PlaySFXMusic(SFXAudioType.Bomb);
             break;
             case ItemUseType.Mag_Glass :
                 ChangeTotalToSeperate(currentFocusPosition);
+                GameAudioManager.instance.PlaySFXMusic(SFXAudioType.Mag_Glass);
             break;
             case ItemUseType.Potion :
                 potionCount--;
                 EventManager.instance.Item_Count_Change_Invoke_Event(EventType.Item_Use, Item.Potion, potionCount);
                 HeartChange(StageInformationManager.DefaultTrapDamage[(int)StageInformationManager.difficulty]);
+                GameAudioManager.instance.PlaySFXMusic(SFXAudioType.potion);
             break;
         }
     }
@@ -470,7 +478,8 @@ public class StageManager : MonoBehaviour, IStageManager
             if(mineTreasureArray[arrayPos.y, arrayPos.x] == -1) // 지뢰
             {
                 EventManager.instance.InvokeEvent(EventType.MineAppear, mineCount);
-                HeartChange(-1); 
+                HeartChange(-StageInformationManager.DefaultTrapDamage[(int)StageInformationManager.difficulty]);
+                GameAudioManager.instance.PlaySFXMusic(SFXAudioType.GetDamage);
                 return;
             }else{ // 지뢰가 아닌 타일 
                 
@@ -653,13 +662,14 @@ public class StageManager : MonoBehaviour, IStageManager
     {
         Vector3Int arrayPos = ChangeCellPosToArrayPos(cellPos);
         if(!(CheckHasObstacle(cellPos))) return; // 해당 위치에 장애물 타일이 없으면 무시
-
+        
         if(forceful)
         {
             flagArray[arrayPos.y, arrayPos.x] = 0;
             grid.SetFlag(cellPos, Flag.None);
         }else
         {
+            GameAudioManager.instance.PlaySFXMusic(SFXAudioType.flag);
             Flag[] flagEnumArray = (Flag[]) Enum.GetValues(typeof(Flag));
             flagArray[arrayPos.y, arrayPos.x] = (flagArray[arrayPos.y, arrayPos.x] + 1) % flagEnumArray.Length;
             grid.SetFlag(cellPos, flagEnumArray[flagArray[arrayPos.y, arrayPos.x]]);
@@ -702,6 +712,7 @@ public class StageManager : MonoBehaviour, IStageManager
 
     private void GetItem(bool isUsable)
     {
+        GameAudioManager.instance.PlaySFXMusic(SFXAudioType.GetItem);
         if(isUsable)
         {
             // 적은 개수를 가지는 아이템이 나오도록 바꿔야 한다
@@ -726,9 +737,6 @@ public class StageManager : MonoBehaviour, IStageManager
                     EventManager.instance.Item_Count_Change_Invoke_Event(EventType.Item_Obtain, randUsableItem, holyWaterCount,obtainCount);
                     break;
             }
-
-        }else
-        {
 
         }
     }
@@ -1053,9 +1061,9 @@ public class StageManager : MonoBehaviour, IStageManager
                 
             StageInformationManager.NextmaxHeart = 3; 
             StageInformationManager.NextcurrentHeart = 3; 
-            StageInformationManager.NextpotionCount = 5; 
-            StageInformationManager. NextmagGlassCount = 5;
-            StageInformationManager. NextholyWaterCount = 5; 
+            StageInformationManager.NextpotionCount = 2; 
+            StageInformationManager. NextmagGlassCount = 2;
+            StageInformationManager. NextholyWaterCount = 2; 
             StageInformationManager. NexttotalTime = StageInformationManager.DefaultTimeforEntireGame;
 
             EquippedItem.ClearEquippedItem();
