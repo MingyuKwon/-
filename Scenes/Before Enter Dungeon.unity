@@ -771,6 +771,18 @@ PrefabInstance:
       propertyPath: sfxAudioClip.Array.data[13]
       value: 
       objectReference: {fileID: 8300000, guid: 685f3d1c0a6b644459f1921c84568ced, type: 3}
+    - target: {fileID: 122872215751301037, guid: 1c111943c186a5d418dbc5ddcba6c422, type: 3}
+      propertyPath: backGroundAudioClip.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 122872215751301037, guid: 1c111943c186a5d418dbc5ddcba6c422, type: 3}
+      propertyPath: backGroundAudioClip.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: 57f7db12eb8823b4b98ede53276ae6ba, type: 3}
+    - target: {fileID: 122872215751301037, guid: 1c111943c186a5d418dbc5ddcba6c422, type: 3}
+      propertyPath: backGroundAudioClip.Array.data[3]
+      value: 
+      objectReference: {fileID: 8300000, guid: 2333d3a400dddc942b5c9f66096b70ea, type: 3}
     - target: {fileID: 122872215751301038, guid: 1c111943c186a5d418dbc5ddcba6c422, type: 3}
       propertyPath: m_RootOrder
       value: 8
@@ -885,6 +897,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3429522036412058240, guid: 3905f62a3aec3c84aab1f50bce86bf71, type: 3}
+      propertyPath: m_MatchWidthOrHeight
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3429522036412058242, guid: 3905f62a3aec3c84aab1f50bce86bf71, type: 3}
       propertyPath: m_Name
       value: InGameStageUI
