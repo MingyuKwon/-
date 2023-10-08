@@ -26,7 +26,7 @@ public enum GameOver_Reason {
 }
 
 public enum Item {
-    None = 0,
+    
     Potion = 1,
     Mag_Glass = 2,
     Holy_Water = 3,
@@ -48,6 +48,7 @@ public enum Item {
     Time_Plus = 11,
 
     Heart_UP = 12,
+    None = 13,
 }
 
 public enum ItemUseType {

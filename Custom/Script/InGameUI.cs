@@ -361,6 +361,12 @@ public class InGameUI : MonoBehaviour
     {
         bool flag = false;
 
+        if(usableItem == Item.None)
+        {
+            inGameUIAniimation.SetItem_Use_Obtain_Flag(usableItem, changeAmount);
+            return;
+        }
+
         if(eventType == EventType.Item_Obtain && changeAmount > 0)
         {
             inGameUIAniimation.SetItem_Use_Obtain_Flag(usableItem, changeAmount);

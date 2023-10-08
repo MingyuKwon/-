@@ -740,10 +740,17 @@ public class StageManager : MonoBehaviour, IStageManager
         {
             // 적은 개수를 가지는 아이템이 나오도록 바꿔야 한다
             Item randUsableItem = (Item)UnityEngine.Random.Range(1, 4);
+            if(UnityEngine.Random.value < StageInformationManager.noItemRatio[(int)StageInformationManager.difficulty])
+            {
+                Debug.Log("Im In");
+                randUsableItem = Item.None;
+            }   
 
             int obtainCount = 1;
             obtainCount += EquippedItem.canObtainPlusItem(Item.ALL_PercentageUP);
             obtainCount += EquippedItem.canObtainPlusItem(randUsableItem);
+
+
 
             switch(randUsableItem)
             {
@@ -758,6 +765,9 @@ public class StageManager : MonoBehaviour, IStageManager
                 case Item.Holy_Water :
                     holyWaterCount += obtainCount;
                     EventManager.instance.Item_Count_Change_Invoke_Event(EventType.Item_Obtain, randUsableItem, holyWaterCount,obtainCount);
+                    break;
+                case Item.None :
+                    EventManager.instance.Item_Count_Change_Invoke_Event(EventType.Item_Obtain, randUsableItem, holyWaterCount,0);
                     break;
             }
 

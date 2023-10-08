@@ -10,6 +10,8 @@ public class StageInformationManager
     public static float professionalMineRatio = 0.28f;
     public static float mineToTreasureRatio = 0.4f;
 
+    public static float[] noItemRatio = {0.1f,0.2f,0.3f};
+
     public static int[] tutorialWidth = {5,7,9};
     public static int[] tutorialHeight = {5,7,9};
 
