@@ -51,6 +51,7 @@ MonoBehaviour:
   backGroundAudioClip:
   - {fileID: 8300000, guid: 32af63cdef117dc4cbc7a7d3a655180f, type: 3}
   - {fileID: 8300000, guid: 01798cd9b4de4e344a7f04bfa311aa9c, type: 3}
+  - {fileID: 8300000, guid: 32af63cdef117dc4cbc7a7d3a655180f, type: 3}
   - {fileID: 8300000, guid: 2333d3a400dddc942b5c9f66096b70ea, type: 3}
   sfxAudioClip:
   - {fileID: 8300000, guid: 04df3eee3199b504199ddd641d49b628, type: 3}
@@ -65,6 +66,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: a6c50d8d54e408b4d943f6048307d62e, type: 3}
   - {fileID: 8300000, guid: 23fe95a15b7fe784080ea9caf5a26aa5, type: 3}
   - {fileID: 8300000, guid: 4a5d93c07f4cd244ea33b00f44ab220c, type: 3}
+  - {fileID: 8300000, guid: a5c58aede7954b54297aa2c770e76193, type: 3}
+  - {fileID: 8300000, guid: 685f3d1c0a6b644459f1921c84568ced, type: 3}
   UIAudioClip: []
 --- !u!82 &7509581929448743385
 AudioSource:

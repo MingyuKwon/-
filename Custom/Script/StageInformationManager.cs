@@ -38,14 +38,14 @@ public class StageInformationManager
     public static int[] DefaultTimeperStage = {150, 200, 250};
     public static int[] DefaultTrapDamage = {1, 1, 2};
 
-    public static int plusPotion_byItem_perStage = 3;
-    public static int plusMag_byItem_perStage = 3;
-    public static int plusHoly_byItem_perStage = 3;
+    public static int plusPotion_byItem_perStage = 2;
+    public static int plusMag_byItem_perStage = 2;
+    public static int plusHoly_byItem_perStage = 2;
     public static int plusTime_byItem_perStage = 30;
 
-    public static int plusPotion_Default_perStage = 1;
-    public static int plusMag_Default_perStage = 1;
-    public static int plusHoly_Default_perStage = 1;
+    public static int plusPotion_Default_perStage = 0;
+    public static int plusMag_Default_perStage = 0;
+    public static int plusHoly_Default_perStage = 0;
 
     public static int currentStagetype = 0;
     public static int currentStageIndex = 0;

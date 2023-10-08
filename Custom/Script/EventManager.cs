@@ -316,6 +316,11 @@ public class EventManager : MonoBehaviour
         GameAudioManager.instance.PlaySFXMusic(SFXAudioType.GateOpen);
     }
 
+    public Action BackToMainMenuEvent;
+    public void BackToMainMenu_Invoke_Event()
+    {
+        BackToMainMenuEvent?.Invoke();
+    }
     #endregion
 
 

@@ -217,6 +217,7 @@ public class StageManager : MonoBehaviour, IStageManager
     }
 
     private void Start() {
+        MakeScreenBlack.Clear();
         if(StageInformationManager.isnextStageDungeon)
         {
             if(StageInformationManager.NextmaxHeart == -1)

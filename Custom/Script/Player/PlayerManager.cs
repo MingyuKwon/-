@@ -73,4 +73,17 @@ public class PlayerManager : MonoBehaviour
         playerTransform.position = new Vector3(0.5f, 0.5f, 0);
     }
 
+    private void OnEnable() {
+        EventManager.instance.BackToMainMenuEvent += DestroyPlayer;
+    }
+
+    private void OnDisable() {
+        EventManager.instance.BackToMainMenuEvent -= DestroyPlayer;
+    }
+
+    public void DestroyPlayer()
+    {
+        Destroy(this.gameObject);
+    }
+
 }

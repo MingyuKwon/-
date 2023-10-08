@@ -4,6 +4,7 @@ using System.Linq;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 
@@ -11,6 +12,7 @@ public class InGameUI : MonoBehaviour
 {
     static public InGameUI instance;
     #region Serialize
+
     [Header("Texts")]
     public TextMeshProUGUI difficulty;
     public TextMeshProUGUI width;
@@ -121,6 +123,15 @@ public class InGameUI : MonoBehaviour
         EventManager.instance.InvokeEvent(EventType.Game_Restart, GameOver_Reason.Heart0);
     }
 
+    public void GoBackMainMenu()
+    {
+        MakeScreenBlack.Hide();
+        EventManager.instance.BackToMainMenu_Invoke_Event();
+        
+        LoadingInformation.loadingSceneName = "Main Menu";
+        SceneManager.LoadScene("Loading");
+    }
+
     public void ItemUse(int numtype)
     {
         EventManager.instance.ItemUse_Invoke_Event((ItemUseType)numtype, StageManager.instance.gapBetweenPlayerFocus);
@@ -207,6 +218,8 @@ public class InGameUI : MonoBehaviour
 
         EventManager.instance.UpdateRightPanelEvent += UpdateRightPanel;
         EventManager.instance.UpdateLeftPanelEvent += UpdateLeftPanel;
+
+        EventManager.instance.BackToMainMenuEvent += DestroyUI;
     }
 
     private void OnDisable() {
@@ -220,6 +233,13 @@ public class InGameUI : MonoBehaviour
         EventManager.instance.timerEvent -= SetTimeTexts;
         EventManager.instance.UpdateRightPanelEvent -= UpdateRightPanel;
         EventManager.instance.UpdateLeftPanelEvent -= UpdateLeftPanel;
+
+        EventManager.instance.BackToMainMenuEvent -= DestroyUI;
+    }
+
+    public void DestroyUI()
+    {
+        Destroy(this.gameObject);
     }
 
     public Vector2 WorldToCanvasPosition(Vector3 worldPosition)
@@ -335,7 +355,6 @@ public class InGameUI : MonoBehaviour
         SandClockTrans.localScale = new Vector3(SandClockTrans.localScale.x - deltaP, SandClockTrans.localScale.y - deltaP,0);
     }
 
-    [Button]
     private void Change_Item_Count(EventType eventType, Item usableItem , int count, int changeAmount)
     {
         bool flag = false;
