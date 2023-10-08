@@ -1142,7 +1142,7 @@ public class StageManager : MonoBehaviour, IStageManager
             }
             
             stageInputBlock++;
-            StopCoroutine(timerCoroutine);
+            if(timerCoroutine != null) StopCoroutine(timerCoroutine);
             reStartEnable = true;
             timerCoroutine = null;
         }else

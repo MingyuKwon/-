@@ -127,6 +127,8 @@ public class InGameUI : MonoBehaviour
     {
         MakeScreenBlack.Hide();
         EventManager.instance.BackToMainMenu_Invoke_Event();
+
+        StageManager.stageInputBlock =0;
         
         LoadingInformation.loadingSceneName = "Main Menu";
         SceneManager.LoadScene("Loading");
