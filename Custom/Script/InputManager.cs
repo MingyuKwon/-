@@ -178,7 +178,7 @@ public class InputManager : MonoBehaviour
             if(StageManager.isNowInputtingItem)
             {
                 input2Ok = true;
-                StageManager.instance.ItemPanelShow(false);
+                StageManager.instance?.ItemPanelShow(false);
             }
             
         }
@@ -187,17 +187,17 @@ public class InputManager : MonoBehaviour
 
         if(Input.GetMouseButtonDown(0))
         {
-            StageManager.instance.MoveOrShovelOrInteract();
+            StageManager.instance?.MoveOrShovelOrInteract();
         }
 
         if(Input.GetMouseButtonDown(1))
         {
-            StageManager.instance.SetFlag();
+            StageManager.instance?.SetFlag();
         }else if(Input.GetMouseButtonDown(2) )
         {
             if(input2Ok) return;
 
-            StageManager.instance.ItemPanelShow(true);
+            StageManager.instance?.ItemPanelShow(true);
         }
 
     }

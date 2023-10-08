@@ -49,6 +49,12 @@ public class MakeScreenBlack : MonoBehaviour
 
             loadingText.text = "Loading . . .";
             yield return new WaitForSecondsRealtime(0.1f);
+
+            loadingText.text = "Loading . .";
+            yield return new WaitForSecondsRealtime(0.1f);
+
+            loadingText.text = "Loading .";
+            yield return new WaitForSecondsRealtime(0.1f);
         }
         
     }

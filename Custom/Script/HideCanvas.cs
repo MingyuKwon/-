@@ -20,16 +20,16 @@ public class HideCanvas : MonoBehaviour
         while(true)
         {
             loadingText.text = "Loading";
-            yield return new WaitForSecondsRealtime(0.15f);
+            yield return new WaitForSecondsRealtime(0.1f);
 
             loadingText.text = "Loading .";
-            yield return new WaitForSecondsRealtime(0.15f);
+            yield return new WaitForSecondsRealtime(0.1f);
 
             loadingText.text = "Loading . .";
-            yield return new WaitForSecondsRealtime(0.15f);
+            yield return new WaitForSecondsRealtime(0.1f);
 
             loadingText.text = "Loading . . .";
-            yield return new WaitForSecondsRealtime(0.15f);
+            yield return new WaitForSecondsRealtime(0.1f);
         }
         
     }

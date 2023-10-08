@@ -320,6 +320,7 @@ public class EventManager : MonoBehaviour
     public void BackToMainMenu_Invoke_Event()
     {
         BackToMainMenuEvent?.Invoke();
+        StageInformationManager.currentStageIndex = 0;
     }
     #endregion
 

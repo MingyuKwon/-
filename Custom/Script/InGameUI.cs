@@ -304,6 +304,8 @@ public class InGameUI : MonoBehaviour
     {
         elapsedTimeText.text = elapsedTime.ToString();
         leftTimeText.text = leftTime.ToString();
+
+        if(elapsedTime == 0 && leftTime == 0) return;
         
         float percentageToChangeBlackBox = (float)elapsedTime / (elapsedTime + leftTime);
         upClockBlackBox.sizeDelta = new Vector2(upClockBlackBox.sizeDelta.x, percentageToChangeBlackBox * blackBoxMaxSize);

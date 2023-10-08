@@ -6,11 +6,15 @@ using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine.EventSystems;
 using System.Collections;
+using Unity.VisualScripting;
 
 
 
 public class StageManager : MonoBehaviour, IStageManager
 {   
+    public bool isTutorial = false;
+    public int tutorialStage;
+
     public static StageManager instance;
     public static bool isDungeon = true;
     const int DefaultX = 18;
@@ -197,7 +201,7 @@ public class StageManager : MonoBehaviour, IStageManager
     private void OnDestroy() {
         instance = null;
 
-        if(!StageInformationManager.isnextStageDungeon)
+        if(!StageInformationManager.isnextStageDungeon) // 다음이 던전인 경우
         {
             StageInformationManager.currentStageIndex++;
             int min = StageInformationManager.stageWidthMin[(int)StageInformationManager.difficulty,StageInformationManager.currentStageIndex];
@@ -220,7 +224,7 @@ public class StageManager : MonoBehaviour, IStageManager
         MakeScreenBlack.Clear();
         if(StageInformationManager.isnextStageDungeon)
         {
-            if(StageInformationManager.NextmaxHeart == -1)
+            if(StageInformationManager.currentStageIndex == 0)
             {
                 StageInformationManager.currentStageIndex = 0;
                 StageInformationManager.NextWidth = StageInformationManager.stageWidthMin[(int)StageInformationManager.difficulty,StageInformationManager.currentStageIndex];
@@ -248,6 +252,7 @@ public class StageManager : MonoBehaviour, IStageManager
     {
         if(flag)
         {
+            if(isTutorial && tutorialStage < 2) return;
             if(!isNowInputtingItem)
             {
                 if(!interactOkflag) return;
@@ -423,7 +428,6 @@ public class StageManager : MonoBehaviour, IStageManager
         grid.ShowOverlayNum(currentPlayerPosition,false, true);
 
         currentPlayerPosition = playerPosition;
-
 
         if(totalNumMask[arrayPos.y, arrayPos.x]) // 만약 돋보기를 쓴 경우
         {
@@ -782,7 +786,7 @@ public class StageManager : MonoBehaviour, IStageManager
 
 
     [Button]
-    public void DungeonInitialize(int width = DefaultX ,  int height = DefaultY, Difficulty difficulty = Difficulty.Hard, int maxHeart = 3,  int currentHeart = 2, int potionCount = 0, int magGlassCount = 0, int holyWaterCount = 0, int totalTime = 300)
+    public void DungeonInitialize(int parawidth = DefaultX ,  int paraheight = DefaultY, Difficulty difficulty = Difficulty.Hard, int maxHeart = 3,  int currentHeart = 2, int potionCount = 0, int magGlassCount = 0, int holyWaterCount = 0, int totalTime = 300)
     {
         isDungeon = StageInformationManager.isnextStageDungeon;
         GameAudioManager.instance.PlayBackGroundMusic(BackGroundAudioType.Cave);
@@ -801,14 +805,20 @@ public class StageManager : MonoBehaviour, IStageManager
         this.maxHeart = maxHeart;
         this.currentHeart = currentHeart;
 
-        flagArray = new int[height, width];
-        isObstacleRemoved = new bool[height, width];
+        flagArray = new int[paraheight, parawidth];
+        isObstacleRemoved = new bool[paraheight, parawidth];
 
         startX = -1;
         startY = -1;
-
-        this.width = width;
-        this.height = height;
+        if(isTutorial)
+        {
+            width = StageInformationManager.tutorialWidth[StageInformationManager.currentStageIndex];
+            height = StageInformationManager.tutorialHeight[StageInformationManager.currentStageIndex];
+        }else{
+            width = parawidth;
+            height = paraheight;
+        }
+        
 
         this.potionCount = potionCount + EquippedItem.Heart_StageBonus + StageInformationManager.plusPotion_Default_perStage;
         this.magGlassCount = magGlassCount + EquippedItem.Glass_StageBonus + StageInformationManager.plusMag_Default_perStage;
@@ -846,9 +856,19 @@ public class StageManager : MonoBehaviour, IStageManager
 
     IEnumerator StartTimer(int totalTime)
     {
-        this.totalTime = totalTime;
-        timeElapsed = 0;
-        EventManager.instance.TimerInvokeEvent(timeElapsed, timeLeft);
+        
+        if(isTutorial && tutorialStage < 3)
+        {
+            this.totalTime = 0;
+            timeElapsed = 0;
+            EventManager.instance.TimerInvokeEvent(timeElapsed, timeLeft);
+            yield break;
+        }else
+        {
+            this.totalTime = totalTime;
+            timeElapsed = 0;
+            EventManager.instance.TimerInvokeEvent(timeElapsed, timeLeft);
+        }
 
         while(timeLeft > 0)
         {
@@ -955,6 +975,60 @@ public class StageManager : MonoBehaviour, IStageManager
     [Button]
     public void MakeMineTreasureArray(int width = 10, int height = 10, Difficulty difficulty = Difficulty.Easy)
     {
+        CalcStartArea(width, height, out startX, out startY);
+
+        if(isTutorial)
+        {
+            switch (tutorialStage)
+            {
+                case 1 : 
+                    mineTreasureArray = new int[5, 5]{
+                        {0,0,0,-1,-2},
+                        {0,1,1,1,0},
+                        {0,1,1,1,0},
+                        {-1,1,1,1,0},
+                        {-2,0,0,-2,0}, 
+                    };
+                    mineCount = 2;
+                    treasureCount = 3;
+                    break;
+                case 2 :
+                    mineTreasureArray = new int[7, 7]{
+                        {0,0,0,0,0,0,0},
+                        {0,0,0,0,0,0,0},
+                        {0,0,1,1,1,0,0},
+                        {0,0,1,1,1,0,0},
+                        {0,0,1,1,1,0,0},
+                        {0,0,0,0,0,0,0},
+                        {0,0,0,0,0,0,0},
+                    };
+                    mineCount = 2;
+                    treasureCount = 3;
+                    break;
+                case 3 :
+                    mineTreasureArray = new int[9, 9]{
+                        {0,0,0,0,0,0,0,0,0},
+                        {0,0,0,0,0,0,0,0,0},
+                        {0,0,0,0,0,0,0,0,0},
+                        {0,0,0,1,1,1,0,0,0},
+                        {0,0,0,1,1,1,0,0,0},
+                        {0,0,0,1,1,1,0,0,0},
+                        {0,0,0,0,0,0,0,0,0},
+                        {0,0,0,0,0,0,0,0,0},
+                        {0,0,0,0,0,0,0,0,0},
+                    };
+                    mineCount = 2;
+                    treasureCount = 3;
+                    break;
+            }
+
+            EventManager.instance.InvokeEvent(EventType.MineAppear, mineCount);
+            EventManager.instance.InvokeEvent(EventType.TreasureAppear, treasureCount);
+
+            return;
+        }
+
+
         mineTreasureArray = new int[height, width];
         int totalBockNum = height * width;
         
@@ -981,8 +1055,6 @@ public class StageManager : MonoBehaviour, IStageManager
 
         EventManager.instance.InvokeEvent(EventType.MineAppear, mineCount);
         EventManager.instance.InvokeEvent(EventType.TreasureAppear, treasureCount);
-
-        CalcStartArea(width, height, out startX, out startY);
 
         // 처음 시작하는 곳 0,0 근처 8칸은 폭탄이 없음을 보장한다
         mineTreasureArray[startY-1, startX-1] = 1;
@@ -1036,7 +1108,6 @@ public class StageManager : MonoBehaviour, IStageManager
                 treasureTemp--;
             }
 
-            
         }
     }
 

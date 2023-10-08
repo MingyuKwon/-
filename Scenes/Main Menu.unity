@@ -351,9 +351,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: InGameUIAniimation, Assembly-CSharp
-        m_MethodName: ShowMinimap
+      - m_Target: {fileID: 1087791688}
+        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+        m_MethodName: StartTutorial
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1182,6 +1182,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0458bd1fd89b5b14f83dfbaa20080630, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  loadTutorialSceneName: Tutorial 1
   loadAdventureSceneName: Cave Dungeon
 --- !u!1 &1640885567
 GameObject:
