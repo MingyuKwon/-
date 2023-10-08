@@ -12,7 +12,6 @@ public class InGameUI : MonoBehaviour
 {
     static public InGameUI instance;
     #region Serialize
-
     [Header("Texts")]
     public TextMeshProUGUI difficulty;
     public TextMeshProUGUI width;

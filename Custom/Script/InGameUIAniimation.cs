@@ -7,6 +7,10 @@ public class InGameUIAniimation : MonoBehaviour
 {
     public TextMeshProUGUI gameOverReason;
 
+    
+    [Header("Restart Button")]
+    public GameObject restartButton;
+
     Animator animator;
 
     private void Awake() {
@@ -69,6 +73,8 @@ public class InGameUIAniimation : MonoBehaviour
     }
 
     public void GameOverAnimation(bool isGameOver, GameOver_Reason reason){
+
+        restartButton.SetActive(!StageManager.instance.isTutorial);
         if(isGameOver)
         {
             switch(reason)
