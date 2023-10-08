@@ -53,6 +53,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 01798cd9b4de4e344a7f04bfa311aa9c, type: 3}
   - {fileID: 8300000, guid: 32af63cdef117dc4cbc7a7d3a655180f, type: 3}
   - {fileID: 8300000, guid: 2333d3a400dddc942b5c9f66096b70ea, type: 3}
+  - {fileID: 8300000, guid: 57f7db12eb8823b4b98ede53276ae6ba, type: 3}
   sfxAudioClip:
   - {fileID: 8300000, guid: 04df3eee3199b504199ddd641d49b628, type: 3}
   - {fileID: 8300000, guid: 76697c54200b6594586205ddace55039, type: 3}

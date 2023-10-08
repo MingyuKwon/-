@@ -13,6 +13,7 @@ public enum BackGroundAudioType{
     RestRoom = 1,
     LastRoom = 2,
     Cave = 3,
+    Tutorial = 4,
 }
 
 public enum SFXAudioType{

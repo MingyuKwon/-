@@ -206,8 +206,17 @@ public class StageManager : MonoBehaviour, IStageManager
             StageInformationManager.currentStageIndex++;
             int min = StageInformationManager.stageWidthMin[(int)StageInformationManager.difficulty,StageInformationManager.currentStageIndex];
             int max = StageInformationManager.stageWidthMax[(int)StageInformationManager.difficulty,StageInformationManager.currentStageIndex];
-            StageInformationManager.NextWidth = UnityEngine.Random.Range(min, max+1); 
-            StageInformationManager.NextHeight = StageInformationManager.stageHeightMin[(int)StageInformationManager.difficulty,StageInformationManager.currentStageIndex];
+            
+            if(isTutorial)
+                {
+                    StageInformationManager.NextWidth = StageInformationManager.tutorialWidth[StageInformationManager.currentStageIndex];
+                    StageInformationManager.NextHeight= StageInformationManager.tutorialHeight[StageInformationManager.currentStageIndex];
+                }else
+                {
+                    StageInformationManager.NextWidth = UnityEngine.Random.Range(min, max+1); 
+                    StageInformationManager.NextHeight = StageInformationManager.stageHeightMin[(int)StageInformationManager.difficulty,StageInformationManager.currentStageIndex];
+                }
+            
         }
         
         StageInformationManager.NextmaxHeart = maxHeart;  
@@ -227,8 +236,17 @@ public class StageManager : MonoBehaviour, IStageManager
             if(StageInformationManager.currentStageIndex == 0)
             {
                 StageInformationManager.currentStageIndex = 0;
-                StageInformationManager.NextWidth = StageInformationManager.stageWidthMin[(int)StageInformationManager.difficulty,StageInformationManager.currentStageIndex];
-                StageInformationManager.NextHeight= StageInformationManager.stageHeightMin[(int)StageInformationManager.difficulty,StageInformationManager.currentStageIndex];
+                if(isTutorial)
+                {
+                    StageInformationManager.NextWidth = StageInformationManager.tutorialWidth[0];
+                    StageInformationManager.NextHeight= StageInformationManager.tutorialHeight[0];
+
+                }else
+                {
+                    StageInformationManager.NextWidth = StageInformationManager.stageWidthMin[(int)StageInformationManager.difficulty,StageInformationManager.currentStageIndex];
+                    StageInformationManager.NextHeight= StageInformationManager.stageHeightMin[(int)StageInformationManager.difficulty,StageInformationManager.currentStageIndex];
+                }
+                
                 
                 StageInformationManager.NextmaxHeart = 3; 
                 StageInformationManager.NextcurrentHeart = 3; 
@@ -789,7 +807,14 @@ public class StageManager : MonoBehaviour, IStageManager
     public void DungeonInitialize(int parawidth = DefaultX ,  int paraheight = DefaultY, Difficulty difficulty = Difficulty.Hard, int maxHeart = 3,  int currentHeart = 2, int potionCount = 0, int magGlassCount = 0, int holyWaterCount = 0, int totalTime = 300)
     {
         isDungeon = StageInformationManager.isnextStageDungeon;
-        GameAudioManager.instance.PlayBackGroundMusic(BackGroundAudioType.Cave);
+        if(isTutorial)
+        {
+            GameAudioManager.instance.PlayBackGroundMusic(BackGroundAudioType.Tutorial);
+        }else
+        {
+            GameAudioManager.instance.PlayBackGroundMusic(BackGroundAudioType.Cave);
+        }
+        
         
         EventManager.instance.UpdateLeftPanel_Invoke_Event();
 
@@ -805,9 +830,6 @@ public class StageManager : MonoBehaviour, IStageManager
         this.maxHeart = maxHeart;
         this.currentHeart = currentHeart;
 
-        flagArray = new int[paraheight, parawidth];
-        isObstacleRemoved = new bool[paraheight, parawidth];
-
         startX = -1;
         startY = -1;
         if(isTutorial)
@@ -818,6 +840,9 @@ public class StageManager : MonoBehaviour, IStageManager
             width = parawidth;
             height = paraheight;
         }
+
+        flagArray = new int[height, width];
+        isObstacleRemoved = new bool[height, width];
         
 
         this.potionCount = potionCount + EquippedItem.Heart_StageBonus + StageInformationManager.plusPotion_Default_perStage;
@@ -977,7 +1002,7 @@ public class StageManager : MonoBehaviour, IStageManager
     {
         CalcStartArea(width, height, out startX, out startY);
 
-        if(isTutorial)
+        if(isTutorial && tutorialStage < 3)
         {
             switch (tutorialStage)
             {
@@ -994,31 +1019,16 @@ public class StageManager : MonoBehaviour, IStageManager
                     break;
                 case 2 :
                     mineTreasureArray = new int[7, 7]{
-                        {0,0,0,0,0,0,0},
-                        {0,0,0,0,0,0,0},
+                        {-1,-2,-1,0,0,0,-1},
+                        {-2,0,0,0,-2,-2,0},
+                        {-2,-1,1,1,1,-2,0},
                         {0,0,1,1,1,0,0},
-                        {0,0,1,1,1,0,0},
-                        {0,0,1,1,1,0,0},
-                        {0,0,0,0,0,0,0},
-                        {0,0,0,0,0,0,0},
+                        {-1,0,1,1,1,0,-1},
+                        {-1,0,0,0,-2,0,0},
+                        {-1,-2,0,0,0,-2,0},
                     };
-                    mineCount = 2;
-                    treasureCount = 3;
-                    break;
-                case 3 :
-                    mineTreasureArray = new int[9, 9]{
-                        {0,0,0,0,0,0,0,0,0},
-                        {0,0,0,0,0,0,0,0,0},
-                        {0,0,0,0,0,0,0,0,0},
-                        {0,0,0,1,1,1,0,0,0},
-                        {0,0,0,1,1,1,0,0,0},
-                        {0,0,0,1,1,1,0,0,0},
-                        {0,0,0,0,0,0,0,0,0},
-                        {0,0,0,0,0,0,0,0,0},
-                        {0,0,0,0,0,0,0,0,0},
-                    };
-                    mineCount = 2;
-                    treasureCount = 3;
+                    mineCount = 8;
+                    treasureCount = 9;
                     break;
             }
 

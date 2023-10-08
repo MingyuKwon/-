@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public enum EventType {
     MineAppear = 0,
@@ -74,6 +75,14 @@ public class EquippedItem
     public static void SetNextEquippedItem()
     {
         nextObtainItem = (Item)UnityEngine.Random.Range(4, 13);
+
+        if(SceneManager.GetActiveScene().name == "Tutorial Rest 1")
+        {
+            nextObtainItem = Item.Heart_UP;
+        }else if(SceneManager.GetActiveScene().name == "Tutorial Rest 2")
+        {
+            nextObtainItem = Item.Glass_Plus;
+        }
     }
 
     public static void ObtainNextEquippedItem()
@@ -285,7 +294,7 @@ public class EventManager : MonoBehaviour
     public Action ObtainBigItemEvent;
     public void ObtainBigItem_Invoke_Event()
     {
-        if(StageInformationManager.currentStageIndex < 5)
+        if(StageInformationManager.currentStageIndex < 5 && !(SceneManager.GetActiveScene().name == "Tutorial Last"))
         {
             ObtainBigItemEvent.Invoke();
             EquippedItem.ObtainNextEquippedItem();
