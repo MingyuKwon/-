@@ -760,9 +760,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Button
-
-'
+  m_text: MAIN MENU
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a5b8fb26f8ef0554db783c93f91245fb, type: 2}
   m_sharedMaterial: {fileID: -1911330317887761956, guid: a5b8fb26f8ef0554db783c93f91245fb, type: 2}
@@ -4298,6 +4296,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameOverReason: {fileID: 2100509892000428242}
+  restartButton: {fileID: 0}
 --- !u!114 &3429522036412058250
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4310,7 +4309,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 069cdb6422f87b64a963b6fdbb3d7a35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hideImage: {fileID: 1942476761}
   difficulty: {fileID: 3429522036579190330}
   width: {fileID: 3429522035838021804}
   height: {fileID: 3429522036966520865}

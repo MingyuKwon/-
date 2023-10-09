@@ -200,6 +200,11 @@ public class InputManager : MonoBehaviour
             StageManager.instance?.ItemPanelShow(true);
         }
 
+        if(Input.GetMouseButtonDown(3))
+        {
+            EventManager.instance.StairOpen_Invoke_Event();
+        }
+
     }
 
     private void OnEnable() {

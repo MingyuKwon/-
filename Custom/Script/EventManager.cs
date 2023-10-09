@@ -331,6 +331,7 @@ public class EventManager : MonoBehaviour
     {
         BackToMainMenuEvent?.Invoke();
         StageInformationManager.currentStageIndex = 0;
+        EquippedItem.ClearEquippedItem();
     }
     #endregion
 

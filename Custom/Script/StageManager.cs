@@ -7,6 +7,7 @@ using TMPro;
 using UnityEngine.EventSystems;
 using System.Collections;
 using Unity.VisualScripting;
+using UnityEngine.SceneManagement;
 
 
 
@@ -235,7 +236,6 @@ public class StageManager : MonoBehaviour, IStageManager
         {
             if(StageInformationManager.currentStageIndex == 0)
             {
-                StageInformationManager.currentStageIndex = 0;
                 if(isTutorial)
                 {
                     StageInformationManager.NextWidth = StageInformationManager.tutorialWidth[0];
@@ -782,7 +782,14 @@ public class StageManager : MonoBehaviour, IStageManager
 
     public void RestPlaceInitialize(Vector3Int treasurePosition, int maxHeart = 9,  int currentHeart = 1, int potionCount = 5, int magGlassCount = 20, int holyWaterCount = 5, int totalTime = 300)
     {
-        GameAudioManager.instance.PlayBackGroundMusic(BackGroundAudioType.RestRoom);
+        if(StageInformationManager.currentStageIndex < 5 && !(SceneManager.GetActiveScene().name == "Tutorial Last"))
+        {
+            GameAudioManager.instance.PlayBackGroundMusic(BackGroundAudioType.RestRoom);
+        }else
+        {
+            GameAudioManager.instance.PlayBackGroundMusic(BackGroundAudioType.LastRoom);
+        }
+        
         EventManager.instance.UpdateLeftPanel_Invoke_Event();
 
         EventManager.instance.InvokeEvent(EventType.None, 0);
@@ -1135,6 +1142,8 @@ public class StageManager : MonoBehaviour, IStageManager
     {
         if(isGameOver)
         {
+            EquippedItem.ClearEquippedItem();
+
             if(isNowInputtingItem)
             {
                 EventManager.instance.ItemPanelShow_Invoke_Event(Vector3Int.zero, false);
@@ -1157,8 +1166,6 @@ public class StageManager : MonoBehaviour, IStageManager
             StageInformationManager. NextmagGlassCount = 2;
             StageInformationManager. NextholyWaterCount = 2; 
             StageInformationManager. NexttotalTime = StageInformationManager.DefaultTimeforEntireGame;
-
-            EquippedItem.ClearEquippedItem();
             EventManager.instance.UpdateRightPanel_Invoke_Event();
             
             DungeonInitialize(StageInformationManager.NextWidth, StageInformationManager.NextHeight ,StageInformationManager.difficulty ,StageInformationManager.NextmaxHeart, StageInformationManager.NextcurrentHeart, StageInformationManager.NextpotionCount, StageInformationManager. NextmagGlassCount, StageInformationManager. NextholyWaterCount, StageInformationManager. NexttotalTime);

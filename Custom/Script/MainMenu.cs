@@ -11,6 +11,7 @@ public class MainMenu : MonoBehaviour
     private void Start() {
         MakeScreenBlack.Clear();
         GameAudioManager.instance.PlayBackGroundMusic(BackGroundAudioType.MainMenu);
+        StageInformationManager.currentStageIndex = 0;
     }
 
     public void StartAdventure()
