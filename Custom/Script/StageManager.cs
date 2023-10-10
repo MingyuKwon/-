@@ -241,8 +241,11 @@ public class StageManager : MonoBehaviour, IStageManager
                     StageInformationManager.NextWidth = StageInformationManager.tutorialWidth[0];
                     StageInformationManager.NextHeight= StageInformationManager.tutorialHeight[0];
 
+                    StageInformationManager.difficulty = Difficulty.Easy;
+
                 }else
                 {
+                    StageInformationManager.difficulty = Difficulty.Hard;
                     StageInformationManager.NextWidth = StageInformationManager.stageWidthMin[(int)StageInformationManager.difficulty,StageInformationManager.currentStageIndex];
                     StageInformationManager.NextHeight= StageInformationManager.stageHeightMin[(int)StageInformationManager.difficulty,StageInformationManager.currentStageIndex];
                 }
@@ -386,7 +389,7 @@ public class StageManager : MonoBehaviour, IStageManager
             case ItemUseType.Potion :
                 potionCount--;
                 EventManager.instance.Item_Count_Change_Invoke_Event(EventType.Item_Use, Item.Potion, potionCount);
-                HeartChange(StageInformationManager.DefaultTrapDamage[(int)StageInformationManager.difficulty]);
+                HeartChange(1);
                 GameAudioManager.instance.PlaySFXMusic(SFXAudioType.potion);
             break;
         }

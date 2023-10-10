@@ -244,6 +244,16 @@ public class EquippedItem
 
 }
 
+public class LanguageManager{
+    public static Action<string> languageChangeEvent;
+    public static string currentLanguage;
+    
+    public static void Invoke_languageChangeEvent(string s)
+    {
+        languageChangeEvent.Invoke(s);
+    }
+}
+
 public class EventManager : MonoBehaviour
 {
     #region Event
@@ -332,6 +342,17 @@ public class EventManager : MonoBehaviour
         BackToMainMenuEvent?.Invoke();
         StageInformationManager.currentStageIndex = 0;
         EquippedItem.ClearEquippedItem();
+    }
+
+    public Action<string[] , bool , int , int > showNoticeUIEvent;
+    public void Invoke_showNoticeUIEvent(string[] texts, bool isTyping, int panelWidth, int panelHeight)
+    {
+        showNoticeUIEvent?.Invoke(texts,isTyping, panelWidth, panelHeight);
+    }
+    public Action NoticeCountIncreaseEvent;
+    public void Invoke_NoticeCountIncreaseEvent()
+    {
+        NoticeCountIncreaseEvent?.Invoke();
     }
     #endregion
 

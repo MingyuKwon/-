@@ -168,12 +168,28 @@ public class InputManager : MonoBehaviour
         }
     }
 
+    string[] testStromg =
+                {
+                    "A B C D E F G H I J K L M N O P Q R S T U V W X Y Z",
+                    "가 나 다 라 마 바 사 아 자 차 카 타 파 하"
+                };
+
     private void Update() {
         if(StageManager.isStageInputBlocked) return;
 
         bool input2Ok = false;
 
-        if(Input.GetMouseButtonDown(2))
+        bool isDownButton0 = Input.GetMouseButtonDown(0);
+        bool isDownButton1 = Input.GetMouseButtonDown(1);
+        bool isDownButton2 = Input.GetMouseButtonDown(2);
+        bool isDownButton3 = Input.GetMouseButtonDown(3);
+
+        if (Input.GetKey(KeyCode.Space) && !NoticeUI.currentShowingNotice)
+        {
+            EventManager.instance.Invoke_showNoticeUIEvent(testStromg, true, 1000, 120);
+        }
+
+        if(isDownButton2)
         {
             if(StageManager.isNowInputtingItem)
             {
@@ -185,22 +201,22 @@ public class InputManager : MonoBehaviour
 
         if(EventSystem.current.IsPointerOverGameObject()) return;
 
-        if(Input.GetMouseButtonDown(0))
+        if(isDownButton0)
         {
             StageManager.instance?.MoveOrShovelOrInteract();
         }
 
-        if(Input.GetMouseButtonDown(1))
+        if(isDownButton1)
         {
             StageManager.instance?.SetFlag();
-        }else if(Input.GetMouseButtonDown(2) )
+        }else if(isDownButton2)
         {
             if(input2Ok) return;
 
             StageManager.instance?.ItemPanelShow(true);
         }
 
-        if(Input.GetMouseButtonDown(3))
+        if(isDownButton3)
         {
             EventManager.instance.StairOpen_Invoke_Event();
         }

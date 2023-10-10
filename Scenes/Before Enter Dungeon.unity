@@ -286,21 +286,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3429522036412058251, guid: 3905f62a3aec3c84aab1f50bce86bf71, type: 3}
-      propertyPath: restartButton
-      value: 
-      objectReference: {fileID: 3429522037480188100}
-    - target: {fileID: 3429522036537624784, guid: 3905f62a3aec3c84aab1f50bce86bf71, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3905f62a3aec3c84aab1f50bce86bf71, type: 3}
---- !u!1 &3429522037480188100 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3712860804777896319, guid: 3905f62a3aec3c84aab1f50bce86bf71, type: 3}
-  m_PrefabInstance: {fileID: 3429522037480188099}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6023637947996006809
 PrefabInstance:
   m_ObjectHideFlags: 0
