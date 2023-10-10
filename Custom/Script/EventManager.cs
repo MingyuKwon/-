@@ -349,10 +349,17 @@ public class EventManager : MonoBehaviour
     {
         showNoticeUIEvent?.Invoke(texts,isTyping, panelWidth, panelHeight);
     }
+
     public Action NoticeCountIncreaseEvent;
     public void Invoke_NoticeCountIncreaseEvent()
     {
         NoticeCountIncreaseEvent?.Invoke();
+    }
+
+    public Action TutorialTextTriggerEvent;
+    public void Invoke_TutorialTextTriggerEvent()
+    {
+        TutorialTextTriggerEvent?.Invoke();
     }
     #endregion
 

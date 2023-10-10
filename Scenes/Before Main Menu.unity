@@ -964,14 +964,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 122872215751301037, guid: 1c111943c186a5d418dbc5ddcba6c422, type: 3}
-      propertyPath: UIAudioClip.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 122872215751301037, guid: 1c111943c186a5d418dbc5ddcba6c422, type: 3}
-      propertyPath: UIAudioClip.Array.data[0]
-      value: 
-      objectReference: {fileID: 8300000, guid: 437b16205710a1e4198dd2d148b8944b, type: 3}
     - target: {fileID: 122872215751301038, guid: 1c111943c186a5d418dbc5ddcba6c422, type: 3}
       propertyPath: m_RootOrder
       value: 5

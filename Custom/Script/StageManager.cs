@@ -97,6 +97,10 @@ public class StageManager : MonoBehaviour, IStageManager
             if(_treasureCount == 0)
             {
                 EventManager.instance.StairOpen_Invoke_Event();
+                if(isTutorial && isDungeon && (tutorialStage == 1 && TutorialGuide.tutorialTextindex == 4)  || (tutorialStage == 2 && TutorialGuide.tutorialTextindex == 2)|| (tutorialStage == 3 && TutorialGuide.tutorialTextindex == 1) )
+                {
+                    EventManager.instance.Invoke_TutorialTextTriggerEvent();
+                }  
             }
         }
     }
@@ -273,13 +277,17 @@ public class StageManager : MonoBehaviour, IStageManager
     {
         if(flag)
         {
-            if(isTutorial && tutorialStage < 2) return;
             if(!isNowInputtingItem)
             {
                 if(!interactOkflag) return;
                 isNowInputtingItem = true;
                 EventManager.instance.ItemPanelShow_Invoke_Event(currentFocusPosition, true, holyWaterEnable, TileGrid.CheckObstaclePosition(currentFocusPosition), magGlassEnable , potionEnable);
                 GameAudioManager.instance.PlaySFXMusic(SFXAudioType.itemMenuShow);
+
+                if(isTutorial && tutorialStage == 2 &&isDungeon && TutorialGuide.tutorialTextindex == 1)
+                {
+                    EventManager.instance.Invoke_TutorialTextTriggerEvent();
+                }   
             }
         }else
         {
@@ -292,17 +300,24 @@ public class StageManager : MonoBehaviour, IStageManager
         }
     }
 
-    public void MoveOrShovelOrInteract()
+    public void MoveOrShovelOrInteract(bool shovelLock = false)
     {
         if(TileGrid.CheckObstaclePosition(currentFocusPosition))
         {
             if(!isNearFlag) return;
             if(isNowInputtingItem) return;
+            if(shovelLock) return;
+
             if(isDungeon)
             {
                 EventManager.instance.ItemUse_Invoke_Event(ItemUseType.Shovel, gapBetweenPlayerFocus);
                 GameAudioManager.instance.PlaySFXMusic(SFXAudioType.Shovel);
-                RemoveObstacle(currentFocusPosition);            
+                RemoveObstacle(currentFocusPosition);     
+
+                if(isTutorial && tutorialStage == 1 &&isDungeon && TutorialGuide.tutorialTextindex == 3)
+                {
+                    EventManager.instance.Invoke_TutorialTextTriggerEvent();
+                }       
             }else
             {
                 if(BigTreasurePosition == currentFocusPosition) 
@@ -312,6 +327,11 @@ public class StageManager : MonoBehaviour, IStageManager
                     if(EquippedItem.nextObtainItem == Item.Heart_UP) MaxHeartUP();
                     EventManager.instance.ObtainBigItem_Invoke_Event();
                     GameAudioManager.instance.PlaySFXMusic(SFXAudioType.GetBigItem);
+
+                    if(isTutorial && (tutorialStage == 1 || tutorialStage == 2) && !isDungeon && TutorialGuide.tutorialTextindex == 1)
+                    {
+                        EventManager.instance.Invoke_TutorialTextTriggerEvent();
+                    } 
                 }
                 
             }
@@ -326,6 +346,12 @@ public class StageManager : MonoBehaviour, IStageManager
             }
             
             InputManager.InputEvent.Invoke_Move(currentFocusPosition);
+
+
+            if(isTutorial && tutorialStage == 1 && isDungeon && TutorialGuide.tutorialTextindex == 1)
+            {
+                EventManager.instance.Invoke_TutorialTextTriggerEvent();
+            }
         }
     }
 
@@ -682,13 +708,19 @@ public class StageManager : MonoBehaviour, IStageManager
     public void SetFlag()
     {
         SetFlag(currentFocusPosition);
+
     }
 
     private void SetFlag(Vector3Int cellPos, bool forceful = false)
     {
         Vector3Int arrayPos = ChangeCellPosToArrayPos(cellPos);
         if(!(CheckHasObstacle(cellPos))) return; // 해당 위치에 장애물 타일이 없으면 무시
-        
+
+            if(isTutorial && tutorialStage == 1 && isDungeon && TutorialGuide.tutorialTextindex == 2)
+            {
+                EventManager.instance.Invoke_TutorialTextTriggerEvent();
+            }
+
         if(forceful)
         {
             flagArray[arrayPos.y, arrayPos.x] = 0;
@@ -697,7 +729,7 @@ public class StageManager : MonoBehaviour, IStageManager
         {
             GameAudioManager.instance.PlaySFXMusic(SFXAudioType.flag);
             Flag[] flagEnumArray = (Flag[]) Enum.GetValues(typeof(Flag));
-            flagArray[arrayPos.y, arrayPos.x] = (flagArray[arrayPos.y, arrayPos.x] + 1) % flagEnumArray.Length;
+            flagArray[arrayPos.y, arrayPos.x] = (flagArray[arrayPos.y, arrayPos.x] + 1) % (flagEnumArray.Length - 1);
             grid.SetFlag(cellPos, flagEnumArray[flagArray[arrayPos.y, arrayPos.x]]);
         }
     }
@@ -792,7 +824,7 @@ public class StageManager : MonoBehaviour, IStageManager
         {
             GameAudioManager.instance.PlayBackGroundMusic(BackGroundAudioType.LastRoom);
         }
-        
+
         EventManager.instance.UpdateLeftPanel_Invoke_Event();
 
         EventManager.instance.InvokeEvent(EventType.None, 0);

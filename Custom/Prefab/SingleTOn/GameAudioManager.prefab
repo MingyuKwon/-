@@ -69,7 +69,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 4a5d93c07f4cd244ea33b00f44ab220c, type: 3}
   - {fileID: 8300000, guid: a5c58aede7954b54297aa2c770e76193, type: 3}
   - {fileID: 8300000, guid: 685f3d1c0a6b644459f1921c84568ced, type: 3}
-  UIAudioClip: []
+  UIAudioClip:
+  - {fileID: 8300000, guid: 60b8bad15af924a46abaa3ccdf8e7178, type: 3}
 --- !u!82 &7509581929448743385
 AudioSource:
   m_ObjectHideFlags: 0
