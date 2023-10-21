@@ -201,7 +201,7 @@ PrefabInstance:
     - target: {fileID: 8116447808752611720, guid: 7630ea11dd9791a46a9f80ee23814fab, type: 3}
       propertyPath: tutorialLine
       value: 
-      objectReference: {fileID: 11400000, guid: f7161954ce1755f4aa19682627372aa3, type: 2}
+      objectReference: {fileID: 11400000, guid: 5acd6e99055ece54c90d4fc923d0a356, type: 2}
     - target: {fileID: 8116447808752611720, guid: 7630ea11dd9791a46a9f80ee23814fab, type: 3}
       propertyPath: tutorialIndex
       value: 1
@@ -560,7 +560,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1315878161522638103, guid: 6e07ac9a798634a4db44ad8d506fbf6a, type: 3}
       propertyPath: loadSceneName
-      value: Tutorial Rest 2
+      value: Tutorial Rest 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6e07ac9a798634a4db44ad8d506fbf6a, type: 3}

@@ -495,7 +495,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1315878161522638103, guid: 6e07ac9a798634a4db44ad8d506fbf6a, type: 3}
       propertyPath: loadSceneName
-      value: Tutorial Rest 1
+      value: Tutorial Rest 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6e07ac9a798634a4db44ad8d506fbf6a, type: 3}

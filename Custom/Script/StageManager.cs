@@ -97,7 +97,8 @@ public class StageManager : MonoBehaviour, IStageManager
             if(_treasureCount == 0)
             {
                 EventManager.instance.StairOpen_Invoke_Event();
-                if(isTutorial && isDungeon && (tutorialStage == 1 && TutorialGuide.tutorialTextindex == 4)  || (tutorialStage == 2 && TutorialGuide.tutorialTextindex == 2)|| (tutorialStage == 3 && TutorialGuide.tutorialTextindex == 1) )
+                if(isTutorial && isDungeon && (tutorialStage == 1 && TutorialGuide.tutorialTextindex == 4)  || (tutorialStage == 2 && TutorialGuide.tutorialTextindex == 2)|| 
+                (tutorialStage == 3 && TutorialGuide.tutorialTextindex == 2)||  (tutorialStage == 4 && TutorialGuide.tutorialTextindex == 1) )
                 {
                     EventManager.instance.Invoke_TutorialTextTriggerEvent();
                 }  
@@ -130,21 +131,27 @@ public class StageManager : MonoBehaviour, IStageManager
     int magGlassCount = 0;
     int holyWaterCount = 0;
 
+    bool isFoucusOnObstacle {
+        get{
+            return TileGrid.CheckObstaclePosition(currentFocusPosition);
+        }
+    }
+
     bool potionEnable{
         get{
-            return potionCount > 0 && !TileGrid.CheckObstaclePosition(currentFocusPosition) && (currentHeart != maxHeart);
+            return potionCount > 0 && !isFoucusOnObstacle && (currentHeart != maxHeart);
         }
     }
 
     bool magGlassEnable{
         get{
-            return magGlassCount > 0 && !TileGrid.CheckObstaclePosition(currentFocusPosition);
+            return magGlassCount > 0 && !isFoucusOnObstacle;
         }
     }
 
     bool holyWaterEnable{
         get{
-            return holyWaterCount > 0 && TileGrid.CheckObstaclePosition(currentFocusPosition);
+            return holyWaterCount > 0 && isFoucusOnObstacle && !(isTutorial && tutorialStage == 2  && isDungeon);
         }
     }
     #endregion
@@ -187,7 +194,7 @@ public class StageManager : MonoBehaviour, IStageManager
 
     public bool interactOkflag{
         get{
-            return (gapBetweenPlayerFocus == Vector3Int.zero) || (isNearFlag && TileGrid.CheckObstaclePosition(currentFocusPosition)); 
+            return (gapBetweenPlayerFocus == Vector3Int.zero) || (isNearFlag && isFoucusOnObstacle); 
         }
     }
              
@@ -247,23 +254,29 @@ public class StageManager : MonoBehaviour, IStageManager
 
                     StageInformationManager.difficulty = Difficulty.Easy;
 
+
+                    StageInformationManager.NextmaxHeart = 3; 
+                    StageInformationManager.NextcurrentHeart = 3; 
+                    StageInformationManager.NextpotionCount = 0; 
+                    StageInformationManager. NextmagGlassCount = 0;
+                    StageInformationManager. NextholyWaterCount = 0; 
+                    StageInformationManager. NexttotalTime = StageInformationManager.DefaultTimeforEntireGame;
+
                 }else
                 {
-                    StageInformationManager.difficulty = Difficulty.Hard;
+                    StageInformationManager.difficulty = Difficulty.Normal;
                     StageInformationManager.NextWidth = StageInformationManager.stageWidthMin[(int)StageInformationManager.difficulty,StageInformationManager.currentStageIndex];
                     StageInformationManager.NextHeight= StageInformationManager.stageHeightMin[(int)StageInformationManager.difficulty,StageInformationManager.currentStageIndex];
+                    StageInformationManager.NextmaxHeart = 3; 
+                    StageInformationManager.NextcurrentHeart = 3; 
+                    StageInformationManager.NextpotionCount = 3; 
+                    StageInformationManager. NextmagGlassCount = 5;
+                    StageInformationManager. NextholyWaterCount = 3; 
+                    StageInformationManager. NexttotalTime = StageInformationManager.DefaultTimeforEntireGame;
                 }
-                
-                
-                StageInformationManager.NextmaxHeart = 3; 
-                StageInformationManager.NextcurrentHeart = 3; 
-                StageInformationManager.NextpotionCount = 2; 
-                StageInformationManager. NextmagGlassCount = 2;
-                StageInformationManager. NextholyWaterCount = 2; 
-                StageInformationManager. NexttotalTime = StageInformationManager.DefaultTimeforEntireGame;
             }
 
-            DungeonInitialize(StageInformationManager.NextWidth, StageInformationManager.NextHeight ,StageInformationManager.difficulty ,StageInformationManager.NextmaxHeart, StageInformationManager.NextcurrentHeart, StageInformationManager.NextpotionCount, StageInformationManager. NextmagGlassCount, StageInformationManager. NextholyWaterCount, StageInformationManager. NexttotalTime);
+            DungeonInitialize(StageInformationManager.NextWidth, StageInformationManager.NextHeight ,StageInformationManager.difficulty ,StageInformationManager.NextmaxHeart, StageInformationManager.NextmaxHeart, StageInformationManager.NextpotionCount, StageInformationManager. NextmagGlassCount, StageInformationManager. NextholyWaterCount, StageInformationManager. NexttotalTime);
             
             
         }else
@@ -280,14 +293,23 @@ public class StageManager : MonoBehaviour, IStageManager
             if(!isNowInputtingItem)
             {
                 if(!interactOkflag) return;
-                isNowInputtingItem = true;
-                EventManager.instance.ItemPanelShow_Invoke_Event(currentFocusPosition, true, holyWaterEnable, TileGrid.CheckObstaclePosition(currentFocusPosition), magGlassEnable , potionEnable);
-                GameAudioManager.instance.PlaySFXMusic(SFXAudioType.itemMenuShow);
 
-                if(isTutorial && tutorialStage == 2 &&isDungeon && TutorialGuide.tutorialTextindex == 1)
+                
+
+                isNowInputtingItem = true;
+                EventManager.instance.ItemPanelShow_Invoke_Event(currentFocusPosition, true, holyWaterEnable, isFoucusOnObstacle && !(isTutorial && tutorialStage == 2  && isDungeon), magGlassEnable , potionEnable);
+                GameAudioManager.instance.PlaySFXMusic(SFXAudioType.itemMenuShow);  
+
+                if(isTutorial && tutorialStage == 2  && isDungeon && !isFoucusOnObstacle && TutorialGuide.tutorialTextindex == 1)
                 {
                     EventManager.instance.Invoke_TutorialTextTriggerEvent();
-                }   
+                }  
+
+                if(isTutorial && tutorialStage == 3  && isDungeon && isFoucusOnObstacle && TutorialGuide.tutorialTextindex == 1)
+                {
+                    EventManager.instance.Invoke_TutorialTextTriggerEvent();
+                }  
+
             }
         }else
         {
@@ -302,7 +324,7 @@ public class StageManager : MonoBehaviour, IStageManager
 
     public void MoveOrShovelOrInteract(bool shovelLock = false)
     {
-        if(TileGrid.CheckObstaclePosition(currentFocusPosition))
+        if(isFoucusOnObstacle)
         {
             if(!isNearFlag) return;
             if(isNowInputtingItem) return;
@@ -328,7 +350,7 @@ public class StageManager : MonoBehaviour, IStageManager
                     EventManager.instance.ObtainBigItem_Invoke_Event();
                     GameAudioManager.instance.PlaySFXMusic(SFXAudioType.GetBigItem);
 
-                    if(isTutorial && (tutorialStage == 1 || tutorialStage == 2) && !isDungeon && TutorialGuide.tutorialTextindex == 1)
+                    if(isTutorial && (tutorialStage == 1 || tutorialStage == 2 || tutorialStage == 3) && !isDungeon && TutorialGuide.tutorialTextindex == 1)
                     {
                         EventManager.instance.Invoke_TutorialTextTriggerEvent();
                     } 
@@ -777,7 +799,6 @@ public class StageManager : MonoBehaviour, IStageManager
             Item randUsableItem = (Item)UnityEngine.Random.Range(1, 4);
             if(UnityEngine.Random.value < StageInformationManager.noItemRatio[(int)StageInformationManager.difficulty])
             {
-                Debug.Log("Im In");
                 randUsableItem = Item.None;
             }   
 
@@ -934,7 +955,7 @@ public class StageManager : MonoBehaviour, IStageManager
     IEnumerator StartTimer(int totalTime)
     {
         
-        if(isTutorial && tutorialStage < 3)
+        if(isTutorial && tutorialStage < 4)
         {
             this.totalTime = 0;
             timeElapsed = 0;
@@ -1054,33 +1075,24 @@ public class StageManager : MonoBehaviour, IStageManager
     {
         CalcStartArea(width, height, out startX, out startY);
 
-        if(isTutorial && tutorialStage < 3)
+        if(isTutorial && tutorialStage < 4)
         {
             switch (tutorialStage)
             {
                 case 1 : 
-                    mineTreasureArray = new int[5, 5]{
-                        {0,0,0,-1,-2},
-                        {0,1,1,1,0},
-                        {0,1,1,1,0},
-                        {-1,1,1,1,0},
-                        {-2,0,0,-2,0}, 
-                    };
-                    mineCount = 2;
-                    treasureCount = 3;
+                    mineTreasureArray = (int[,])StageInformationManager.tutorial1Stageinform.Clone();
+                    mineCount = StageInformationManager.tutorialmineCount[tutorialStage-1];
+                    treasureCount = StageInformationManager.tutorialtreasureCount[tutorialStage-1];
                     break;
                 case 2 :
-                    mineTreasureArray = new int[7, 7]{
-                        {-1,-2,-1,0,0,0,-1},
-                        {-2,0,0,0,-2,-2,0},
-                        {-2,-1,1,1,1,-2,0},
-                        {0,0,1,1,1,0,0},
-                        {-1,0,1,1,1,0,-1},
-                        {-1,0,0,0,-2,0,0},
-                        {-1,-2,0,0,0,-2,0},
-                    };
-                    mineCount = 8;
-                    treasureCount = 9;
+                    mineTreasureArray = (int[,])StageInformationManager.tutorial2Stageinform.Clone();
+                    mineCount = StageInformationManager.tutorialmineCount[tutorialStage-1];
+                    treasureCount = StageInformationManager.tutorialtreasureCount[tutorialStage-1];
+                    break;
+                case 3 :
+                    mineTreasureArray = (int[,])StageInformationManager.tutorial3Stageinform.Clone();
+                    mineCount = StageInformationManager.tutorialmineCount[tutorialStage-1];
+                    treasureCount = StageInformationManager.tutorialtreasureCount[tutorialStage-1];
                     break;
             }
 
@@ -1197,13 +1209,13 @@ public class StageManager : MonoBehaviour, IStageManager
                 
             StageInformationManager.NextmaxHeart = 3; 
             StageInformationManager.NextcurrentHeart = 3; 
-            StageInformationManager.NextpotionCount = 2; 
-            StageInformationManager. NextmagGlassCount = 2;
-            StageInformationManager. NextholyWaterCount = 2; 
+            StageInformationManager.NextpotionCount = 3; 
+            StageInformationManager. NextmagGlassCount = 5;
+            StageInformationManager. NextholyWaterCount = 3; 
             StageInformationManager. NexttotalTime = StageInformationManager.DefaultTimeforEntireGame;
             EventManager.instance.UpdateRightPanel_Invoke_Event();
             
-            DungeonInitialize(StageInformationManager.NextWidth, StageInformationManager.NextHeight ,StageInformationManager.difficulty ,StageInformationManager.NextmaxHeart, StageInformationManager.NextcurrentHeart, StageInformationManager.NextpotionCount, StageInformationManager. NextmagGlassCount, StageInformationManager. NextholyWaterCount, StageInformationManager. NexttotalTime);
+            DungeonInitialize(StageInformationManager.NextWidth, StageInformationManager.NextHeight ,StageInformationManager.difficulty ,StageInformationManager.NextmaxHeart, StageInformationManager.NextmaxHeart, StageInformationManager.NextpotionCount, StageInformationManager. NextmagGlassCount, StageInformationManager. NextholyWaterCount, StageInformationManager. NexttotalTime);
             stageInputBlock =0;
         }
         

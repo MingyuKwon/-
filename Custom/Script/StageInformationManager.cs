@@ -12,8 +12,36 @@ public class StageInformationManager
 
     public static float[] noItemRatio = {0.1f,0.2f,0.3f};
 
-    public static int[] tutorialWidth = {5,7,9};
-    public static int[] tutorialHeight = {5,7,9};
+    public static int[] tutorialWidth = {5,5,7,9};
+    public static int[] tutorialHeight = {5,5,7,9};
+
+    public static int[,] tutorial1Stageinform = {
+                        {0,0,0,-1,-2},
+                        {0,1,1,1,0},
+                        {0,1,1,1,0},
+                        {-1,1,1,1,0},
+                        {-2,0,0,-2,0}, 
+                    };
+
+    public static int[,] tutorial2Stageinform = {
+                        {-2,-1,0,-1,-1},
+                        {-2,1,1,1,-1},
+                        {-1,1,1,1,-1},
+                        {-1,1,1,1,-1},
+                        {-2,0,0,-2,-2}, 
+                    };
+    public static int[,] tutorial3Stageinform = {
+                        {-1,-2,-1,0,0,0,-1},
+                        {-2,0,0,0,-2,-2,0},
+                        {-2,-1,1,1,1,-2,0},
+                        {0,0,1,1,1,0,0},
+                        {-1,0,1,1,1,0,-1},
+                        {-1,0,0,0,-2,0,0},
+                        {-1,-2,0,0,0,-2,0},
+                    };
+
+    public static int[] tutorialmineCount = {2,8,8};
+    public static int[] tutorialtreasureCount = {3,5,9};
 
     public static int[,] stageWidthMin = 
     {
@@ -48,15 +76,14 @@ public class StageInformationManager
     public static int plusHoly_byItem_perStage = 3;
     public static int plusTime_byItem_perStage = 30;
 
-    public static int plusPotion_Default_perStage = 1;
-    public static int plusMag_Default_perStage = 1;
-    public static int plusHoly_Default_perStage = 1;
+    public static int plusPotion_Default_perStage = 3;
+    public static int plusMag_Default_perStage = 5;
+    public static int plusHoly_Default_perStage = 3;
 
     public static int currentStagetype = 0;
     public static int currentStageIndex = 0;
     public static bool isnextStageDungeon = true;
     public static Difficulty difficulty = Difficulty.Easy;
-
     public static Vector3Int treasurePosition = new Vector3Int(-4,-1,0);
 
     public static int NextWidth = -1;  
