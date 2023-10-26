@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class MakeScreenBlack : MonoBehaviour
 {
     public static MakeScreenBlack instance;
-    public Text loadingText;
+    public TextMeshProUGUI loadingText;
     static Transform image;
 
     public static void Hide()
