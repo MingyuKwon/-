@@ -41,7 +41,7 @@ public class HideCanvas : MonoBehaviour
 
     private IEnumerator LoadSceneAsync(string sceneName)
     {
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.15f);
 
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
         while (!asyncLoad.isDone)

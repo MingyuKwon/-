@@ -80,6 +80,7 @@ public class StageInformationManager
     public static int plusMag_Default_perStage = 5;
     public static int plusHoly_Default_perStage = 3;
 
+    public static GameModeType gameMode = GameModeType.None;
     public static int currentStagetype = 0;
     public static int currentStageIndex = 0;
     public static bool isnextStageDungeon = true;

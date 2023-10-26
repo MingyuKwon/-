@@ -122,6 +122,12 @@ public class InGameUI : MonoBehaviour
         EventManager.instance.InvokeEvent(EventType.Game_Restart, GameOver_Reason.Heart0);
     }
 
+    public void GameRestartMenu()
+    {
+        MainMenu.RestartManageClass.restartGameModeType = StageInformationManager.gameMode;
+        GoBackMainMenu();
+    }
+
     public void GoBackMainMenu()
     {
         MakeScreenBlack.Hide();
