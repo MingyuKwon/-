@@ -72,6 +72,49 @@ public class InGameUIAniimation : MonoBehaviour
 
     }
 
+    
+    bool isShowingTutorial = false;
+    public void ShowTutorial()
+    {
+        if(StageManager.isNowInitializing) return;
+        if(EventManager.isAnimationPlaying) return;
+
+        if(!isShowingTutorial)
+        {
+            StageManager.stageInputBlock++;
+            isShowingTutorial = true;
+            isShowingOption = false;
+            animator.SetTrigger("Tutorial Show");
+        }else
+        {
+            StageManager.stageInputBlock--;
+            isShowingTutorial = false;
+            animator.SetTrigger("Tutorial Close");
+        }
+
+    }
+
+    bool isShowingOption = false;
+    public void ShowOption()
+    {
+        if(StageManager.isNowInitializing) return;
+        if(EventManager.isAnimationPlaying) return;
+
+        if(!isShowingOption)
+        {
+            StageManager.stageInputBlock++;
+            isShowingOption = true;
+            isShowingTutorial = false;
+            animator.SetTrigger("Option Show");
+        }else
+        {
+            StageManager.stageInputBlock--;
+            isShowingOption = false;
+            animator.SetTrigger("Option Close");
+        }
+
+    }
+
     public void GameOverAnimation(bool isGameOver, GameOver_Reason reason){
 
         restartButton.SetActive(!StageManager.instance.isTutorial);
