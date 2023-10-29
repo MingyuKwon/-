@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 
-public class InGameUI : MonoBehaviour
+public class InGameUI : MonoBehaviour, AlertCallBack
 {
     static public InGameUI instance;
     #region Serialize
@@ -120,6 +120,16 @@ public class InGameUI : MonoBehaviour
     public void GameRestart()
     {
         EventManager.instance.InvokeEvent(EventType.Game_Restart, GameOver_Reason.Heart0);
+    }
+
+    public void GameRestartAlertShow()
+    {
+        AlertUI.instance.ShowAlert("전체 스테이지를 다시 시작하겠습니까?", this);
+    }
+
+    public void GameMainMenuAlertShow()
+    {
+        AlertUI.instance.ShowAlert("메인 메뉴로 돌아가시겠습니까?", this);
     }
 
     public void GameRestartMenu()
@@ -718,4 +728,9 @@ public class InGameUI : MonoBehaviour
         heartImages[index].gameObject.transform.localScale = Vector3.one;
     }
 
+    public void CallBack()
+    {
+        //GameRestartMenu();
+        GoBackMainMenu();
+    }
 }
