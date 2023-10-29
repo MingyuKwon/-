@@ -117,18 +117,24 @@ public class InGameUI : MonoBehaviour, AlertCallBack
     private Image[] heartImages = new Image[9];
     private InGameUIAniimation inGameUIAniimation;
 
+    public delegate void AlertCallBackDelgate();
+
     public void GameRestart()
     {
         EventManager.instance.InvokeEvent(EventType.Game_Restart, GameOver_Reason.Heart0);
     }
 
+    private AlertCallBackDelgate callbackFunction;
+
     public void GameRestartAlertShow()
     {
+        callbackFunction = GameRestartMenu;
         AlertUI.instance.ShowAlert("전체 스테이지를 다시 시작하겠습니까?", this);
     }
 
     public void GameMainMenuAlertShow()
     {
+        callbackFunction = GoBackMainMenu;
         AlertUI.instance.ShowAlert("메인 메뉴로 돌아가시겠습니까?", this);
     }
 
@@ -730,7 +736,6 @@ public class InGameUI : MonoBehaviour, AlertCallBack
 
     public void CallBack()
     {
-        //GameRestartMenu();
-        GoBackMainMenu();
+        callbackFunction();
     }
 }
