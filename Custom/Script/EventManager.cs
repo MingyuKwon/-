@@ -364,8 +364,6 @@ public class EventManager : MonoBehaviour
     #endregion
 
 
-
-
     public static EventManager instance = null;
     public static bool isAnimationPlaying{
         get{
@@ -387,6 +385,7 @@ public class EventManager : MonoBehaviour
         }else
         {
             instance = this;
+            DontDestroyOnLoad(this.gameObject);
         }
 
     }
