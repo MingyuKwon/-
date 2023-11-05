@@ -19,7 +19,7 @@ public class ResolutionManager : MonoBehaviour
 
     public static bool isFullScreen{
         get{
-            return PlayerPrefs.GetString("isFullScreen", "Yes") == "Yes";
+            return PlayerPrefs.GetString("isFullScreen", "No") == "Yes";
         }
         set{
             PlayerPrefs.SetString("isFullScreen", value ? "Yes" : "No");
@@ -32,13 +32,16 @@ public class ResolutionManager : MonoBehaviour
         // 이전에 저장된 창 모드의 해상도를 불러옵니다.
         if(PlayerPrefs.HasKey("windowedWidth") && PlayerPrefs.HasKey("windowedHeight"))
         {
-            windowedWidth = PlayerPrefs.GetInt("windowedWidth", 1280); // 기본값 예시
-            windowedHeight = PlayerPrefs.GetInt("windowedHeight", 720); // 기본값 예시
+            windowedWidth = PlayerPrefs.GetInt("windowedWidth"); // 기본값 예시
+            windowedHeight = PlayerPrefs.GetInt("windowedHeight"); // 기본값 예시
         }else
         {
             PlayerPrefs.SetInt("windowedWidth", 1280);
             PlayerPrefs.SetInt("windowedHeight", 720);
             PlayerPrefs.Save();
+
+            windowedWidth = 1280;
+            windowedHeight = 720;
         }
 
         Screen.SetResolution(windowedWidth, windowedHeight,isFullScreen);
