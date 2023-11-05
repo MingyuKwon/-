@@ -250,7 +250,15 @@ public class LanguageManager{
     
     public static void Invoke_languageChangeEvent(string s)
     {
-        languageChangeEvent.Invoke(s);
+        languageChangeEvent?.Invoke(s);
+    }
+
+    public static void LangaugeInitialize()
+    {
+        currentLanguage = PlayerPrefs.GetString("currentLanguage", "Korean");
+        PlayerPrefs.SetString("currentLanguage",currentLanguage);
+        PlayerPrefs.Save();
+        Invoke_languageChangeEvent(currentLanguage);
     }
 }
 
@@ -388,6 +396,10 @@ public class EventManager : MonoBehaviour
             DontDestroyOnLoad(this.gameObject);
         }
 
+    }
+
+    private void Start() {
+        LanguageManager.LangaugeInitialize();
     }
 
 

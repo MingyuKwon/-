@@ -74,9 +74,6 @@ public class GameAudioManager : MonoBehaviour
             _totalVolme = value;
             PlayerPrefs.SetFloat("totalVolme", _totalVolme);
             PlayerPrefs.Save();
-
-            if(isAwaking) return;
-
             AudioEvent.Invoke_updateTotal();
         }
     }
@@ -125,10 +122,6 @@ public class GameAudioManager : MonoBehaviour
             _currentUIVolume = Mathf.Clamp(_currentUIVolume, 0,1);
             PlayerPrefs.SetFloat("currentUIVolume", _currentUIVolume);
             PlayerPrefs.Save();
-
-            if(isAwaking) return;
-
-            CurrentUISource.volume = _currentUIVolume * totalVolme;
         }
     }
     static public float currentSFXVolume{
@@ -141,10 +134,6 @@ public class GameAudioManager : MonoBehaviour
             _currentSFXVolume = Mathf.Clamp(_currentSFXVolume, 0,1);
             PlayerPrefs.SetFloat("currentSFXVolume", _currentSFXVolume);
             PlayerPrefs.Save();
-
-            if(isAwaking) return;
-            CurrentSfxSource.volume = _currentSFXVolume * totalVolme;
-            AudioEvent.Invoke_updateEnemyVolume();
         }
     } 
     static public float currentEnvironmentVolume{
@@ -157,10 +146,6 @@ public class GameAudioManager : MonoBehaviour
              _currentEnvironmentVolume = Mathf.Clamp(_currentEnvironmentVolume, 0,1);
             PlayerPrefs.SetFloat("currentEnvironmentVolume", _currentEnvironmentVolume);
             PlayerPrefs.Save();
-
-            if(isAwaking) return;
-
-            AudioEvent.Invoke_updateEnvironmentVolume();
         }
     } 
 
@@ -195,6 +180,7 @@ public class GameAudioManager : MonoBehaviour
 
 
     static bool isAwaking = true;
+
     private void Awake() {
         if(instance == null)
         {
@@ -206,16 +192,6 @@ public class GameAudioManager : MonoBehaviour
             return;
         }
 
-        if (PlayerPrefs.HasKey("totalVolme"))
-        {
-            totalVolme = PlayerPrefs.GetFloat("totalVolme");
-        }
-        else
-        {
-            totalVolme = default_totalVolme;
-            PlayerPrefs.SetFloat("totalVolme", totalVolme);
-        }
-
         if (PlayerPrefs.HasKey("currentBackGroundVolume"))
         {
             currentBackGroundVolume = PlayerPrefs.GetFloat("currentBackGroundVolume");
@@ -224,6 +200,7 @@ public class GameAudioManager : MonoBehaviour
         {
             currentBackGroundVolume = default_currentBackGroundVolume;
             PlayerPrefs.SetFloat("currentBackGroundVolume", currentBackGroundVolume);
+            PlayerPrefs.Save();
         }
 
         if (PlayerPrefs.HasKey("currentUIVolume"))
@@ -234,6 +211,7 @@ public class GameAudioManager : MonoBehaviour
         {
             currentUIVolume = default_currentUIVolume;
             PlayerPrefs.SetFloat("currentUIVolume", currentUIVolume);
+            PlayerPrefs.Save();
         }
 
         if (PlayerPrefs.HasKey("currentSFXVolume"))
@@ -244,6 +222,7 @@ public class GameAudioManager : MonoBehaviour
         {
             currentSFXVolume = default_currentSFXVolume;
             PlayerPrefs.SetFloat("currentSFXVolume", currentSFXVolume);
+            PlayerPrefs.Save();
         }
 
         if (PlayerPrefs.HasKey("currentEnvironmentVolume"))
@@ -254,6 +233,18 @@ public class GameAudioManager : MonoBehaviour
         {
             currentEnvironmentVolume = default_currentEnvironmentVolume;
             PlayerPrefs.SetFloat("currentEnvironmentVolume", currentEnvironmentVolume);
+            PlayerPrefs.Save();
+        }
+
+        if (PlayerPrefs.HasKey("totalVolme"))
+        {
+            totalVolme = PlayerPrefs.GetFloat("totalVolme");
+        }
+        else
+        {
+            totalVolme = default_totalVolme;
+            PlayerPrefs.SetFloat("totalVolme", totalVolme);
+            PlayerPrefs.Save();
         }
 
         PlayerPrefs.Save();

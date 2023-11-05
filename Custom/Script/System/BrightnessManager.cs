@@ -8,13 +8,19 @@ public class BrightnessManager : MonoBehaviour
 {
     public static BrightnessManager instance;
     public Image panel;
+    public static float brightness;
 
     private void Start() {
         instance = this;
+        brightness = PlayerPrefs.GetFloat("brightness", 1);
+        setBrightNess(brightness);
     }
 
     public void setBrightNess(float i)
     {
-        panel.color = new Color(0,0,0,(1-i) * 0.5f);
+        brightness = i;
+        PlayerPrefs.SetFloat("brightness", brightness);
+        PlayerPrefs.Save();
+        panel.color = new Color(0,0,0,(1 - brightness) * 0.5f);
     }
 }

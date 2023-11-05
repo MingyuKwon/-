@@ -14,10 +14,18 @@ public class ResolutionManager : MonoBehaviour
         {2560,1440},
     };
 
-    private static int windowedWidth;
-    private static int windowedHeight;
+    public static int windowedWidth;
+    public static int windowedHeight;
 
-    public static bool isFullScreen = false;
+    public static bool isFullScreen{
+        get{
+            return PlayerPrefs.GetString("isFullScreen", "Yes") == "Yes";
+        }
+        set{
+            PlayerPrefs.SetString("isFullScreen", value ? "Yes" : "No");
+            PlayerPrefs.Save();
+        }
+    }
 
     private void Start()
     {
@@ -33,7 +41,7 @@ public class ResolutionManager : MonoBehaviour
             PlayerPrefs.Save();
         }
 
-        Screen.SetResolution(windowedWidth, windowedHeight,false);
+        Screen.SetResolution(windowedWidth, windowedHeight,isFullScreen);
     }
 
     public static void SetFullScreen(bool isFullScreen)
