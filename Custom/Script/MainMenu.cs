@@ -22,6 +22,11 @@ public class MainMenu : MonoBehaviour
 
     public string loadTutorialSceneName;
     public string loadAdventureSceneName;
+    Animator animator;
+
+    private void Awake() {
+        animator = GetComponent<Animator>();
+    }
 
     private void Start() {
         if(RestartManageClass.restartGameModeType != GameModeType.None)
@@ -44,6 +49,65 @@ public class MainMenu : MonoBehaviour
             StageInformationManager.currentStageIndex = 0;
         }
         
+    }
+
+    public void SetAnimationPlayingFlag(int flag)
+    {
+        if(flag == 0)
+        {
+            EventManager.isAnimationPlaying = false;
+        }else
+        {
+            EventManager.isAnimationPlaying = true;
+        }
+        
+    }
+
+    int currentShowFlag = 0; // 0 : none, 1 : tutorial, 2 : stage, 3 : setting 
+
+    public void ShowAdventure()
+    {
+        if(EventManager.isAnimationPlaying) return;
+
+        if(currentShowFlag != 0)
+        {
+            animator.SetTrigger("ClosePanel");
+            currentShowFlag = 0;
+        }else
+        {
+            animator.SetTrigger("StageShow");
+            currentShowFlag = 2;
+        }
+    }
+
+    public void ShowTutorial(){
+
+        if(EventManager.isAnimationPlaying) return;
+
+        if(currentShowFlag != 0)
+        {
+            animator.SetTrigger("ClosePanel");
+            currentShowFlag = 0;
+        }else
+        {
+            animator.SetTrigger("TutorialShow");
+            currentShowFlag = 1;
+        }
+    }
+
+    public void ShowSetting(){
+
+        if(EventManager.isAnimationPlaying) return;
+
+        if(currentShowFlag != 0)
+        {
+            animator.SetTrigger("ClosePanel");
+            currentShowFlag = 0;
+        }else
+        {
+            animator.SetTrigger("SettingShow");
+            currentShowFlag = 3;
+        }
     }
 
     public void StartAdventure()
