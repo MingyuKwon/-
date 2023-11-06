@@ -61,4 +61,15 @@ public class MainMenu : MonoBehaviour
         StageInformationManager.gameMode = GameModeType.tutorial;
         SceneManager.LoadScene("Before Enter Dungeon");
     }
+
+    public void ExitGame()
+    {
+        // 에디터에서 작업할 때는 이 코드가 게임이 종료되는 것처럼 작동하게 합니다.
+        #if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+        #else
+        // 실제 빌드된 게임에서는 게임을 종료합니다.
+        Application.Quit();
+        #endif
+    }
 }
