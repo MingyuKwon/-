@@ -13,7 +13,7 @@ public enum GameModeType
 
 }
 
-public class MainMenu : MonoBehaviour
+public class MainMenu : MonoBehaviour , AlertCallBack
 {
     public class RestartManageClass
     {
@@ -23,6 +23,9 @@ public class MainMenu : MonoBehaviour
     public string loadTutorialSceneName;
     public string loadAdventureSceneName;
     Animator animator;
+
+    public delegate void AlertCallBackDelgate();
+    private AlertCallBackDelgate callbackFunction;
 
     private void Awake() {
         animator = GetComponent<Animator>();
@@ -128,6 +131,12 @@ public class MainMenu : MonoBehaviour
 
     public void ExitGame()
     {
+        callbackFunction = QuitGame;
+        AlertUI.instance.ShowAlert("게임을 종료 하시겠습니까?", this);
+    }
+
+    public void QuitGame()
+    {
         // 에디터에서 작업할 때는 이 코드가 게임이 종료되는 것처럼 작동하게 합니다.
         #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
@@ -135,5 +144,10 @@ public class MainMenu : MonoBehaviour
         // 실제 빌드된 게임에서는 게임을 종료합니다.
         Application.Quit();
         #endif
+    }
+
+    public void CallBack()
+    {
+        callbackFunction();
     }
 }
