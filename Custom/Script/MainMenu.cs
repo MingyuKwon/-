@@ -27,7 +27,6 @@ public class MainMenu : MonoBehaviour , AlertCallBack
     public Image PanelColor;
     public Color[] colors;
 
-    public int loadAdventureSceneNum = 0;
     public int loadModeNum = 0;
     string[] loadAdventureSceneName = {"Cave Dungeon", "Crypt Dungeon", "Ruin Dungeon" };
     Animator animator;
@@ -37,6 +36,10 @@ public class MainMenu : MonoBehaviour , AlertCallBack
 
     private void Awake() {
         animator = GetComponent<Animator>();
+    }
+
+    private void OnEnable() {
+        ChangeSceneNum(StageInformationManager.currentStagetype);
     }
 
     private void Start() {
@@ -76,9 +79,9 @@ public class MainMenu : MonoBehaviour , AlertCallBack
 
     public void ChangeSceneNum(int num)
     {
-        loadAdventureSceneNum = num;
-        showImage.sprite = showImages[loadAdventureSceneNum];
-        PanelColor.color = new Color(colors[loadAdventureSceneNum].r, colors[loadAdventureSceneNum].g, colors[loadAdventureSceneNum].b);
+        StageInformationManager.currentStagetype = num;
+        showImage.sprite = showImages[StageInformationManager.currentStagetype];
+        PanelColor.color = new Color(colors[StageInformationManager.currentStagetype].r, colors[StageInformationManager.currentStagetype].g, colors[StageInformationManager.currentStagetype].b);
     }
 
     public void ChangeModeNum(int num)
@@ -137,7 +140,7 @@ public class MainMenu : MonoBehaviour , AlertCallBack
     public void StartAdventure()
     {
         MakeScreenBlack.Hide();
-        LoadingInformation.loadingSceneName = loadAdventureSceneName[loadAdventureSceneNum];
+        LoadingInformation.loadingSceneName = loadAdventureSceneName[StageInformationManager.currentStagetype];
         StageInformationManager.gameMode = GameModeType.adventure1;
         SceneManager.LoadScene("Before Enter Dungeon");
     }
