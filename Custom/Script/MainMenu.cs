@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum GameModeType
 {
@@ -21,6 +22,11 @@ public class MainMenu : MonoBehaviour , AlertCallBack
     }
 
     public string loadTutorialSceneName;
+    public Image showImage;
+    public Sprite[] showImages;
+    public Image PanelColor;
+    public Color[] colors;
+
     public int loadAdventureSceneNum = 0;
     public int loadModeNum = 0;
     string[] loadAdventureSceneName = {"Cave Dungeon", "Crypt Dungeon", "Ruin Dungeon" };
@@ -71,6 +77,8 @@ public class MainMenu : MonoBehaviour , AlertCallBack
     public void ChangeSceneNum(int num)
     {
         loadAdventureSceneNum = num;
+        showImage.sprite = showImages[loadAdventureSceneNum];
+        PanelColor.color = new Color(colors[loadAdventureSceneNum].r, colors[loadAdventureSceneNum].g, colors[loadAdventureSceneNum].b);
     }
 
     public void ChangeModeNum(int num)
