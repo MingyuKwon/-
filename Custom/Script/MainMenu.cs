@@ -21,7 +21,9 @@ public class MainMenu : MonoBehaviour , AlertCallBack
     }
 
     public string loadTutorialSceneName;
-    public string loadAdventureSceneName;
+    public int loadAdventureSceneNum = 0;
+    public int loadModeNum = 0;
+    string[] loadAdventureSceneName = {"Cave Dungeon", "Crypt Dungeon", "Ruin Dungeon" };
     Animator animator;
 
     public delegate void AlertCallBackDelgate();
@@ -64,6 +66,17 @@ public class MainMenu : MonoBehaviour , AlertCallBack
             EventManager.isAnimationPlaying = true;
         }
         
+    }
+
+    public void ChangeSceneNum(int num)
+    {
+        loadAdventureSceneNum = num;
+    }
+
+    public void ChangeModeNum(int num)
+    {
+        loadModeNum = num;
+
     }
 
     int currentShowFlag = 0; // 0 : none, 1 : tutorial, 2 : stage, 3 : setting 
@@ -116,7 +129,7 @@ public class MainMenu : MonoBehaviour , AlertCallBack
     public void StartAdventure()
     {
         MakeScreenBlack.Hide();
-        LoadingInformation.loadingSceneName = loadAdventureSceneName;
+        LoadingInformation.loadingSceneName = loadAdventureSceneName[loadAdventureSceneNum];
         StageInformationManager.gameMode = GameModeType.adventure1;
         SceneManager.LoadScene("Before Enter Dungeon");
     }
