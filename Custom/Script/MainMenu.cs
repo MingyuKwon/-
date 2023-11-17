@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public enum GameModeType
 {
@@ -27,7 +28,10 @@ public class MainMenu : MonoBehaviour , AlertCallBack
     public Image PanelColor;
     public Color[] colors;
 
-    public int loadModeNum = 0;
+    [Space]
+    public TextMeshProUGUI explainText;
+    string[] explaintexts = {"대규모 도굴은 여러 층을 클리어 할 수록 아이템을 얻어가며 최종 보물을 얻는 것이 목표입니다", "소규모 도굴은 딱 한층만 최대한 빠르게 클리어 해 보물을 얻는 것이 목표입니다" };
+
     string[] loadAdventureSceneName = {"Cave Dungeon", "Crypt Dungeon", "Ruin Dungeon" };
     Animator animator;
 
@@ -40,6 +44,7 @@ public class MainMenu : MonoBehaviour , AlertCallBack
 
     private void OnEnable() {
         ChangeSceneNum(StageInformationManager.currentStagetype);
+        ChangeModeNum(StageInformationManager.currentStagemode);
     }
 
     private void Start() {
@@ -86,8 +91,8 @@ public class MainMenu : MonoBehaviour , AlertCallBack
 
     public void ChangeModeNum(int num)
     {
-        loadModeNum = num;
-
+        StageInformationManager.currentStagemode = num;
+        explainText.text = explaintexts[StageInformationManager.currentStagemode];
     }
 
     int currentShowFlag = 0; // 0 : none, 1 : tutorial, 2 : stage, 3 : setting 
