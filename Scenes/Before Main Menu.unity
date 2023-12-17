@@ -1000,6 +1000,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 122872215751301037, guid: 1c111943c186a5d418dbc5ddcba6c422, type: 3}
+      propertyPath: backGroundAudioClip.Array.size
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 122872215751301037, guid: 1c111943c186a5d418dbc5ddcba6c422, type: 3}
+      propertyPath: backGroundAudioClip.Array.data[5]
+      value: 
+      objectReference: {fileID: 8300000, guid: 5f7c699c2a2d2c8448a17bfdcf8f5a2d, type: 3}
+    - target: {fileID: 122872215751301037, guid: 1c111943c186a5d418dbc5ddcba6c422, type: 3}
+      propertyPath: backGroundAudioClip.Array.data[6]
+      value: 
+      objectReference: {fileID: 8300000, guid: fd803eca48180ac498b3c14b81a9170a, type: 3}
     - target: {fileID: 122872215751301038, guid: 1c111943c186a5d418dbc5ddcba6c422, type: 3}
       propertyPath: m_RootOrder
       value: 5
