@@ -63,7 +63,7 @@ public class MainMenu : MonoBehaviour , AlertCallBack
         }else
         {
             MakeScreenBlack.Clear();
-            StageInformationManager.gameMode = GameModeType.None;
+            StageInformationManager.changeGameMode(GameModeType.None);
             GameAudioManager.instance.PlayBackGroundMusic(BackGroundAudioType.MainMenu);
             StageInformationManager.currentStageIndex = 0;
         }
@@ -146,7 +146,7 @@ public class MainMenu : MonoBehaviour , AlertCallBack
     {
         MakeScreenBlack.Hide();
         LoadingInformation.loadingSceneName = loadAdventureSceneName[StageInformationManager.currentStagetype];
-        StageInformationManager.gameMode = GameModeType.adventure1;
+        StageInformationManager.changeGameMode(GameModeType.adventure1);
         SceneManager.LoadScene("Before Enter Dungeon");
     }
 
@@ -154,7 +154,7 @@ public class MainMenu : MonoBehaviour , AlertCallBack
     {
         MakeScreenBlack.Hide();
         LoadingInformation.loadingSceneName = loadTutorialSceneName;
-        StageInformationManager.gameMode = GameModeType.tutorial;
+        StageInformationManager.changeGameMode(GameModeType.tutorial);
         SceneManager.LoadScene("Before Enter Dungeon");
     }
 

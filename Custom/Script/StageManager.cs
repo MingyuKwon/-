@@ -230,12 +230,8 @@ public class StageManager : MonoBehaviour, IStageManager
                 }
             
         }
-        
-        StageInformationManager.NextmaxHeart = maxHeart;  
-        StageInformationManager.NextcurrentHeart = currentHeart; 
-        StageInformationManager.NextpotionCount = potionCount; 
-        StageInformationManager. NextmagGlassCount = magGlassCount; 
-        StageInformationManager. NextholyWaterCount = holyWaterCount;
+        StageInformationManager.setHearts(maxHeart, currentHeart); 
+        StageInformationManager.setUsableItems(potionCount,magGlassCount,holyWaterCount);
         StageInformationManager. NexttotalTime = timeLeft;
 
         StageInformationManager.isnextStageDungeon = !StageInformationManager.isnextStageDungeon;
@@ -253,13 +249,8 @@ public class StageManager : MonoBehaviour, IStageManager
                     StageInformationManager.NextHeight= StageInformationManager.tutorialHeight[0];
 
                     StageInformationManager.difficulty = Difficulty.Easy;
-
-
-                    StageInformationManager.NextmaxHeart = 3; 
-                    StageInformationManager.NextcurrentHeart = 3; 
-                    StageInformationManager.NextpotionCount = 0; 
-                    StageInformationManager. NextmagGlassCount = 0;
-                    StageInformationManager. NextholyWaterCount = 0; 
+                    StageInformationManager.setHearts(); 
+                    StageInformationManager.setUsableItems(0,0,0);
                     StageInformationManager. NexttotalTime = StageInformationManager.DefaultTimeforEntireGame;
 
                 }else
@@ -267,21 +258,22 @@ public class StageManager : MonoBehaviour, IStageManager
                     StageInformationManager.difficulty = Difficulty.Normal;
                     StageInformationManager.NextWidth = StageInformationManager.stageWidthMin[(int)StageInformationManager.difficulty,StageInformationManager.currentStageIndex];
                     StageInformationManager.NextHeight= StageInformationManager.stageHeightMin[(int)StageInformationManager.difficulty,StageInformationManager.currentStageIndex];
-                    StageInformationManager.NextmaxHeart = 3; 
-                    StageInformationManager.NextcurrentHeart = 3; 
-                    StageInformationManager.NextpotionCount = 3; 
-                    StageInformationManager. NextmagGlassCount = 5;
-                    StageInformationManager. NextholyWaterCount = 3; 
+                    StageInformationManager.setHearts(); 
+                    StageInformationManager.setUsableItems();
                     StageInformationManager. NexttotalTime = StageInformationManager.DefaultTimeforEntireGame;
                 }
             }
 
-            DungeonInitialize(StageInformationManager.NextWidth, StageInformationManager.NextHeight ,StageInformationManager.difficulty ,StageInformationManager.NextmaxHeart, StageInformationManager.NextmaxHeart, StageInformationManager.NextpotionCount, StageInformationManager. NextmagGlassCount, StageInformationManager. NextholyWaterCount, StageInformationManager. NexttotalTime);
+            int[] usableItems = StageInformationManager.getUsableItems();
+            int[] hearts = StageInformationManager.getHearts();
+            DungeonInitialize(StageInformationManager.NextWidth, StageInformationManager.NextHeight ,StageInformationManager.difficulty ,hearts[0], hearts[1], usableItems[0], usableItems[1], usableItems[2], StageInformationManager. NexttotalTime);
             
             
         }else
         {
-            RestPlaceInitialize(StageInformationManager.treasurePosition, StageInformationManager.NextmaxHeart, StageInformationManager.NextcurrentHeart, StageInformationManager.NextpotionCount, StageInformationManager. NextmagGlassCount, StageInformationManager. NextholyWaterCount, StageInformationManager. NexttotalTime);
+            int[] usableItems = StageInformationManager.getUsableItems();
+            int[] hearts = StageInformationManager.getHearts();
+            RestPlaceInitialize(StageInformationManager.treasurePosition, hearts[0], hearts[1], usableItems[0], usableItems[1], usableItems[2], StageInformationManager. NexttotalTime);
         }
         
     }
@@ -795,8 +787,20 @@ public class StageManager : MonoBehaviour, IStageManager
         GameAudioManager.instance.PlaySFXMusic(SFXAudioType.GetItem);
         if(isUsable)
         {
-            // 적은 개수를 가지는 아이템이 나오도록 바꿔야 한다
-            Item randUsableItem = (Item)UnityEngine.Random.Range(1, 4);
+            // 돋보기가 가장 확률이 높고, 다음이 성수, 그 다음이 포션으로 하자
+            int randNum = UnityEngine.Random.Range(1, 11);
+            Item randUsableItem;
+            if(randNum <= 5) // 1~5 : 돋보기
+            {
+                randUsableItem = Item.Mag_Glass;
+            }else if(randNum > 5 && randNum <= 8)  // 6~8 : 성수
+            {
+                randUsableItem = Item.Holy_Water;
+            }else // 9~10 : 포션
+            {
+                randUsableItem = Item.Potion;
+            }
+            
             if(UnityEngine.Random.value < StageInformationManager.noItemRatio[(int)StageInformationManager.difficulty])
             {
                 randUsableItem = Item.None;
@@ -1207,15 +1211,15 @@ public class StageManager : MonoBehaviour, IStageManager
             StageInformationManager.NextWidth = StageInformationManager.stageWidthMin[(int)StageInformationManager.difficulty,StageInformationManager.currentStageIndex];
             StageInformationManager.NextHeight= StageInformationManager.stageHeightMin[(int)StageInformationManager.difficulty,StageInformationManager.currentStageIndex];
                 
-            StageInformationManager.NextmaxHeart = 3; 
-            StageInformationManager.NextcurrentHeart = 3; 
-            StageInformationManager.NextpotionCount = 3; 
-            StageInformationManager. NextmagGlassCount = 5;
-            StageInformationManager. NextholyWaterCount = 3; 
-            StageInformationManager. NexttotalTime = StageInformationManager.DefaultTimeforEntireGame;
+            StageInformationManager.setHearts(); 
+            StageInformationManager.setUsableItems(); 
+            StageInformationManager.NexttotalTime = StageInformationManager.DefaultTimeforEntireGame;
             EventManager.instance.UpdateRightPanel_Invoke_Event();
+
+            int[] usableItems = StageInformationManager.getUsableItems();
+            int[] hearts = StageInformationManager.getHearts();
             
-            DungeonInitialize(StageInformationManager.NextWidth, StageInformationManager.NextHeight ,StageInformationManager.difficulty ,StageInformationManager.NextmaxHeart, StageInformationManager.NextmaxHeart, StageInformationManager.NextpotionCount, StageInformationManager. NextmagGlassCount, StageInformationManager. NextholyWaterCount, StageInformationManager. NexttotalTime);
+            DungeonInitialize(StageInformationManager.NextWidth, StageInformationManager.NextHeight ,StageInformationManager.difficulty ,hearts[0], hearts[1], usableItems[0], usableItems[1], usableItems[2], StageInformationManager. NexttotalTime);
             stageInputBlock =0;
         }
         
