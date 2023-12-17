@@ -800,7 +800,7 @@ public class StageManager : MonoBehaviour, IStageManager
             {
                 randUsableItem = Item.Potion;
             }
-            
+
             if(UnityEngine.Random.value < StageInformationManager.noItemRatio[(int)StageInformationManager.difficulty])
             {
                 randUsableItem = Item.None;
@@ -889,7 +889,19 @@ public class StageManager : MonoBehaviour, IStageManager
             GameAudioManager.instance.PlayBackGroundMusic(BackGroundAudioType.Tutorial);
         }else
         {
-            GameAudioManager.instance.PlayBackGroundMusic(BackGroundAudioType.Cave);
+            switch(StageInformationManager.currentStagetype)
+            {
+                case 0 :
+                    GameAudioManager.instance.PlayBackGroundMusic(BackGroundAudioType.Cave);
+                    break;
+                case 1 :
+                    GameAudioManager.instance.PlayBackGroundMusic(BackGroundAudioType.Crypt);
+                    break;
+                case 2 :
+                    GameAudioManager.instance.PlayBackGroundMusic(BackGroundAudioType.Ruin);
+                    break;
+            }
+            
         }
         
         

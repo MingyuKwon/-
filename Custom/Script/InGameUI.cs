@@ -563,10 +563,10 @@ public class InGameUI : MonoBehaviour, AlertCallBack
                 stageType.text = "Cave";
                 break;
             case 1 :
-                stageType.text = "???";
+                stageType.text = "Crypt";
                 break;
             case 2 :
-                stageType.text = "!!!";
+                stageType.text = "Ruin";
                 break;
         }
 
