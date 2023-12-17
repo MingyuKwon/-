@@ -21,6 +21,12 @@ public class PlayerSaveManager : MonoBehaviour
     private int equippedItem4 = 13; // 13 : None
     private int equippedItem5 = 13; // 13 : None
 
+    private int difficulty = -1;
+
+    private void Awake() {
+        GetPlayerStageData();
+    }
+
     public void SavePlayerStageData(int[] paras)
     {
         Stagetype = paras[0];
@@ -35,6 +41,7 @@ public class PlayerSaveManager : MonoBehaviour
         equippedItem3 = paras[9]; 
         equippedItem4 = paras[10]; 
         equippedItem5 = paras[11];
+        difficulty = paras[12];
 
         PlayerPrefs.SetInt("Stagetype", Stagetype);
         PlayerPrefs.SetInt("StageIndex", StageIndex);
@@ -48,6 +55,7 @@ public class PlayerSaveManager : MonoBehaviour
         PlayerPrefs.SetInt("equippedItem3", equippedItem3);
         PlayerPrefs.SetInt("equippedItem4", equippedItem4);
         PlayerPrefs.SetInt("equippedItem5", equippedItem5);
+        PlayerPrefs.SetInt("difficulty", difficulty);
         PlayerPrefs.Save();
     }
 
@@ -76,11 +84,13 @@ public class PlayerSaveManager : MonoBehaviour
             equippedItem3 = PlayerPrefs.GetInt("equippedItem3", 13);
             equippedItem4 = PlayerPrefs.GetInt("equippedItem4", 13);
             equippedItem5 = PlayerPrefs.GetInt("equippedItem5", 13);
+
+            difficulty = PlayerPrefs.GetInt("difficulty", -1);
             
             instance = this;
         }
 
-        return new int[12] {
+        return new int[13] {
             Stagetype,
             StageIndex, 
             MaxHeart,
@@ -93,6 +103,7 @@ public class PlayerSaveManager : MonoBehaviour
             equippedItem3,
             equippedItem4,
             equippedItem5,
+            difficulty
         };
     }
 }
