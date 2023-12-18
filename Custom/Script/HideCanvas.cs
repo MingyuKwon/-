@@ -41,14 +41,31 @@ public class HideCanvas : MonoBehaviour
 
     private IEnumerator LoadSceneAsync(string sceneName)
     {
-        yield return new WaitForSeconds(0.1f);
-
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
-        while (!asyncLoad.isDone)
+        if(StageInformationManager.isnextStageDungeon && 
+        LoadingInformation.loadingSceneName != "Main Menu" && 
+        LoadingInformation.loadingSceneName != "Tutorial 1"&& 
+        LoadingInformation.loadingSceneName != "Tutorial 2"&& 
+        LoadingInformation.loadingSceneName != "Tutorial 3"&& 
+        LoadingInformation.loadingSceneName != "Tutorial 4"&& 
+        LoadingInformation.loadingSceneName != "Tutorial Last"
+        )
         {
-            loadingBar.value = asyncLoad.progress;
-            yield return null;
+            loadingBar.gameObject.SetActive(true);
+            PlayerSaveManager.instance.SavePlayerStageData();
+        }else
+        {
+            loadingBar.gameObject.SetActive(false);
         }
+
+        loadingBar.value = 0;
+        yield return new WaitForSeconds(0.05f);
+        loadingBar.value = 0.25f;
+        yield return new WaitForSeconds(0.05f);
+        loadingBar.value = 0.5f;
+        yield return new WaitForSeconds(0.05f);
+        loadingBar.value = 0.75f;
+        yield return new WaitForSeconds(0.05f);
+        loadingBar.value = 1f;
 
         SceneManager.LoadScene(sceneName);
         

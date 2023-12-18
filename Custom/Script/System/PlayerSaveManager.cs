@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerSaveManager : MonoBehaviour
 {
@@ -24,9 +26,10 @@ public class PlayerSaveManager : MonoBehaviour
     private int difficulty = -1;
 
     private void Awake() {
-        GetPlayerStageData();
+        instance = this;
     }
 
+    [Button]
     public void ClearPlayerStageData()
     {
         // 전부 저장 안했을 때 초기값으로 저장을 하는 것이 결국 초기화 작업이나 같다
@@ -47,21 +50,48 @@ public class PlayerSaveManager : MonoBehaviour
         });
     }
 
-    public void SavePlayerStageData(int[] paras)
+    public void SavePlayerStageData(int[] paras = null)
     {
-        Stagetype = paras[0];
-        StageIndex = paras[1];
-        MaxHeart = paras[2];  
-        CurrentHeart = paras[3]; 
-        PotionCount = paras[4]; 
-        MagGlassCount = paras[5]; 
-        HolyWaterCount = paras[6];
-        equippedItem1 = paras[7]; 
-        equippedItem2 = paras[8]; 
-        equippedItem3 = paras[9]; 
-        equippedItem4 = paras[10]; 
-        equippedItem5 = paras[11];
-        difficulty = paras[12];
+        Debug.Log(SceneManager.GetActiveScene().name);
+        if(paras == null) // 만약 인수 없이 호출하면 현재 값들을 기준으로 저장
+        {
+            Stagetype = StageInformationManager.currentStagetype;
+            StageIndex = StageInformationManager.currentStageIndex;
+
+            int[] returnArrays = StageInformationManager.getHearts();
+            MaxHeart = returnArrays[0];
+            CurrentHeart = returnArrays[1];
+
+            returnArrays = StageInformationManager.getUsableItems();
+            PotionCount = returnArrays[0]; 
+            MagGlassCount = returnArrays[1]; 
+            HolyWaterCount = returnArrays[2];
+
+            difficulty = (int)StageInformationManager.difficulty;
+
+            equippedItem1 = (int)EquippedItem.playerEquippedItem[0]; 
+            equippedItem2 = (int)EquippedItem.playerEquippedItem[1]; 
+            equippedItem3 = (int)EquippedItem.playerEquippedItem[2]; 
+            equippedItem4 = (int)EquippedItem.playerEquippedItem[3]; 
+            equippedItem5 = (int)EquippedItem.playerEquippedItem[4];
+
+        }else // 인수로 호출하면 인수 값으로 저장
+        {
+            Stagetype = paras[0];
+            StageIndex = paras[1];
+            MaxHeart = paras[2];  
+            CurrentHeart = paras[3]; 
+            PotionCount = paras[4]; 
+            MagGlassCount = paras[5]; 
+            HolyWaterCount = paras[6];
+            equippedItem1 = paras[7]; 
+            equippedItem2 = paras[8]; 
+            equippedItem3 = paras[9]; 
+            equippedItem4 = paras[10]; 
+            equippedItem5 = paras[11];
+            difficulty = paras[12];
+        }
+        
 
         PlayerPrefs.SetInt("Stagetype", Stagetype);
         PlayerPrefs.SetInt("StageIndex", StageIndex);
@@ -81,11 +111,6 @@ public class PlayerSaveManager : MonoBehaviour
 
     public int[] GetPlayerStageData() // 지금 보이는 이 데이터들을 배열로 보내줌
     {
-        if(instance == null) // 만약 아직 get을 하지 않았다면 끌어 와야 함
-        {
-            instance = this;
-        }
-        
         Stagetype = PlayerPrefs.GetInt("Stagetype", -1);
         // 만약 여기서 -1을 받는다면, 그건 저장된 값이 아예 없다는 이야기 이다
         if(Stagetype == -1)
@@ -109,6 +134,8 @@ public class PlayerSaveManager : MonoBehaviour
         equippedItem5 = PlayerPrefs.GetInt("equippedItem5", 13);
 
         difficulty = PlayerPrefs.GetInt("difficulty", -1);
+
+        Debug.Log(Stagetype);
 
         return new int[13] {
             Stagetype,
