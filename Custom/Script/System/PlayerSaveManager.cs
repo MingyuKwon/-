@@ -48,22 +48,26 @@ public class PlayerSaveManager : MonoBehaviour
             13,
             13,
             -1
-        });
+        }, true);
     }
 
 
     [Button]
-    public void SavePlayerStageData(int[] paras = null)
+    public void SavePlayerStageData(int[] paras = null, bool isForce = false)
     {
-        Debug.Log(SceneManager.GetActiveScene().name);
         if(paras == null) // 만약 인수 없이 호출하면 현재 값들을 기준으로 저장
         {
-            Stagetype = StageInformationManager.currentStagetype;
-            StageIndex = StageInformationManager.currentStageIndex;
-
             int[] returnArrays = StageInformationManager.getHearts();
+            if(returnArrays[0] == -1 && !isForce) {
+                Debug.Log("Save Reject");
+                return;
+            }
+
             MaxHeart = returnArrays[0];
             CurrentHeart = returnArrays[1];
+
+            Stagetype = StageInformationManager.currentStagetype;
+            StageIndex = StageInformationManager.currentStageIndex;
 
             returnArrays = StageInformationManager.getUsableItems();
             PotionCount = returnArrays[0]; 
@@ -95,7 +99,9 @@ public class PlayerSaveManager : MonoBehaviour
             difficulty = paras[12];
         }
 
-        String str = "Stagetype : " +  Stagetype + "\n" + 
+        String str = 
+                    "====Save===" + LoadingInformation.loadingSceneName + "\n" +
+                    "Stagetype : " +  Stagetype + "\n" + 
                     "StageIndex : " +  StageIndex + "\n" + 
                     "MaxHeart : " +  MaxHeart + "\n" + 
                     "CurrentHeart : " +  CurrentHeart + "\n" + 
@@ -132,12 +138,6 @@ public class PlayerSaveManager : MonoBehaviour
     public int[] GetPlayerStageData() // 지금 보이는 이 데이터들을 배열로 보내줌
     {
         Stagetype = PlayerPrefs.GetInt("Stagetype", -1);
-        // 만약 여기서 -1을 받는다면, 그건 저장된 값이 아예 없다는 이야기 이다
-        if(Stagetype == -1)
-        {
-            return null;
-        }
-
         StageIndex = PlayerPrefs.GetInt("StageIndex", -1);
 
         MaxHeart = PlayerPrefs.GetInt("MaxHeart", -1);
@@ -147,6 +147,12 @@ public class PlayerSaveManager : MonoBehaviour
         MagGlassCount = PlayerPrefs.GetInt("MagGlassCount", -1);
         HolyWaterCount = PlayerPrefs.GetInt("HolyWaterCount", -1);
 
+        // 만약 여기서 -1을 받는다면, 그건 저장된 값이 아예 없다는 이야기 이다
+        if(PotionCount == -1 )
+        {
+            return null;
+        }
+
         equippedItem1 = PlayerPrefs.GetInt("equippedItem1", 13);
         equippedItem2 = PlayerPrefs.GetInt("equippedItem2", 13);
         equippedItem3 = PlayerPrefs.GetInt("equippedItem3", 13);
@@ -155,7 +161,8 @@ public class PlayerSaveManager : MonoBehaviour
 
         difficulty = PlayerPrefs.GetInt("difficulty", -1);
 
-        String str = "Stagetype : " +  Stagetype + "\n" + 
+        String str = "====Get=======" +
+                    "Stagetype : " +  Stagetype + "\n" + 
                     "StageIndex : " +  StageIndex + "\n" + 
                     "MaxHeart : " +  MaxHeart + "\n" + 
                     "CurrentHeart : " +  CurrentHeart + "\n" + 

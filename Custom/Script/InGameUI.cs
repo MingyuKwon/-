@@ -508,9 +508,10 @@ public class InGameUI : MonoBehaviour, AlertCallBack
             EquippedItemImages[i].sprite = EquippedItemSprites[0];
             equipppedItemExplain[i].text = "";
         }
-
+        Debug.Log("Set Images");
         for(int i=0; i<EquippedItem.equippedItemCount; i++)
         {
+            
             EquippedItemImages[i].sprite = EquippedItemSprites[(int)EquippedItem.playerEquippedItem[i] - 4 + 1];
             equipppedItemExplain[i].text = "";
         }

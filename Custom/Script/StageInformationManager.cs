@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class StageInformationManager
@@ -96,6 +97,23 @@ public class StageInformationManager
     public static GameModeType getGameMode()
     {
         return gameMode;
+    }
+
+    public static void setPlayerData(int[] paras)
+    {
+        if(paras == null || paras[2] == -1) return;
+
+        Debug.Log("setPlayerData");
+        currentStagetype = paras[0];
+        currentStageIndex = paras[1];
+        setHearts(paras[2], paras[3]);
+        setUsableItems(paras[4],paras[5],paras[6]);
+        EquippedItem.playerEquippedItem[0] = (Item)paras[7]; 
+        EquippedItem.playerEquippedItem[1] = (Item)paras[8]; 
+        EquippedItem.playerEquippedItem[2] = (Item)paras[9]; 
+        EquippedItem.playerEquippedItem[3] = (Item)paras[10]; 
+        EquippedItem.playerEquippedItem[4] = (Item)paras[11];
+        difficulty = (Difficulty)paras[12];
     }
 
     public static int currentStagetype = 0;

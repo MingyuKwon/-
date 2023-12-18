@@ -213,6 +213,13 @@ public class StageManager : MonoBehaviour, IStageManager
     private void OnDestroy() {
         instance = null;
 
+        if(LoadingInformation.loadingSceneName == "Main Menu") 
+        {
+            EquippedItem.ClearEquippedItem();
+            return;
+        }
+        
+
         if(!StageInformationManager.isnextStageDungeon) // 다음이 던전인 경우
         {
             StageInformationManager.currentStageIndex++;
@@ -243,6 +250,7 @@ public class StageManager : MonoBehaviour, IStageManager
         {
             if(StageInformationManager.currentStageIndex == 0)
             {
+                EquippedItem.ClearEquippedItem();
                 if(isTutorial)
                 {
                     StageInformationManager.NextWidth = StageInformationManager.tutorialWidth[0];
@@ -398,6 +406,7 @@ public class StageManager : MonoBehaviour, IStageManager
     private void OnEnable() {
         EventManager.instance.Game_Over_Event += GameOver;
         EventManager.instance.ItemUseEvent += ItemUse;
+        EventManager.instance.UpdateRightPanel_Invoke_Event();
     }
 
     private void OnDisable() {
