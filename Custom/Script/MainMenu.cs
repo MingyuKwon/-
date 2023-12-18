@@ -9,10 +9,7 @@ public enum GameModeType
 {
     None,
     tutorial,
-    adventure1,
-    adventure2,
-    adventure3,
-
+    adventure,
 }
 
 public class MainMenu : MonoBehaviour , AlertCallBack
@@ -55,7 +52,7 @@ public class MainMenu : MonoBehaviour , AlertCallBack
                 case GameModeType.tutorial :
                     StartTutorial();
                     break;
-                case GameModeType.adventure1 :
+                case GameModeType.adventure :
                     StartAdventure();
                     break;
             }
@@ -146,7 +143,16 @@ public class MainMenu : MonoBehaviour , AlertCallBack
     {
         MakeScreenBlack.Hide();
         LoadingInformation.loadingSceneName = loadAdventureSceneName[StageInformationManager.currentStagetype];
-        StageInformationManager.changeGameMode(GameModeType.adventure1);
+        StageInformationManager.changeGameMode(GameModeType.adventure);
+        SceneManager.LoadScene("Before Enter Dungeon");
+    }
+
+    public void ContinueAdventure()
+    {
+        MakeScreenBlack.Hide();
+        StageInformationManager.setPlayerData(PlayerSaveManager.instance.GetPlayerStageData());
+        LoadingInformation.loadingSceneName = loadAdventureSceneName[StageInformationManager.currentStagetype];
+        StageInformationManager.changeGameMode(GameModeType.adventure);
         SceneManager.LoadScene("Before Enter Dungeon");
     }
 

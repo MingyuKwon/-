@@ -103,7 +103,6 @@ public class StageInformationManager
     {
         if(paras == null || paras[2] == -1) return;
 
-        Debug.Log("setPlayerData");
         currentStagetype = paras[0];
         currentStageIndex = paras[1];
         setHearts(paras[2], paras[3]);
@@ -114,6 +113,10 @@ public class StageInformationManager
         EquippedItem.playerEquippedItem[3] = (Item)paras[10]; 
         EquippedItem.playerEquippedItem[4] = (Item)paras[11];
         difficulty = (Difficulty)paras[12];
+
+        NexttotalTime = paras[13];
+        NextWidth = paras[14];
+        NextHeight = paras[15];
     }
 
     public static int currentStagetype = 0;

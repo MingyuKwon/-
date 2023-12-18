@@ -26,6 +26,10 @@ public class PlayerSaveManager : MonoBehaviour
 
     private int difficulty = -1;
 
+    private int totalTime = -1;
+    private int width = -1;
+    private int height = -1;
+
     private void Awake() {
         instance = this;
     }
@@ -34,7 +38,7 @@ public class PlayerSaveManager : MonoBehaviour
     public void ClearPlayerStageData()
     {
         // 전부 저장 안했을 때 초기값으로 저장을 하는 것이 결국 초기화 작업이나 같다
-        SavePlayerStageData(new int[13] {
+        SavePlayerStageData(new int[16] {
             -1,
             -1, 
             -1,
@@ -47,6 +51,9 @@ public class PlayerSaveManager : MonoBehaviour
             13,
             13,
             13,
+            -1,
+            -1,
+            -1,
             -1
         }, true);
     }
@@ -82,6 +89,10 @@ public class PlayerSaveManager : MonoBehaviour
             equippedItem4 = (int)EquippedItem.playerEquippedItem[3]; 
             equippedItem5 = (int)EquippedItem.playerEquippedItem[4];
 
+            totalTime = StageInformationManager.NexttotalTime;
+            width = StageInformationManager.NextWidth;
+            height = StageInformationManager.NextHeight;
+
         }else // 인수로 호출하면 인수 값으로 저장
         {
             Stagetype = paras[0];
@@ -97,6 +108,9 @@ public class PlayerSaveManager : MonoBehaviour
             equippedItem4 = paras[10]; 
             equippedItem5 = paras[11];
             difficulty = paras[12];
+            totalTime = paras[13];
+            width = paras[14];
+            height = paras[15];
         }
 
         String str = 
@@ -132,6 +146,9 @@ public class PlayerSaveManager : MonoBehaviour
         PlayerPrefs.SetInt("equippedItem4", equippedItem4);
         PlayerPrefs.SetInt("equippedItem5", equippedItem5);
         PlayerPrefs.SetInt("difficulty", difficulty);
+        PlayerPrefs.SetInt("totalTime", totalTime);
+        PlayerPrefs.SetInt("width", width);
+        PlayerPrefs.SetInt("height", height);
         PlayerPrefs.Save();
     }
 
@@ -179,7 +196,7 @@ public class PlayerSaveManager : MonoBehaviour
 
         Debug.Log(str);
 
-        return new int[13] {
+        return new int[16] {
             Stagetype,
             StageIndex, 
             MaxHeart,
@@ -192,7 +209,10 @@ public class PlayerSaveManager : MonoBehaviour
             equippedItem3,
             equippedItem4,
             equippedItem5,
-            difficulty
+            difficulty,
+            totalTime,
+            width,
+            height
         };
     }
 }
