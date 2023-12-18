@@ -27,6 +27,26 @@ public class PlayerSaveManager : MonoBehaviour
         GetPlayerStageData();
     }
 
+    public void ClearPlayerStageData()
+    {
+        // 전부 저장 안했을 때 초기값으로 저장을 하는 것이 결국 초기화 작업이나 같다
+        SavePlayerStageData(new int[13] {
+            -1,
+            -1, 
+            -1,
+            -1, 
+            -1,
+            -1,
+            -1,
+            13,
+            13,
+            13,
+            13,
+            13,
+            -1
+        });
+    }
+
     public void SavePlayerStageData(int[] paras)
     {
         Stagetype = paras[0];
@@ -63,32 +83,32 @@ public class PlayerSaveManager : MonoBehaviour
     {
         if(instance == null) // 만약 아직 get을 하지 않았다면 끌어 와야 함
         {
-            Stagetype = PlayerPrefs.GetInt("Stagetype", -1);
-            // 만약 여기서 -1을 받는다면, 그건 저장된 값이 아예 없다는 이야기 이다
-            if(Stagetype == -1)
-            {
-                return null;
-            }
-
-            StageIndex = PlayerPrefs.GetInt("StageIndex", -1);
-
-            MaxHeart = PlayerPrefs.GetInt("MaxHeart", -1);
-            CurrentHeart = PlayerPrefs.GetInt("CurrentHeart", -1);
-
-            PotionCount = PlayerPrefs.GetInt("PotionCount", -1);
-            MagGlassCount = PlayerPrefs.GetInt("MagGlassCount", -1);
-            HolyWaterCount = PlayerPrefs.GetInt("HolyWaterCount", -1);
-
-            equippedItem1 = PlayerPrefs.GetInt("equippedItem1", 13);
-            equippedItem2 = PlayerPrefs.GetInt("equippedItem2", 13);
-            equippedItem3 = PlayerPrefs.GetInt("equippedItem3", 13);
-            equippedItem4 = PlayerPrefs.GetInt("equippedItem4", 13);
-            equippedItem5 = PlayerPrefs.GetInt("equippedItem5", 13);
-
-            difficulty = PlayerPrefs.GetInt("difficulty", -1);
-            
             instance = this;
         }
+        
+        Stagetype = PlayerPrefs.GetInt("Stagetype", -1);
+        // 만약 여기서 -1을 받는다면, 그건 저장된 값이 아예 없다는 이야기 이다
+        if(Stagetype == -1)
+        {
+            return null;
+        }
+
+        StageIndex = PlayerPrefs.GetInt("StageIndex", -1);
+
+        MaxHeart = PlayerPrefs.GetInt("MaxHeart", -1);
+        CurrentHeart = PlayerPrefs.GetInt("CurrentHeart", -1);
+
+        PotionCount = PlayerPrefs.GetInt("PotionCount", -1);
+        MagGlassCount = PlayerPrefs.GetInt("MagGlassCount", -1);
+        HolyWaterCount = PlayerPrefs.GetInt("HolyWaterCount", -1);
+
+        equippedItem1 = PlayerPrefs.GetInt("equippedItem1", 13);
+        equippedItem2 = PlayerPrefs.GetInt("equippedItem2", 13);
+        equippedItem3 = PlayerPrefs.GetInt("equippedItem3", 13);
+        equippedItem4 = PlayerPrefs.GetInt("equippedItem4", 13);
+        equippedItem5 = PlayerPrefs.GetInt("equippedItem5", 13);
+
+        difficulty = PlayerPrefs.GetInt("difficulty", -1);
 
         return new int[13] {
             Stagetype,
