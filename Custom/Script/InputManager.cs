@@ -180,6 +180,7 @@ public class InputManager : MonoBehaviour
         bool isDownButton0 = Input.GetMouseButtonDown(0);
         bool isDownButton1 = Input.GetMouseButtonDown(1);
         bool isDownButton2 = Input.GetMouseButtonDown(2);
+        bool isDownButton3 = Input.GetMouseButtonDown(3);
 
 
         if(isDownButton2)
@@ -190,6 +191,11 @@ public class InputManager : MonoBehaviour
                 StageManager.instance?.ItemPanelShow(false);
             }
             
+        }
+
+        if(isDownButton3)
+        {
+            EventManager.instance.StairOpen_Invoke_Event();
         }
 
         if(EventSystem.current.IsPointerOverGameObject()) return;

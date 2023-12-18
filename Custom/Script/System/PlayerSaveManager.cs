@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
@@ -50,6 +51,8 @@ public class PlayerSaveManager : MonoBehaviour
         });
     }
 
+
+    [Button]
     public void SavePlayerStageData(int[] paras = null)
     {
         Debug.Log(SceneManager.GetActiveScene().name);
@@ -91,6 +94,23 @@ public class PlayerSaveManager : MonoBehaviour
             equippedItem5 = paras[11];
             difficulty = paras[12];
         }
+
+        String str = "Stagetype : " +  Stagetype + "\n" + 
+                    "StageIndex : " +  StageIndex + "\n" + 
+                    "MaxHeart : " +  MaxHeart + "\n" + 
+                    "CurrentHeart : " +  CurrentHeart + "\n" + 
+                    "PotionCount : " +  PotionCount + "\n" + 
+                    "MagGlassCount : " +  MagGlassCount + "\n" + 
+                    "HolyWaterCount : " +  HolyWaterCount + "\n" + 
+                    "difficulty : " +  difficulty + "\n" + 
+                    "equippedItem1 : " +  equippedItem1 + "\n" + 
+                    "equippedItem2 : " +  equippedItem2 + "\n" + 
+                    "equippedItem3 : " +  equippedItem3 + "\n" + 
+                    "equippedItem4 : " +  equippedItem4 + "\n" + 
+                    "equippedItem5 : " +  equippedItem5 + "\n" 
+        ;
+
+        Debug.Log(str);
         
 
         PlayerPrefs.SetInt("Stagetype", Stagetype);
@@ -135,7 +155,22 @@ public class PlayerSaveManager : MonoBehaviour
 
         difficulty = PlayerPrefs.GetInt("difficulty", -1);
 
-        Debug.Log(Stagetype);
+        String str = "Stagetype : " +  Stagetype + "\n" + 
+                    "StageIndex : " +  StageIndex + "\n" + 
+                    "MaxHeart : " +  MaxHeart + "\n" + 
+                    "CurrentHeart : " +  CurrentHeart + "\n" + 
+                    "PotionCount : " +  PotionCount + "\n" + 
+                    "MagGlassCount : " +  MagGlassCount + "\n" + 
+                    "HolyWaterCount : " +  HolyWaterCount + "\n" + 
+                    "difficulty : " +  difficulty + "\n" + 
+                    "equippedItem1 : " +  equippedItem1 + "\n" + 
+                    "equippedItem2 : " +  equippedItem2 + "\n" + 
+                    "equippedItem3 : " +  equippedItem3 + "\n" + 
+                    "equippedItem4 : " +  equippedItem4 + "\n" + 
+                    "equippedItem5 : " +  equippedItem5 + "\n" 
+        ;
+
+        Debug.Log(str);
 
         return new int[13] {
             Stagetype,

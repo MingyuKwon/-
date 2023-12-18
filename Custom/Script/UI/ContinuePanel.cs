@@ -56,13 +56,18 @@ public class ContinuePanel : MonoBehaviour
             EquippedItemImages[i].sprite = EquippedItemSprites[0];
         }
 
-        for(int i=0; i<EquippedItem.equippedItemCount; i++)
+        for(int i=0; i<playerEquippedItem.Length && playerEquippedItem[i] != Item.None; i++)
         {
             EquippedItemImages[i].sprite = EquippedItemSprites[(int)playerEquippedItem[i] - 4 + 1];
         }
 
         int maxHeart = palyerSaveData[2];
         int currentHeart = palyerSaveData[3];
+
+        for(int i=0; i<9; i++)
+        {
+            HeartItemImages[i].sprite = HeartSprites[0];
+        }
 
         for(int i=0; i<maxHeart; i++)
         {
@@ -89,6 +94,10 @@ public class ContinuePanel : MonoBehaviour
         StageType.text = stageTypeTexts[palyerSaveData[0]];
         StageLevel.text = "Level" + (palyerSaveData[1] + 1) ;
         StageDifficulty.text = difficultyTexts[palyerSaveData[12]];
+
+        potionCount.text = palyerSaveData[4].ToString();
+        magGlassCount.text = palyerSaveData[5].ToString();
+        holyWaterCount.text = palyerSaveData[6].ToString();
 
     }
 }
