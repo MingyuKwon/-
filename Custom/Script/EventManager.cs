@@ -110,21 +110,22 @@ public class EquippedItem
     private static int StageBonusCalculator(Item item)
     {
         int amount = 0;
+        int difficulty = (int)StageInformationManager.difficulty;
 
         foreach(Item equippedItem in playerEquippedItem)
         {
             if(item == Item.Potion && equippedItem == Item.Potion_Plus )
             {
-                amount += StageInformationManager.plusPotion_byItem_perStage;
+                amount += StageInformationManager.plusPotion_byItem_perStage[difficulty];
             }else if(item == Item.Mag_Glass && equippedItem == Item.Glass_Plus )
             {
-                amount += StageInformationManager.plusMag_byItem_perStage;
+                amount += StageInformationManager.plusMag_byItem_perStage[difficulty];
             }else if(item == Item.Holy_Water && equippedItem == Item.Water_Plus )
             {
-                amount += StageInformationManager.plusHoly_byItem_perStage;
+                amount += StageInformationManager.plusHoly_byItem_perStage[difficulty];
             }else if(Item.Time_Plus == item && Item.Time_Plus == equippedItem)
             {
-                amount += StageInformationManager.plusTime_byItem_perStage;
+                amount += StageInformationManager.plusTime_byItem_perStage[difficulty];
             }
         }
 
@@ -134,21 +135,22 @@ public class EquippedItem
     private static float percentageCalculator(Item item)
     {
         float percentage = 0;
+        int difficulty = (int)StageInformationManager.difficulty;
 
         foreach(Item equippedItem in playerEquippedItem)
         {
             if(item == Item.Potion && equippedItem == Item.Potion_PercentageUP )
             {
-                percentage += 0.4f;
+                percentage += StageInformationManager.item_obtain_Up_Percentage[difficulty];
             }else if(item == Item.Mag_Glass && equippedItem == Item.Glass_PercentageUP )
             {
-                percentage += 0.4f;
+                percentage += StageInformationManager.item_obtain_Up_Percentage[difficulty];
             }else if(item == Item.Holy_Water && equippedItem == Item.Water_PercentageUP )
             {
-                percentage += 0.4f;
+                percentage += StageInformationManager.item_obtain_Up_Percentage[difficulty];
             }else if(Item.ALL_PercentageUP == item && Item.ALL_PercentageUP == equippedItem)
             {
-                percentage += 0.2f;
+                percentage += StageInformationManager.item_obtain_Up_Percentage[difficulty] / 2;
             }
         }
 

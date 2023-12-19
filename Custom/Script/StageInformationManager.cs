@@ -11,7 +11,7 @@ public class StageInformationManager
     public static float professionalMineRatio = 0.28f;
     public static float mineToTreasureRatio = 0.5f;
 
-    public static float[] noItemRatio = {0.15f,0.25f,0.35f};
+    public static float[] noItemRatio = {0.1f,0.2f,0.3f};
 
     public static int[] tutorialWidth = {5,5,7,9};
     public static int[] tutorialHeight = {5,5,7,9};
@@ -72,14 +72,16 @@ public class StageInformationManager
     public static int[] DefaultTimeperStage = {150, 200, 250};
     public static int[] DefaultTrapDamage = {1, 1, 2};
 
-    public static int plusPotion_byItem_perStage = 3;
-    public static int plusMag_byItem_perStage = 3;
-    public static int plusHoly_byItem_perStage = 3;
-    public static int plusTime_byItem_perStage = 30;
+    public static int[] plusPotion_byItem_perStage = {3,2,2};
+    public static int[] plusMag_byItem_perStage = {4,4,4};
+    public static int[] plusHoly_byItem_perStage = {4,3,3};
+    public static int[] plusTime_byItem_perStage = {60,50,40};
 
-    public static int plusPotion_Default_perStage = 0;
-    public static int plusMag_Default_perStage = 8;
-    public static int plusHoly_Default_perStage = 0;
+    public static int[] plusPotion_Default_perStage = {4,2,0};
+    public static int[] plusMag_Default_perStage = {6,7,8};
+    public static int[] plusHoly_Default_perStage = {4,2,0};
+
+    public static float[] item_obtain_Up_Percentage = {0.3f,0.3f,0.4f};
 
     private static int Potion_Default = 2;
     private static int Mag_Default = 2;

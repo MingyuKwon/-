@@ -942,10 +942,10 @@ public class StageManager : MonoBehaviour, IStageManager
         flagArray = new int[height, width];
         isObstacleRemoved = new bool[height, width];
         
-
-        this.potionCount = potionCount + EquippedItem.Heart_StageBonus + StageInformationManager.plusPotion_Default_perStage;
-        this.magGlassCount = magGlassCount + EquippedItem.Glass_StageBonus + StageInformationManager.plusMag_Default_perStage;
-        this.holyWaterCount = holyWaterCount+ EquippedItem.Holy_StageBonus + StageInformationManager.plusHoly_Default_perStage;
+        int difficultytemp = (int)StageInformationManager.difficulty;
+        this.potionCount = potionCount + EquippedItem.Heart_StageBonus + StageInformationManager.plusPotion_Default_perStage[difficultytemp];
+        this.magGlassCount = magGlassCount + EquippedItem.Glass_StageBonus + StageInformationManager.plusMag_Default_perStage[difficultytemp];
+        this.holyWaterCount = holyWaterCount+ EquippedItem.Holy_StageBonus + StageInformationManager.plusHoly_Default_perStage[difficultytemp];
 
         EventManager.instance.Reduce_HeartInvokeEvent(currentHeart, maxHeart);
 

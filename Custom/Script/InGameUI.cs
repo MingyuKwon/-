@@ -13,7 +13,7 @@ public class InGameUI : MonoBehaviour, AlertCallBack
     static public InGameUI instance;
     #region Serialize
     [Header("Texts")]
-    public TextMeshProUGUI difficulty;
+    public TextMeshProUGUI difficultyText;
     public TextMeshProUGUI width;
     public TextMeshProUGUI height;
     public TextMeshProUGUI stageDifficulty;
@@ -523,27 +523,28 @@ public class InGameUI : MonoBehaviour, AlertCallBack
         switch(StageInformationManager.difficulty)
         {
             case Difficulty.Easy :
-                difficulty.text = "Easy";
+                difficultyText.text = "Easy";
                 break;
             case Difficulty.Normal :
-                difficulty.text = "Normal";
+                difficultyText.text = "Normal";
                 break;
             case Difficulty.Hard :
-                difficulty.text = "Hard";
+                difficultyText.text = "Hard";
                 break;
             case Difficulty.Professional :
-                difficulty.text = "Professional";
+                difficultyText.text = "Professional";
                 break;
         }
         
         width.text = "Width : " + StageInformationManager.NextWidth.ToString();
         height.text = "Height : " + StageInformationManager.NextHeight.ToString();
 
-        trapDamage.text = "X" + StageInformationManager.DefaultTrapDamage[(int)StageInformationManager.difficulty].ToString();
-        potionPlus.text = "+" + (StageInformationManager.plusPotion_Default_perStage + EquippedItem.Heart_StageBonus).ToString();
-        magGlassPlus.text = "+" + (StageInformationManager.plusMag_Default_perStage + EquippedItem.Glass_StageBonus).ToString();
-        holyWaterPlus.text = "+" + (StageInformationManager.plusHoly_Default_perStage + EquippedItem.Holy_StageBonus).ToString();
-        TimePlus.text = "+" +  (StageInformationManager.DefaultTimeperStage[(int)StageInformationManager.difficulty] + EquippedItem.Time_StageBonus).ToString();
+        int difficulty = (int)StageInformationManager.difficulty;
+        trapDamage.text = "X" + StageInformationManager.DefaultTrapDamage[difficulty].ToString();
+        potionPlus.text = "+" + (StageInformationManager.plusPotion_Default_perStage[difficulty] + EquippedItem.Heart_StageBonus).ToString();
+        magGlassPlus.text = "+" + (StageInformationManager.plusMag_Default_perStage[difficulty] + EquippedItem.Glass_StageBonus).ToString();
+        holyWaterPlus.text = "+" + (StageInformationManager.plusHoly_Default_perStage[difficulty] + EquippedItem.Holy_StageBonus).ToString();
+        TimePlus.text = "+" +  (StageInformationManager.DefaultTimeperStage[difficulty] + EquippedItem.Time_StageBonus).ToString();
 
         switch(StageInformationManager.difficulty)
         {
