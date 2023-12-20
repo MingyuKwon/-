@@ -94,6 +94,7 @@ public class MainMenu : MonoBehaviour , AlertCallBack
 
     int currentShowFlag = 0; // 0 : none, 1 : tutorial, 2 : stage, 3 : setting 
 
+
     public void ShowAdventure()
     {
         if(EventManager.isAnimationPlaying) return;

@@ -69,7 +69,7 @@ public class StageInformationManager
     };
 
     public static int DefaultTimeforEntireGame = 100;
-    public static int[] DefaultTimeperStage = {150, 200, 250};
+    
     public static int[] DefaultTrapDamage = {1, 1, 2};
 
     public static int[] plusPotion_byItem_perStage = {3,2,2};
@@ -80,12 +80,13 @@ public class StageInformationManager
     public static int[] plusPotion_Default_perStage = {4,2,0};
     public static int[] plusMag_Default_perStage = {6,7,8};
     public static int[] plusHoly_Default_perStage = {4,2,0};
+    public static int[] DefaultTimeperStage = {150, 200, 250};
 
     public static float[] item_obtain_Up_Percentage = {0.3f,0.3f,0.4f};
 
-    private static int Potion_Default = 2;
-    private static int Mag_Default = 2;
-    private static int Holy_Default = 5;
+    public static int Potion_Default = 2;
+    public static int Mag_Default = 2;
+    public static int Holy_Default = 5;
 
     private static int MaxHeartDefault = 3;
     private static int CurrentHeartDefault = 3;
@@ -125,7 +126,7 @@ public class StageInformationManager
     public static int currentStagemode = 0;
     public static int currentStageIndex = 0;
     public static bool isnextStageDungeon = true;
-    public static Difficulty difficulty = Difficulty.Easy;
+    public static Difficulty difficulty = Difficulty.Normal;
     public static Vector3Int treasurePosition = new Vector3Int(-4,-1,0);
 
     public static int NextWidth = -1;  
