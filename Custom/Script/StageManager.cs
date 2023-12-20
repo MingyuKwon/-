@@ -263,7 +263,6 @@ public class StageManager : MonoBehaviour, IStageManager
 
                 }else
                 {
-                    StageInformationManager.difficulty = Difficulty.Normal;
                     StageInformationManager.NextWidth = StageInformationManager.stageWidthMin[(int)StageInformationManager.difficulty,StageInformationManager.currentStageIndex];
                     StageInformationManager.NextHeight= StageInformationManager.stageHeightMin[(int)StageInformationManager.difficulty,StageInformationManager.currentStageIndex];
                     StageInformationManager.setHearts(); 

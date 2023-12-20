@@ -9704,6 +9704,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 713e035dcbc7e4248bb18395b28a559b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  toggleGroup: {fileID: 1175350099}
+  buttons:
+  - {fileID: 226959269}
+  - {fileID: 1298842842}
+  - {fileID: 522425152}
   startItem:
   - {fileID: 351112544}
   - {fileID: 917241630}
@@ -11111,7 +11116,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  m_IsOn: 1
+  m_IsOn: 0
 --- !u!1 &1307950389
 GameObject:
   m_ObjectHideFlags: 0
@@ -18162,18 +18167,6 @@ MonoBehaviour:
       - m_Target: {fileID: 1087791688}
         m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
         m_MethodName: ShowAdventure
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1175350102}
-        m_TargetAssemblyTypeName: DifficultyPanel, Assembly-CSharp
-        m_MethodName: UpdateDifficultyPanel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

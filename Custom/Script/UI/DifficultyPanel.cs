@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class DifficultyPanel : MonoBehaviour
 {
+    public ToggleGroup toggleGroup;
+    public Toggle[] buttons;
     public TextMeshProUGUI[] startItem;
     public TextMeshProUGUI[] defaultPlusItem;
     public TextMeshProUGUI[] ItemPlusItem;
@@ -13,14 +15,11 @@ public class DifficultyPanel : MonoBehaviour
     public TextMeshProUGUI noItem;
     public TextMeshProUGUI trapDamage;
 
-    private void OnEnable() {
-        ChangeDifficulty((int)StageInformationManager.difficulty);
-        UpdateDifficultyPanel();
-    }
-
     public void UpdateDifficultyPanel()
     {
-        int difficulty = (int)StageInformationManager.difficulty;
+        Debug.Log("UpdateDifficultyPanel " + StageInformationManager.difficulty.ToString());
+
+        int difficulty = (int)StageInformationManager.difficulty;        
 
         startItem[0].text = (StageInformationManager.Potion_Default + StageInformationManager.plusPotion_Default_perStage[difficulty]).ToString();
         startItem[1].text = (StageInformationManager.Mag_Default + StageInformationManager.plusMag_Default_perStage[difficulty]).ToString();
@@ -46,9 +45,29 @@ public class DifficultyPanel : MonoBehaviour
         trapDamage.text = StageInformationManager.DefaultTrapDamage[difficulty].ToString();
     }
 
+    private void OnEnable() {
+        Debug.Log("OnEnable " + StageInformationManager.difficulty.ToString());
+        UpdateDifficulty();
+    }
+
+    
+
+    public void UpdateDifficulty()
+    {
+        
+        int difficulty = (int)StageInformationManager.difficulty;
+        Toggle selectedToggle = buttons[difficulty];
+        Debug.Log("UpdateDifficulty " + StageInformationManager.difficulty.ToString() + "\n" + selectedToggle.transform.parent.name);
+        
+        // Toggle Group을 사용하여 선택한 Toggle 활성화
+        toggleGroup.SetAllTogglesOff(); // 모든 토글을 끄고
+        selectedToggle.isOn = true; // 선택한 토글만 켭니다.
+    }
+
     public void ChangeDifficulty(int difficulty)
     {
         StageInformationManager.difficulty = (Difficulty)difficulty;
+        Debug.Log("ChangeDifficulty " + StageInformationManager.difficulty.ToString());
         UpdateDifficultyPanel();
     }
 }
