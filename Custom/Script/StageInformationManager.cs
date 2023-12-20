@@ -186,4 +186,19 @@ public class StageInformationManager
     }
 
     public static int NexttotalTime = -1;
+
+    public static void SetDataInitialState()
+    {
+        EquippedItem.ClearEquippedItem();
+        currentStagetype = 0;
+        currentStageIndex = 0;
+        isnextStageDungeon = true;
+        NextWidth = -1;  
+        NextHeight = -1;  
+        NextmaxHeart = -1;  
+        NextcurrentHeart = -1; 
+        NextpotionCount = -1;
+        NextmagGlassCount = -1;
+        NextholyWaterCount = -1;
+    }
 }

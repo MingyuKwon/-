@@ -66,32 +66,54 @@ public class PlayerSaveManager : MonoBehaviour
         {
             int[] returnArrays = StageInformationManager.getHearts();
             if(returnArrays[0] == -1 && !isForce) {
-                Debug.Log("Save Reject");
-                return;
+                Debug.Log("Save Deafult");
+                
+                MaxHeart = 3;
+                CurrentHeart = 3;
+
+                Stagetype = StageInformationManager.currentStagetype;
+                StageIndex = 0;
+
+                PotionCount = StageInformationManager.Potion_Default; 
+                MagGlassCount = StageInformationManager.Mag_Default; 
+                HolyWaterCount = StageInformationManager.Holy_Default;
+
+                difficulty = (int)StageInformationManager.difficulty;
+
+                equippedItem1 = (int)Item.None; 
+                equippedItem2 = (int)Item.None; 
+                equippedItem3 = (int)Item.None; 
+                equippedItem4 = (int)Item.None; 
+                equippedItem5 = (int)Item.None;
+
+                totalTime = StageInformationManager.DefaultTimeforEntireGame;
+                width = StageInformationManager.NextWidth;
+                height = StageInformationManager.NextHeight;
+            }else
+            {
+                MaxHeart = returnArrays[0];
+                CurrentHeart = returnArrays[1];
+
+                Stagetype = StageInformationManager.currentStagetype;
+                StageIndex = StageInformationManager.currentStageIndex;
+
+                returnArrays = StageInformationManager.getUsableItems();
+                PotionCount = returnArrays[0]; 
+                MagGlassCount = returnArrays[1]; 
+                HolyWaterCount = returnArrays[2];
+
+                difficulty = (int)StageInformationManager.difficulty;
+
+                equippedItem1 = (int)EquippedItem.playerEquippedItem[0]; 
+                equippedItem2 = (int)EquippedItem.playerEquippedItem[1]; 
+                equippedItem3 = (int)EquippedItem.playerEquippedItem[2]; 
+                equippedItem4 = (int)EquippedItem.playerEquippedItem[3]; 
+                equippedItem5 = (int)EquippedItem.playerEquippedItem[4];
+
+                totalTime = StageInformationManager.NexttotalTime;
+                width = StageInformationManager.NextWidth;
+                height = StageInformationManager.NextHeight;
             }
-
-            MaxHeart = returnArrays[0];
-            CurrentHeart = returnArrays[1];
-
-            Stagetype = StageInformationManager.currentStagetype;
-            StageIndex = StageInformationManager.currentStageIndex;
-
-            returnArrays = StageInformationManager.getUsableItems();
-            PotionCount = returnArrays[0]; 
-            MagGlassCount = returnArrays[1]; 
-            HolyWaterCount = returnArrays[2];
-
-            difficulty = (int)StageInformationManager.difficulty;
-
-            equippedItem1 = (int)EquippedItem.playerEquippedItem[0]; 
-            equippedItem2 = (int)EquippedItem.playerEquippedItem[1]; 
-            equippedItem3 = (int)EquippedItem.playerEquippedItem[2]; 
-            equippedItem4 = (int)EquippedItem.playerEquippedItem[3]; 
-            equippedItem5 = (int)EquippedItem.playerEquippedItem[4];
-
-            totalTime = StageInformationManager.NexttotalTime;
-            width = StageInformationManager.NextWidth;
-            height = StageInformationManager.NextHeight;
 
         }else // 인수로 호출하면 인수 값으로 저장
         {

@@ -42,7 +42,9 @@ public class MainMenu : MonoBehaviour , AlertCallBack
     private void OnEnable() {
         ChangeSceneNum(StageInformationManager.currentStagetype);
         ChangeModeNum(StageInformationManager.currentStagemode);
+        StageInformationManager.SetDataInitialState();
     }
+
 
     private void Start() {
         if(RestartManageClass.restartGameModeType != GameModeType.None)

@@ -17,8 +17,6 @@ public class DifficultyPanel : MonoBehaviour
 
     public void UpdateDifficultyPanel()
     {
-        Debug.Log("UpdateDifficultyPanel " + StageInformationManager.difficulty.ToString());
-
         int difficulty = (int)StageInformationManager.difficulty;        
 
         startItem[0].text = (StageInformationManager.Potion_Default + StageInformationManager.plusPotion_Default_perStage[difficulty]).ToString();
@@ -46,7 +44,6 @@ public class DifficultyPanel : MonoBehaviour
     }
 
     private void OnEnable() {
-        Debug.Log("OnEnable " + StageInformationManager.difficulty.ToString());
         UpdateDifficulty();
     }
 
@@ -57,7 +54,6 @@ public class DifficultyPanel : MonoBehaviour
         
         int difficulty = (int)StageInformationManager.difficulty;
         Toggle selectedToggle = buttons[difficulty];
-        Debug.Log("UpdateDifficulty " + StageInformationManager.difficulty.ToString() + "\n" + selectedToggle.transform.parent.name);
         
         // Toggle Group을 사용하여 선택한 Toggle 활성화
         toggleGroup.SetAllTogglesOff(); // 모든 토글을 끄고
@@ -67,7 +63,6 @@ public class DifficultyPanel : MonoBehaviour
     public void ChangeDifficulty(int difficulty)
     {
         StageInformationManager.difficulty = (Difficulty)difficulty;
-        Debug.Log("ChangeDifficulty " + StageInformationManager.difficulty.ToString());
         UpdateDifficultyPanel();
     }
 }
