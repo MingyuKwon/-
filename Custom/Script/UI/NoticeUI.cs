@@ -64,7 +64,7 @@ public class NoticeUI : MonoBehaviour, IPointerClickHandler
                 StartCoroutine(Typing(texts));
             }else
             {
-                if(LanguageManager.currentLanguage == "E")
+                if(LanguageManager.currentLanguage == "English")
                 {
                     str.text = texts[0];
                 }else
