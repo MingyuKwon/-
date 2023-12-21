@@ -541,10 +541,23 @@ public class InGameUI : MonoBehaviour, AlertCallBack
 
         int difficulty = (int)StageInformationManager.difficulty;
         trapDamage.text = "X" + StageInformationManager.DefaultTrapDamage[difficulty].ToString();
-        potionPlus.text = "+" + (StageInformationManager.plusPotion_Default_perStage[difficulty] + EquippedItem.Heart_StageBonus).ToString();
-        magGlassPlus.text = "+" + (StageInformationManager.plusMag_Default_perStage[difficulty] + EquippedItem.Glass_StageBonus).ToString();
-        holyWaterPlus.text = "+" + (StageInformationManager.plusHoly_Default_perStage[difficulty] + EquippedItem.Holy_StageBonus).ToString();
-        TimePlus.text = "+" +  (StageInformationManager.DefaultTimeperStage[difficulty] + EquippedItem.Time_StageBonus).ToString();
+        
+        if(StageInformationManager.getGameMode() == GameModeType.stage)
+        {
+            potionPlus.text = "+" +0.ToString();
+            magGlassPlus.text = "+" + 0.ToString();
+            holyWaterPlus.text = "+" + 0.ToString();
+            TimePlus.text = "+" +  0.ToString();
+
+        }else
+        {
+            potionPlus.text = "+" + (StageInformationManager.plusPotion_Default_perStage[difficulty] + EquippedItem.Heart_StageBonus).ToString();
+            magGlassPlus.text = "+" + (StageInformationManager.plusMag_Default_perStage[difficulty] + EquippedItem.Glass_StageBonus).ToString();
+            holyWaterPlus.text = "+" + (StageInformationManager.plusHoly_Default_perStage[difficulty] + EquippedItem.Holy_StageBonus).ToString();
+            TimePlus.text = "+" +  (StageInformationManager.DefaultTimeperStage[difficulty] + EquippedItem.Time_StageBonus).ToString();
+        }
+        
+        
 
         switch(StageInformationManager.difficulty)
         {

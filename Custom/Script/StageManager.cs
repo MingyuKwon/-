@@ -96,12 +96,20 @@ public class StageManager : MonoBehaviour, IStageManager
             _treasureCount = value;
             if(_treasureCount == 0)
             {
-                EventManager.instance.StairOpen_Invoke_Event();
-                if(isTutorial && isDungeon && (tutorialStage == 1 && TutorialGuide.tutorialTextindex == 4)  || (tutorialStage == 2 && TutorialGuide.tutorialTextindex == 2)|| 
-                (tutorialStage == 3 && TutorialGuide.tutorialTextindex == 2)||  (tutorialStage == 4 && TutorialGuide.tutorialTextindex == 1) )
+                if(StageInformationManager.getGameMode() == GameModeType.adventure)
                 {
-                    EventManager.instance.Invoke_TutorialTextTriggerEvent();
-                }  
+                    EventManager.instance.StairOpen_Invoke_Event();
+                    if(isTutorial && isDungeon && (tutorialStage == 1 && TutorialGuide.tutorialTextindex == 4)  || (tutorialStage == 2 && TutorialGuide.tutorialTextindex == 2)|| 
+                    (tutorialStage == 3 && TutorialGuide.tutorialTextindex == 2)||  (tutorialStage == 4 && TutorialGuide.tutorialTextindex == 1) )
+                    {
+                        EventManager.instance.Invoke_TutorialTextTriggerEvent();
+                    }  
+                }else if(StageInformationManager.getGameMode() == GameModeType.stage)
+                {
+                    // 스테이지 모드에서 모든 보물을 먹으면 거기서 게임 클리어
+                    EventManager.instance.Invoke_StageClearEvent();
+                }
+                    
             }
         }
     }
@@ -246,11 +254,34 @@ public class StageManager : MonoBehaviour, IStageManager
 
     private void Start() {
         MakeScreenBlack.Clear();
+        if(StageInformationManager.getGameMode() == GameModeType.stage)
+        {
+            int difficulty = (int)StageInformationManager.difficulty;        
+            int stageType = StageInformationManager.currentStagetype;
+
+            StageInformationManager.NextWidth = StageInformationManager.StageModestageWidth[stageType];
+            StageInformationManager.NextHeight= StageInformationManager.StageModestageHeight[stageType];
+            StageInformationManager.setHearts(3,3); 
+            StageInformationManager.setUsableItems(0,StageInformationManager.StageMagItemAmount[stageType,difficulty] , 0);
+            StageInformationManager.NexttotalTime = StageInformationManager.StageModeTime[stageType,difficulty];
+
+            int[] usableItems = StageInformationManager.getUsableItems();
+            int[] hearts = StageInformationManager.getHearts();
+
+            DungeonInitialize(StageInformationManager.NextWidth, StageInformationManager.NextHeight ,
+            StageInformationManager.difficulty ,hearts[0], hearts[1], 
+            usableItems[0], usableItems[1], usableItems[2], 
+            StageInformationManager. NexttotalTime);
+
+            return;
+        }
+
+        if(StageInformationManager.getGameMode() != GameModeType.adventure) return;
+
         if(StageInformationManager.isnextStageDungeon)
         {
             if(StageInformationManager.currentStageIndex == 0)
             {
-                EquippedItem.ClearEquippedItem();
                 if(isTutorial)
                 {
                     StageInformationManager.NextWidth = StageInformationManager.tutorialWidth[0];
@@ -793,6 +824,15 @@ public class StageManager : MonoBehaviour, IStageManager
     private void GetItem(bool isUsable)
     {
         GameAudioManager.instance.PlaySFXMusic(SFXAudioType.GetItem);
+        // 만약 스테이지 모드라면 얻는 아이템은 반드시 돋보기
+        if(StageInformationManager.getGameMode() == GameModeType.stage)
+        {
+            magGlassCount += 1;
+            EventManager.instance.Item_Count_Change_Invoke_Event(EventType.Item_Obtain, Item.Mag_Glass, magGlassCount,1);
+            return;
+        }
+
+
         if(isUsable)
         {
             // 돋보기가 가장 확률이 높고, 다음이 성수, 그 다음이 포션으로 하자
@@ -942,9 +982,18 @@ public class StageManager : MonoBehaviour, IStageManager
         isObstacleRemoved = new bool[height, width];
         
         int difficultytemp = (int)StageInformationManager.difficulty;
-        this.potionCount = potionCount + EquippedItem.Heart_StageBonus + StageInformationManager.plusPotion_Default_perStage[difficultytemp];
-        this.magGlassCount = magGlassCount + EquippedItem.Glass_StageBonus + StageInformationManager.plusMag_Default_perStage[difficultytemp];
-        this.holyWaterCount = holyWaterCount+ EquippedItem.Holy_StageBonus + StageInformationManager.plusHoly_Default_perStage[difficultytemp];
+
+        if(StageInformationManager.getGameMode() == GameModeType.stage)
+        {
+            this.potionCount = potionCount ;
+            this.magGlassCount = magGlassCount ;
+            this.holyWaterCount = holyWaterCount;
+        }else
+        {
+            this.potionCount = potionCount + EquippedItem.Heart_StageBonus + StageInformationManager.plusPotion_Default_perStage[difficultytemp];
+            this.magGlassCount = magGlassCount + EquippedItem.Glass_StageBonus + StageInformationManager.plusMag_Default_perStage[difficultytemp];
+            this.holyWaterCount = holyWaterCount+ EquippedItem.Holy_StageBonus + StageInformationManager.plusHoly_Default_perStage[difficultytemp];
+        }
 
         EventManager.instance.Reduce_HeartInvokeEvent(currentHeart, maxHeart);
 
@@ -1129,6 +1178,8 @@ public class StageManager : MonoBehaviour, IStageManager
 
         mineTreasureArray = new int[height, width];
         int totalBockNum = height * width;
+
+        int stageType = StageInformationManager.currentStagetype;
         
         float mineRatio = 0;
         switch(difficulty)
@@ -1148,7 +1199,14 @@ public class StageManager : MonoBehaviour, IStageManager
         }
 
         int totalCount = (int)(totalBockNum * mineRatio);
-        mineCount = (int)(totalCount * (1 - StageInformationManager.mineToTreasureRatio));
+        if(StageInformationManager.getGameMode() == GameModeType.stage)
+        {
+            mineCount = (int)(totalCount * (1 - StageInformationManager.StageModemineToTreasureRatio[stageType]));
+        }else
+        {
+            mineCount = (int)(totalCount * (1 - StageInformationManager.mineToTreasureRatio));
+        }
+        
         treasureCount = totalCount - mineCount;
 
         EventManager.instance.InvokeEvent(EventType.MineAppear, mineCount);

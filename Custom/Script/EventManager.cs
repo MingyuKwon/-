@@ -324,7 +324,10 @@ public class EventManager : MonoBehaviour
         {
             StageClearEvent.Invoke();
         }
-        
+    }
+    public void Invoke_StageClearEvent()
+    {
+        StageClearEvent.Invoke();
     }
 
     public Action UpdateRightPanelEvent;

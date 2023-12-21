@@ -12,9 +12,9 @@ public class StageInformationManager
     public static float mineToTreasureRatio = 0.5f;
 
     public static int[,] StageMagItemAmount = {
-        {16, 12, 8},
-        {20, 16, 12},
-        {24, 20, 16},
+        {10, 12, 14},
+        {20, 25, 30},
+        {40, 45, 50},
     };
     public static int[,] StageModeTime = {
         {350, 300, 250},
@@ -108,7 +108,7 @@ public class StageInformationManager
     private static int MaxHeartDefault = 3;
     private static int CurrentHeartDefault = 3;
 
-    private static GameModeType gameMode = GameModeType.None;
+    private static GameModeType gameMode = GameModeType.adventure;
     public static void changeGameMode(GameModeType gM)
     {
         gameMode = gM;
@@ -140,7 +140,6 @@ public class StageInformationManager
     }
 
     public static int currentStagetype = 0;
-    public static int currentStagemode = 0;
     public static int currentStageIndex = 0;
     public static bool isnextStageDungeon = true;
     public static Difficulty difficulty = Difficulty.Normal;

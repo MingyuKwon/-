@@ -42,6 +42,7 @@ public class HideCanvas : MonoBehaviour
     private IEnumerator LoadSceneAsync(string sceneName)
     {
         if(StageInformationManager.isnextStageDungeon && 
+        StageInformationManager.getGameMode() == GameModeType.adventure&&
         LoadingInformation.loadingSceneName != "Main Menu" && 
         LoadingInformation.loadingSceneName != "Tutorial 1"&& 
         LoadingInformation.loadingSceneName != "Tutorial 2"&& 

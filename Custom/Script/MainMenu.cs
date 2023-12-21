@@ -7,9 +7,11 @@ using TMPro;
 
 public enum GameModeType
 {
-    None,
-    tutorial,
-    adventure,
+    adventure = 0,
+    stage = 1,
+    None = 3,
+    tutorial = 4,
+    
 }
 
 public class MainMenu : MonoBehaviour , AlertCallBack
@@ -40,8 +42,9 @@ public class MainMenu : MonoBehaviour , AlertCallBack
     }
 
     private void OnEnable() {
+        int mode = (int)StageInformationManager.getGameMode();
         ChangeSceneNum(StageInformationManager.currentStagetype);
-        ChangeModeNum(StageInformationManager.currentStagemode);
+        ChangeModeNum(mode);
         StageInformationManager.SetDataInitialState();
     }
 
@@ -92,9 +95,9 @@ public class MainMenu : MonoBehaviour , AlertCallBack
     [SerializeField] Color[] difficultyPanelColors;
     public void ChangeModeNum(int num)
     {
-        StageInformationManager.currentStagemode = num; // 0 : 어드 벤처 . 1 : 스테이지
+        StageInformationManager.changeGameMode((GameModeType)num);
         difficultyPanel.color = difficultyPanelColors[num];
-        explainText.text = explaintexts[StageInformationManager.currentStagemode];
+        explainText.text = explaintexts[num];
     }
 
     int currentShowFlag = 0; // 0 : none, 1 : tutorial, 2 : stage, 3 : setting 
@@ -145,11 +148,32 @@ public class MainMenu : MonoBehaviour , AlertCallBack
         }
     }
 
+    public void StartAdventureOrStage()
+    {
+        int mode = (int)StageInformationManager.getGameMode();
+
+        if(mode == 0)
+        {
+            StartAdventure();
+        }else if(mode == 1)
+        {
+            StartStage();
+        }
+    }
+
     public void StartAdventure()
     {
         MakeScreenBlack.Hide();
         LoadingInformation.loadingSceneName = loadAdventureSceneName[StageInformationManager.currentStagetype];
         StageInformationManager.changeGameMode(GameModeType.adventure);
+        SceneManager.LoadScene("Before Enter Dungeon");
+    }
+
+    public void StartStage()
+    {
+        MakeScreenBlack.Hide();
+        LoadingInformation.loadingSceneName = loadAdventureSceneName[StageInformationManager.currentStagetype];
+        StageInformationManager.changeGameMode(GameModeType.stage);
         SceneManager.LoadScene("Before Enter Dungeon");
     }
 

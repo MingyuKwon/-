@@ -106,8 +106,9 @@ public class DifficultyPanel : MonoBehaviour
 
     private void UpdateMode()
     {
-        int difficulty = (int)StageInformationManager.difficulty;
-        Toggle selectedToggle = Modebuttons[difficulty];
+        int mode = (int)StageInformationManager.getGameMode();
+        mode = Mathf.Clamp(mode,0,1);
+        Toggle selectedToggle = Modebuttons[mode];
         
         // Toggle Group을 사용하여 선택한 Toggle 활성화
         ModetoggleGroup.SetAllTogglesOff(); // 모든 토글을 끄고
@@ -117,8 +118,8 @@ public class DifficultyPanel : MonoBehaviour
 
     public void UpdateDifficulty()
     {
-        int mode = StageInformationManager.currentStagemode;
-        Toggle selectedToggle = buttons[mode];
+        int difficulty = (int)StageInformationManager.difficulty;
+        Toggle selectedToggle = buttons[difficulty];
         
         // Toggle Group을 사용하여 선택한 Toggle 활성화
         toggleGroup.SetAllTogglesOff(); // 모든 토글을 끄고
@@ -139,7 +140,7 @@ public class DifficultyPanel : MonoBehaviour
 
     public void ChangeModeNum(int num)
     {
-        StageInformationManager.currentStagemode = num; // 0 : 어드 벤처 . 1 : 스테이지
+        StageInformationManager.changeGameMode((GameModeType)num); 
         Panels[0].SetActive(false);
         Panels[1].SetActive(false);
         Panels[num].SetActive(true);
