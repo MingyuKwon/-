@@ -206,7 +206,6 @@ public class StageInformationManager
     public static void SetDataInitialState()
     {
         EquippedItem.ClearEquippedItem();
-        currentStagetype = 0;
         currentStageIndex = 0;
         isnextStageDungeon = true;
         NextWidth = -1;  

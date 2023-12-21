@@ -107,6 +107,7 @@ public class DifficultyPanel : MonoBehaviour
     private void UpdateMode()
     {
         int mode = (int)StageInformationManager.getGameMode();
+        Debug.Log(mode);
         mode = Mathf.Clamp(mode,0,1);
         Toggle selectedToggle = Modebuttons[mode];
         
@@ -125,6 +126,7 @@ public class DifficultyPanel : MonoBehaviour
         toggleGroup.SetAllTogglesOff(); // 모든 토글을 끄고
         selectedToggle.isOn = true; // 선택한 토글만 켭니다.
     }
+    
 
     public void ChangeDifficulty(int difficulty)
     {

@@ -54,7 +54,7 @@ public class HideCanvas : MonoBehaviour
             PlayerSaveManager.instance.SavePlayerStageData();
         }else
         {
-            if(LoadingInformation.loadingSceneName == "Main Menu") // 메인 메뉴으로 가기 전에 가장 마지막에 저장한 값으로 세팅
+            if(LoadingInformation.loadingSceneName == "Main Menu" && StageInformationManager.getGameMode() != GameModeType.stage) // 메인 메뉴으로 가기 전에 가장 마지막에 저장한 값으로 세팅
             {
                 // 가장 최근에 저장되었던 값으로 다시 초기화하고 
                 StageInformationManager.setPlayerData(PlayerSaveManager.instance.GetPlayerStageData());

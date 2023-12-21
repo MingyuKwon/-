@@ -9,8 +9,8 @@ public enum GameModeType
 {
     adventure = 0,
     stage = 1,
-    None = 3,
-    tutorial = 4,
+    None = 2,
+    tutorial = 3,
     
 }
 
@@ -43,6 +43,7 @@ public class MainMenu : MonoBehaviour , AlertCallBack
 
     private void OnEnable() {
         int mode = (int)StageInformationManager.getGameMode();
+        Debug.Log("OnEnable Scene Num : " + StageInformationManager.currentStagetype);
         ChangeSceneNum(StageInformationManager.currentStagetype);
         ChangeModeNum(mode);
         StageInformationManager.SetDataInitialState();
@@ -60,12 +61,14 @@ public class MainMenu : MonoBehaviour , AlertCallBack
                 case GameModeType.adventure :
                     StartAdventure();
                     break;
+                case GameModeType.stage :
+                    StartStage();
+                    break;
             }
             RestartManageClass.restartGameModeType = GameModeType.None;
         }else
         {
             MakeScreenBlack.Clear();
-            StageInformationManager.changeGameMode(GameModeType.None);
             GameAudioManager.instance.PlayBackGroundMusic(BackGroundAudioType.MainMenu);
             StageInformationManager.currentStageIndex = 0;
         }
@@ -86,6 +89,7 @@ public class MainMenu : MonoBehaviour , AlertCallBack
 
     public void ChangeSceneNum(int num)
     {
+        Debug.Log("ChangeSceneNum : " + num);
         StageInformationManager.currentStagetype = num;
         showImage.sprite = showImages[StageInformationManager.currentStagetype];
         PanelColor.color = new Color(colors[StageInformationManager.currentStagetype].r, colors[StageInformationManager.currentStagetype].g, colors[StageInformationManager.currentStagetype].b);
