@@ -100,6 +100,7 @@ public class MainMenu : MonoBehaviour , AlertCallBack
     public void ChangeModeNum(int num)
     {
         StageInformationManager.changeGameMode((GameModeType)num);
+        if(num > 1) return;
         difficultyPanel.color = difficultyPanelColors[num];
         explainText.text = explaintexts[num];
     }

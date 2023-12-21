@@ -215,5 +215,9 @@ public class StageInformationManager
         NextpotionCount = -1;
         NextmagGlassCount = -1;
         NextholyWaterCount = -1;
+
+        InputManager.itemLock =false;
+        InputManager.shovelLock =false;
+        InputManager.flagLock =false;
     }
 }

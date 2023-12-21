@@ -96,7 +96,11 @@ public class StageManager : MonoBehaviour, IStageManager
             _treasureCount = value;
             if(_treasureCount == 0)
             {
-                if(StageInformationManager.getGameMode() == GameModeType.adventure)
+                if(StageInformationManager.getGameMode() == GameModeType.stage)
+                {
+                    // 스테이지 모드에서 모든 보물을 먹으면 거기서 게임 클리어
+                    EventManager.instance.Invoke_StageClearEvent();
+                }else
                 {
                     EventManager.instance.StairOpen_Invoke_Event();
                     if(isTutorial && isDungeon && (tutorialStage == 1 && TutorialGuide.tutorialTextindex == 4)  || (tutorialStage == 2 && TutorialGuide.tutorialTextindex == 2)|| 
@@ -104,10 +108,6 @@ public class StageManager : MonoBehaviour, IStageManager
                     {
                         EventManager.instance.Invoke_TutorialTextTriggerEvent();
                     }  
-                }else if(StageInformationManager.getGameMode() == GameModeType.stage)
-                {
-                    // 스테이지 모드에서 모든 보물을 먹으면 거기서 게임 클리어
-                    EventManager.instance.Invoke_StageClearEvent();
                 }
                     
             }
@@ -275,8 +275,6 @@ public class StageManager : MonoBehaviour, IStageManager
 
             return;
         }
-
-        if(StageInformationManager.getGameMode() != GameModeType.adventure) return;
 
         if(StageInformationManager.isnextStageDungeon)
         {
