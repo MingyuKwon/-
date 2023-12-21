@@ -8,6 +8,12 @@ public class DifficultyPanel : MonoBehaviour
 {
     public ToggleGroup toggleGroup;
     public Toggle[] buttons;
+
+    public ToggleGroup ModetoggleGroup;
+    public Toggle[] Modebuttons;
+ 
+    public GameObject[] Panels;
+    [Header("for Adventure Panel")]
     public TextMeshProUGUI[] startItem;
     public TextMeshProUGUI[] defaultPlusItem;
     public TextMeshProUGUI[] ItemPlusItem;
@@ -15,7 +21,12 @@ public class DifficultyPanel : MonoBehaviour
     public TextMeshProUGUI noItem;
     public TextMeshProUGUI trapDamage;
 
-    public void UpdateDifficultyPanel()
+    [Header("for Stage Panel")]
+    public TextMeshProUGUI[] StagestartItem;
+    public TextMeshProUGUI[] StageWidthHeight;
+    public TextMeshProUGUI[] StageTrapTreasure;
+
+    private void UpdateDifficultyPanel()
     {
         int difficulty = (int)StageInformationManager.difficulty;        
 
@@ -43,17 +54,71 @@ public class DifficultyPanel : MonoBehaviour
         trapDamage.text = StageInformationManager.DefaultTrapDamage[difficulty].ToString();
     }
 
-    private void OnEnable() {
-        UpdateDifficulty();
+    private void UpdateStagePanel()
+    {
+        int difficulty = (int)StageInformationManager.difficulty;        
+        int stageType = StageInformationManager.currentStagetype;
+
+        StagestartItem[0].text = 0.ToString();
+        StagestartItem[1].text = StageInformationManager.StageMagItemAmount[stageType,difficulty].ToString();
+        StagestartItem[2].text = 0.ToString();
+        StagestartItem[3].text = StageInformationManager.StageModeTime[stageType,difficulty].ToString();
+
+        int width = StageInformationManager.StageModestageWidth[stageType];
+        int height = StageInformationManager.StageModestageHeight[stageType];
+        StageWidthHeight[0].text = width.ToString();
+        StageWidthHeight[1].text = height.ToString();
+
+        float mineRatio = 0;
+        switch((Difficulty)difficulty)
+        {
+            case Difficulty.Easy :
+                mineRatio = StageInformationManager.easyMineRatio;
+                break;
+            case Difficulty.Normal :
+                mineRatio = StageInformationManager.normalMineRatio;
+                break;
+            case Difficulty.Hard :
+                mineRatio = StageInformationManager.hardMineRatio;
+                break;
+            case Difficulty.Professional :
+                mineRatio = StageInformationManager.professionalMineRatio;
+                break;
+        }
+
+        int totalCount = (int)(width * height * mineRatio);
+        int mineCount = (int)(totalCount * (1 - StageInformationManager.StageModemineToTreasureRatio[stageType]));
+        int treasureCount = totalCount - mineCount;
+        StageTrapTreasure[0].text = mineCount.ToString();
+        StageTrapTreasure[1].text = treasureCount.ToString();
     }
 
-    
+    private void UpdateTotal()
+    {
+        UpdateDifficultyPanel();
+        UpdateStagePanel();
+    }
+
+    private void OnEnable() {
+        UpdateDifficulty();
+        UpdateMode();
+    }
+
+    private void UpdateMode()
+    {
+        int difficulty = (int)StageInformationManager.difficulty;
+        Toggle selectedToggle = Modebuttons[difficulty];
+        
+        // Toggle Group을 사용하여 선택한 Toggle 활성화
+        ModetoggleGroup.SetAllTogglesOff(); // 모든 토글을 끄고
+        selectedToggle.isOn = true; // 선택한 토글만 켭니다.
+    }
+
 
     public void UpdateDifficulty()
     {
-        
-        int difficulty = (int)StageInformationManager.difficulty;
-        Toggle selectedToggle = buttons[difficulty];
+        int mode = StageInformationManager.currentStagemode;
+        Toggle selectedToggle = buttons[mode];
         
         // Toggle Group을 사용하여 선택한 Toggle 활성화
         toggleGroup.SetAllTogglesOff(); // 모든 토글을 끄고
@@ -63,6 +128,21 @@ public class DifficultyPanel : MonoBehaviour
     public void ChangeDifficulty(int difficulty)
     {
         StageInformationManager.difficulty = (Difficulty)difficulty;
-        UpdateDifficultyPanel();
+        UpdateTotal();
+    }
+
+    public void ChangeSceneNum(int num)
+    {
+        StageInformationManager.currentStagetype = num;
+        UpdateTotal();
+    }
+
+    public void ChangeModeNum(int num)
+    {
+        StageInformationManager.currentStagemode = num; // 0 : 어드 벤처 . 1 : 스테이지
+        Panels[0].SetActive(false);
+        Panels[1].SetActive(false);
+        Panels[num].SetActive(true);
+        UpdateTotal();
     }
 }

@@ -88,9 +88,12 @@ public class MainMenu : MonoBehaviour , AlertCallBack
         PanelColor.color = new Color(colors[StageInformationManager.currentStagetype].r, colors[StageInformationManager.currentStagetype].g, colors[StageInformationManager.currentStagetype].b);
     }
 
+    [SerializeField] Image difficultyPanel;
+    [SerializeField] Color[] difficultyPanelColors;
     public void ChangeModeNum(int num)
     {
-        StageInformationManager.currentStagemode = num;
+        StageInformationManager.currentStagemode = num; // 0 : 어드 벤처 . 1 : 스테이지
+        difficultyPanel.color = difficultyPanelColors[num];
         explainText.text = explaintexts[StageInformationManager.currentStagemode];
     }
 

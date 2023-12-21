@@ -11,6 +11,22 @@ public class StageInformationManager
     public static float professionalMineRatio = 0.28f;
     public static float mineToTreasureRatio = 0.5f;
 
+    public static int[,] StageMagItemAmount = {
+        {16, 12, 8},
+        {20, 16, 12},
+        {24, 20, 16},
+    };
+    public static int[,] StageModeTime = {
+        {350, 300, 250},
+        {400, 350, 300},
+        {500, 450, 400},
+    };
+
+    public static float[] StageModemineToTreasureRatio = {0.4f, 0.35f, 0.3f};
+    public static int[] StageModestageHeight = {10, 18, 23};
+    public static int[] StageModestageWidth = {15, 22, 35};
+    
+
     public static float[] noItemRatio = {0.1f,0.2f,0.3f};
 
     public static int[] tutorialWidth = {5,5,7,9};
@@ -67,6 +83,7 @@ public class StageInformationManager
         {16 , 16, 16, 17, 17,18},
         {18 , 19, 20, 21, 22,23},
     };
+
 
     public static int DefaultTimeforEntireGame = 100;
     
