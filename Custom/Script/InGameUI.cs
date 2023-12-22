@@ -133,13 +133,13 @@ public class InGameUI : MonoBehaviour, AlertCallBack
     public void GameRestartAlertShow()
     {
         callbackFunction = GameRestartMenu;
-        AlertUI.instance.ShowAlert("전체 스테이지를 다시 시작하겠습니까?", this);
+        AlertUI.instance.ShowAlert(AlertUI.AlertSituation.Restart, this);
     }
 
     public void GameMainMenuAlertShow()
     {
         callbackFunction = GoBackMainMenu;
-        AlertUI.instance.ShowAlert("메인 메뉴로 돌아가시겠습니까?", this);
+        AlertUI.instance.ShowAlert(AlertUI.AlertSituation.GoBackMainMenu, this);
     }
 
     public void GameRestartMenu()

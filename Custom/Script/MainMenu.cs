@@ -168,7 +168,8 @@ public class MainMenu : MonoBehaviour , AlertCallBack
 
         if(mode == 0)
         {
-            StartAdventure();
+            callbackFunction = StartAdventure;
+            AlertUI.instance.ShowAlert(AlertUI.AlertSituation.StartNewGame, this);
         }else if(mode == 1)
         {
             StartStage();
@@ -211,7 +212,7 @@ public class MainMenu : MonoBehaviour , AlertCallBack
     public void ExitGame()
     {
         callbackFunction = QuitGame;
-        AlertUI.instance.ShowAlert("게임을 종료 하시겠습니까?", this);
+        AlertUI.instance.ShowAlert(AlertUI.AlertSituation.Exit, this);
     }
 
     public void QuitGame()
