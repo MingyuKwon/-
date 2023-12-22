@@ -77,6 +77,12 @@ public class EquippedItem
     {
         nextObtainItem = (Item)UnityEngine.Random.Range(4, 13);
 
+        // 하트가 2개 이상이면 다음 하트는 나오지 않도록 막는다
+        while(equippedHeartCount >=2 && nextObtainItem == Item.Heart_UP)
+        {
+            nextObtainItem = (Item)UnityEngine.Random.Range(4, 13);
+        }
+
         if(SceneManager.GetActiveScene().name == "Tutorial Rest 1")
         {
             nextObtainItem = Item.Heart_UP;
@@ -104,6 +110,19 @@ public class EquippedItem
             }
 
             return i;
+        }
+    }
+
+    public static int equippedHeartCount{
+        get{
+            int count = 0;
+            for(int i=0; i<playerEquippedItem.Length; i++)
+            {
+                if(playerEquippedItem[i] == Item.None) break;
+                if(playerEquippedItem[i] == Item.Heart_UP) count++;
+            }
+
+            return count;
         }
     }
 
