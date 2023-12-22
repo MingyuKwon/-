@@ -2,9 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class OptionPanel : MonoBehaviour
 {
+    [Header("Texts")]
+    public TextMeshProUGUI[] OptionScreens;
+    public TextMeshProUGUI[] OptionAudio;
+    public TextMeshProUGUI[] OptionGeneral;
+
+    string[] screenEnglishTexts = {"Brightness", "FullScreen", "Resolution"};
+    string[] screenKoreanTexts = {"밝기", "전체화면", "해상도"};
+
+    string[] audioEnglishTexts = {"Background", "Sound Effect", "UI", "Mute"};
+    string[] audioKoreanTexts = {"배경음악", "음향 효과", "UI", "음소거"};
+
+    string[] generalEnglishTexts = {"language"};
+    string[] generalKoreanTexts = {"언어"};
+
+    [Space]
     public Dropdown resolution;
     public Dropdown language;
 
@@ -19,6 +35,8 @@ public class OptionPanel : MonoBehaviour
     public Toggle fullscreen;
 
     private void OnEnable() {
+        LanguageManager.languageChangeEvent += ChangeOptionPanelText;
+
         switch(ResolutionManager.windowedWidth)
         {
             case 1024 :
@@ -65,6 +83,10 @@ public class OptionPanel : MonoBehaviour
         
     }
 
+    private void OnDisable() {
+        LanguageManager.languageChangeEvent -= ChangeOptionPanelText;
+    }
+
 
     public void setFullScreen(bool isOn)
     {
@@ -82,6 +104,40 @@ public class OptionPanel : MonoBehaviour
         string[] strings = {"Korean", "English"};
         int value = dropdown.value;
         LanguageManager.Invoke_languageChangeEvent(strings[value]);
+    }
+
+    public void ChangeOptionPanelText(string s)
+    {
+        string[] tempScreenText = screenEnglishTexts;
+        string[] tempAudioText = audioEnglishTexts;
+        string[] tempGeneralText = generalEnglishTexts;
+
+        if(LanguageManager.currentLanguage == "Korean")
+        {
+            tempScreenText = screenKoreanTexts;
+            tempAudioText = audioKoreanTexts;
+            tempGeneralText = generalKoreanTexts;
+        }else if(LanguageManager.currentLanguage == "English")
+        {
+            tempScreenText = screenEnglishTexts;
+            tempAudioText = audioEnglishTexts;
+            tempGeneralText = generalEnglishTexts;
+        }
+
+        for(int i=0; i<OptionScreens.Length; i++)
+        {
+            OptionScreens[i].text = tempScreenText[i];
+        }
+
+        for(int i=0; i<OptionAudio.Length; i++)
+        {
+            OptionAudio[i].text = tempAudioText[i];
+        }
+
+        for(int i=0; i<OptionGeneral.Length; i++)
+        {
+            OptionGeneral[i].text = tempGeneralText[i];
+        }
     }
 
     public void BrightnessChange(float value)
