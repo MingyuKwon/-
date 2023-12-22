@@ -21,7 +21,6 @@ MonoBehaviour:
     each stage.
 
 
-
     When you move down to the next level, the number of additional
     magnifying glasses provided will increase, and this will be reflected <b>[per
     Stage]</b>.'

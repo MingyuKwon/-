@@ -28,7 +28,6 @@ MonoBehaviour:
     surrounding that number.
 
 
-
     Using this, you can distinguish between rocks
     hiding <b>[treasures or traps]</b> and those that are not.'
   - You can move by <b>[clicking on adjacent tiles]</b>. Give it a try and move around!
@@ -40,7 +39,6 @@ MonoBehaviour:
     traps are hidden]</b>.
 
 
-
     <b>[Right-click]</b> on such rocks to <b>[mark]</b>
     them.'
   line2Animation: []
@@ -48,12 +46,10 @@ MonoBehaviour:
   - 'This way, you can differentiate the marked rocks for sure.
 
 
-
-    Remember,
-    you can only <b>[mark rocks that are accessible]</b>.'
+    Remember, you
+    can only <b>[mark rocks that are accessible]</b>.'
   - 'Now, let''s clear some rocks. <b>[Left-click]</b> on a nearby rock to shovel
     it away.
-
 
 
     To clear a rock, you need to be <b>[right beside it]</b>.'
