@@ -66,8 +66,22 @@ public class TutorialLangaugeManager : MonoBehaviour
     "There is no treasure",
     "Can be used on rocks near the player. Removes the rock, including any traps underneath. Unlimited use, but removing a treasure results in game over.",
     };
-    private string[] tutorial4TitleStringEnglish;
-    private string[] tutorial4TextStringEnglish;
+    private string[] tutorial4TitleStringEnglish = {
+    "Equipment Items",
+    "Item Description",
+};
+    private string[] tutorial4TextStringEnglish = {
+    "These are items you can obtain each time you clear a stage.",
+    "Increases maximum health by 3.",
+    "Increases the number of potions provided when you clear a stage.",
+    "Increases the number of potions found in treasures.",
+    "Increases the number of Holy Waters provided when you clear a stage.",
+    "Increases the number of Holy Waters found in treasures.",
+    "Increases the number of Magnifying Glasses provided when you clear a stage.",
+    "Increases the number of Magnifying Glasses found in treasures.",
+    "Increases the additional time provided when you clear a stage.",
+    "Increases the number of consumable items found in treasures.",
+};
 
     private string[] tutorial1TitleStringKorean = {
         "게임의 기초",
@@ -116,8 +130,22 @@ public class TutorialLangaugeManager : MonoBehaviour
         "보물이 없습니다 ",
         "플레이어 주변 바위에 사용가능. 바위를 아래에 있는 함정을 포함해서 제거합니다. 무제한으로 사용할 수 있는 대신, 보물을 제거하게 되면 게임 오버 입니다",
     };
-    private string[] tutorial4TitleStringKorean;
-    private string[] tutorial4TextStringKorean;
+    private string[] tutorial4TitleStringKorean = {
+        "장비 아이템",
+        "아이템 설명",
+    };
+    private string[] tutorial4TextStringKorean = {
+        "스테이지를 깰 때 마다 얻을 수 있는 아이템 입니다 ",
+        "최대 체력을 3 올립니다 ",
+        "스테이지를 깰 때 지급되는 포션의 개수를 늘립니다 ",
+        "보물에서 포션을 찾을 때 얻는 개수를 늘립니다 ",
+        "스테이지를 깰 때 지급되는 성수의 개수를 늘립니다 ",
+        "보물에서 성수를 찾을 때 얻는 개수를 늘립니다 ",
+        "스테이지를 깰 때 지급되는 돋보기의 개수를 늘립니다 ",
+        "보물에서 돋보기를 찾을 때 얻는 개수를 늘립니다 ",
+        "스테이지를 깰 때 지급되는 추가시간이 증가합니다 ",
+        "보물에서 소비 아이템을 찾을 때 얻는 개수를 늘립니다 ",
+    };
 
     private void OnEnable() {
         UpdatePanel("");
