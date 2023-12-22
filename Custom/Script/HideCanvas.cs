@@ -39,7 +39,7 @@ public class HideCanvas : MonoBehaviour
         StartCoroutine(LoadSceneAsync(sceneName));
     }
 
-    private IEnumerator LoadSceneAsync(string sceneName)
+    private void savePlayerDataDuringLoading()
     {
         if(StageInformationManager.isnextStageDungeon && 
         StageInformationManager.getGameMode() == GameModeType.adventure&&
@@ -51,6 +51,13 @@ public class HideCanvas : MonoBehaviour
         LoadingInformation.loadingSceneName != "Tutorial Last"
         )
         {
+            //그럼 여기는 튜토리얼이 아닌, 다음이 스테이지인 경우에만 호출이 되게 된다
+            if(StageInformationManager.NextWidth == -1) // 만약 아직 미리 크기 설정이 안되어 있다면
+            {
+                StageInformationManager.NextWidth = StageInformationManager.stageWidthMin[(int)StageInformationManager.difficulty,StageInformationManager.currentStageIndex];
+                StageInformationManager.NextHeight= StageInformationManager.stageHeightMin[(int)StageInformationManager.difficulty,StageInformationManager.currentStageIndex];
+                // 먼저 초기화를 해주고 나서 저장에 들어간다
+            }
             PlayerSaveManager.instance.SavePlayerStageData();
         }else
         {
@@ -61,6 +68,11 @@ public class HideCanvas : MonoBehaviour
             }
             loadingBar.gameObject.SetActive(false);
         }
+    }
+
+    private IEnumerator LoadSceneAsync(string sceneName)
+    {
+        savePlayerDataDuringLoading();
 
         loadingBar.value = 0;
         yield return new WaitForSeconds(0.05f);

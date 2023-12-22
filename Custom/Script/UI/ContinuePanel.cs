@@ -95,9 +95,9 @@ public class ContinuePanel : MonoBehaviour
         StageLevel.text = "Level" + (palyerSaveData[1] + 1) ;
         StageDifficulty.text = difficultyTexts[palyerSaveData[12]];
 
-        potionCount.text = palyerSaveData[4].ToString();
-        magGlassCount.text = palyerSaveData[5].ToString();
-        holyWaterCount.text = palyerSaveData[6].ToString();
+        potionCount.text = (palyerSaveData[4] + StageInformationManager.plusPotion_Default_perStage[palyerSaveData[12]]).ToString();
+        magGlassCount.text = (palyerSaveData[5] + StageInformationManager.plusMag_Default_perStage[palyerSaveData[12]]).ToString();
+        holyWaterCount.text = (palyerSaveData[6] + StageInformationManager.plusHoly_Default_perStage[palyerSaveData[12]]).ToString();
 
     }
 }

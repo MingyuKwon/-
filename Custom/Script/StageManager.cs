@@ -50,7 +50,6 @@ public class StageManager : MonoBehaviour, IStageManager
 
     [Space]
     [Header("For Debug")]
-    [SerializeField] private TextMeshProUGUI tmp;
 
     Vector3Int BigTreasurePosition;
 
@@ -292,8 +291,6 @@ public class StageManager : MonoBehaviour, IStageManager
 
                 }else
                 {
-                    StageInformationManager.NextWidth = StageInformationManager.stageWidthMin[(int)StageInformationManager.difficulty,StageInformationManager.currentStageIndex];
-                    StageInformationManager.NextHeight= StageInformationManager.stageHeightMin[(int)StageInformationManager.difficulty,StageInformationManager.currentStageIndex];
                     StageInformationManager.setHearts(); 
                     StageInformationManager.setUsableItems();
                     StageInformationManager. NexttotalTime = StageInformationManager.DefaultTimeforEntireGame;
@@ -406,16 +403,6 @@ public class StageManager : MonoBehaviour, IStageManager
     }
 
     private void Update() {
-        
-        if(isStageInputBlocked) 
-        {
-            tmp.text = "NO";
-            tmp.color = Color.red;
-            return;
-        }
-        
-        tmp.text = "OK";
-        tmp.color = Color.green;
 
         if(EventSystem.current.IsPointerOverGameObject()) return;
         if(isNowInitializing) return;
@@ -975,6 +962,8 @@ public class StageManager : MonoBehaviour, IStageManager
             width = parawidth;
             height = paraheight;
         }
+
+        Debug.Log("width : " + width + " height : " + height);
 
         flagArray = new int[height, width];
         isObstacleRemoved = new bool[height, width];

@@ -107,7 +107,6 @@ public class DifficultyPanel : MonoBehaviour
     private void UpdateMode()
     {
         int mode = (int)StageInformationManager.getGameMode();
-        Debug.Log(mode);
         mode = Mathf.Clamp(mode,0,1);
         Toggle selectedToggle = Modebuttons[mode];
         

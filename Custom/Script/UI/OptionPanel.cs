@@ -79,8 +79,9 @@ public class OptionPanel : MonoBehaviour
     }
     public void LanguageChange(Dropdown dropdown)
     {
+        string[] strings = {"Korean", "English"};
         int value = dropdown.value;
-        
+        LanguageManager.Invoke_languageChangeEvent(strings[value]);
     }
 
     public void BrightnessChange(float value)

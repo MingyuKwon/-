@@ -25,6 +25,10 @@ public class InGameUI : MonoBehaviour, AlertCallBack
     public TextMeshProUGUI magGlassPlus;
     public TextMeshProUGUI holyWaterPlus;
     public TextMeshProUGUI TimePlus;
+    public TextMeshProUGUI left;
+    public TextMeshProUGUI item;
+    public TextMeshProUGUI stagePer;
+    public TextMeshProUGUI[] buttonTexts;
 
     [Space]
     public TextMeshProUGUI[] usableItemExplain;
@@ -196,14 +200,14 @@ public class InGameUI : MonoBehaviour, AlertCallBack
         usableItemExplain[2].text = KoreanUsableText[2];
     }
 
-    private void SetLanguage(char langauage)
+    private void SetLanguageTexts()
     {
         for(int i=0; i<equipppedItemExplain.Length; i++)
         {
             equipppedItemExplain[i].text = "";
         }
 
-        if(langauage == 'e')
+        if(LanguageManager.currentLanguage == "English")
         {
             usableItemExplain[0].text = EnglishUsableText[0];
             usableItemExplain[1].text = EnglishUsableText[1];
@@ -215,7 +219,7 @@ public class InGameUI : MonoBehaviour, AlertCallBack
             }
 
             
-        }else if(langauage == 'k')
+        }else if(LanguageManager.currentLanguage == "Korean")
         {
             usableItemExplain[0].text = KoreanUsableText[0];
             usableItemExplain[1].text = KoreanUsableText[1];
@@ -243,6 +247,9 @@ public class InGameUI : MonoBehaviour, AlertCallBack
         EventManager.instance.UpdateLeftPanelEvent += UpdateLeftPanel;
 
         EventManager.instance.BackToMainMenuEvent += DestroyUI;
+
+        LanguageManager.languageChangeEvent += UpdateLeftPanelS;
+        LanguageManager.languageChangeEvent += UpdateRightPanelS;
     }
 
     private void OnDisable() {
@@ -258,6 +265,8 @@ public class InGameUI : MonoBehaviour, AlertCallBack
         EventManager.instance.UpdateLeftPanelEvent -= UpdateLeftPanel;
 
         EventManager.instance.BackToMainMenuEvent -= DestroyUI;
+        LanguageManager.languageChangeEvent -= UpdateLeftPanelS;
+        LanguageManager.languageChangeEvent -= UpdateRightPanelS;
     }
 
     public void DestroyUI()
@@ -500,9 +509,15 @@ public class InGameUI : MonoBehaviour, AlertCallBack
         }
     }
 
-
+    private void UpdateRightPanelS(string s)
+    {
+        UpdateRightPanel();
+    }
     private void UpdateRightPanel()
     {
+        string[] EnglisButton = {"Minimap", "Menu", "Restart", "Tutorial", "Setting", "Main Menu"};
+        string[] KoreanButton = {"미니맵", "메뉴", "재시작", "튜토리얼", "환경설정", "메인메뉴"};
+        string[] tempButtonText = EnglisButton;
         for(int i=0; i<5; i++)
         {
             EquippedItemImages[i].sprite = EquippedItemSprites[0];
@@ -515,31 +530,66 @@ public class InGameUI : MonoBehaviour, AlertCallBack
             equipppedItemExplain[i].text = "";
         }
 
-        SetLanguage('k');
+        if(LanguageManager.currentLanguage == "Korean")
+        {
+            item.text = "아이템";
+            tempButtonText = KoreanButton;
+        }else if(LanguageManager.currentLanguage == "English")
+        {
+            item.text = "Item";
+            tempButtonText = EnglisButton;
+        }
+
+        SetLanguageTexts();
+
+        for(int i=0; i<buttonTexts.Length; i++)
+        {
+            buttonTexts[i].text = tempButtonText[i];
+        }
+
     }
+
+    private void UpdateLeftPanelS(string s)
+    {
+        UpdateLeftPanel();
+    }
+
+
 
     private void UpdateLeftPanel()
     {
-        switch(StageInformationManager.difficulty)
-        {
-            case Difficulty.Easy :
-                difficultyText.text = "Easy";
-                break;
-            case Difficulty.Normal :
-                difficultyText.text = "Normal";
-                break;
-            case Difficulty.Hard :
-                difficultyText.text = "Hard";
-                break;
-            case Difficulty.Professional :
-                difficultyText.text = "Professional";
-                break;
-        }
-        
-        width.text = "Width : " + StageInformationManager.NextWidth.ToString();
-        height.text = "Height : " + StageInformationManager.NextHeight.ToString();
+        string[] EnglishDifficulty = {"Easy", "Normal", "Hard"};
+        string[] KoreanDifficulty = {"쉬움", "보통", "어려움"};
+
+        string[] EnglishStage = {"Cave", "Crypt", "Ruin"};
+        string[] KoreanStage = {"동굴", "묘지", "폐허"};
 
         int difficulty = (int)StageInformationManager.difficulty;
+        int stagetype = StageInformationManager.currentStagetype;
+
+
+        if(LanguageManager.currentLanguage == "Korean")
+        {
+            difficultyText.text = KoreanDifficulty[difficulty];
+            stageDifficulty.text = KoreanDifficulty[difficulty];
+            stageType.text = KoreanStage[stagetype];
+            width.text = "너비 : " + StageInformationManager.NextWidth.ToString();
+            height.text = "높이 : " + StageInformationManager.NextHeight.ToString();
+            stageIndex.text = "레벨 " + ((StageInformationManager.currentStageIndex + 1).ToString());
+            left.text = "남은 수";
+            stagePer.text = "스테이지 마다";
+        }else if(LanguageManager.currentLanguage == "English")
+        {
+            difficultyText.text = EnglishDifficulty[difficulty];
+            stageDifficulty.text = EnglishDifficulty[difficulty];
+            stageType.text = EnglishStage[stagetype];
+            width.text = "Width : " + StageInformationManager.NextWidth.ToString();
+            height.text = "Height : " + StageInformationManager.NextHeight.ToString();
+            stageIndex.text = "Level " + ((StageInformationManager.currentStageIndex + 1).ToString());
+            left.text = "Left";
+            stagePer.text = "stage per";
+        }
+        
         trapDamage.text = "X" + StageInformationManager.DefaultTrapDamage[difficulty].ToString();
         
         if(StageInformationManager.getGameMode() == GameModeType.stage)
@@ -557,36 +607,7 @@ public class InGameUI : MonoBehaviour, AlertCallBack
             TimePlus.text = "+" +  (StageInformationManager.DefaultTimeperStage[difficulty] + EquippedItem.Time_StageBonus).ToString();
         }
         
-        
-
-        switch(StageInformationManager.difficulty)
-        {
-            case Difficulty.Easy :
-                stageDifficulty.text = "Easy";
-                break;
-            case Difficulty.Normal :
-                stageDifficulty.text = "Normal";
-                break;
-            case Difficulty.Hard :
-                stageDifficulty.text = "Hard";
-                break;
-        }
-        switch(StageInformationManager.currentStagetype)
-        {
-            case 0 :
-                stageType.text = "Cave";
-                break;
-            case 1 :
-                stageType.text = "Crypt";
-                break;
-            case 2 :
-                stageType.text = "Ruin";
-                break;
-        }
-
-        stageIndex.text = "레벨 " + ((StageInformationManager.currentStageIndex + 1).ToString());
-
-        SetLanguage('k');
+        SetLanguageTexts();
     }
 
     IEnumerator changeTextColorShortly(TextMeshProUGUI textMeshProUGUI, Color standardColor, Color changeColor)

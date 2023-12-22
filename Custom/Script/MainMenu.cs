@@ -43,7 +43,6 @@ public class MainMenu : MonoBehaviour , AlertCallBack
 
     private void OnEnable() {
         int mode = (int)StageInformationManager.getGameMode();
-        Debug.Log("OnEnable Scene Num : " + StageInformationManager.currentStagetype);
         ChangeSceneNum(StageInformationManager.currentStagetype);
         ChangeModeNum(mode);
         StageInformationManager.SetDataInitialState();
@@ -89,7 +88,6 @@ public class MainMenu : MonoBehaviour , AlertCallBack
 
     public void ChangeSceneNum(int num)
     {
-        Debug.Log("ChangeSceneNum : " + num);
         StageInformationManager.currentStagetype = num;
         showImage.sprite = showImages[StageInformationManager.currentStagetype];
         PanelColor.color = new Color(colors[StageInformationManager.currentStagetype].r, colors[StageInformationManager.currentStagetype].g, colors[StageInformationManager.currentStagetype].b);

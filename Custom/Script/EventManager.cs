@@ -252,12 +252,13 @@ public class LanguageManager{
     
     public static void Invoke_languageChangeEvent(string s)
     {
+        currentLanguage = s;
         languageChangeEvent?.Invoke(s);
     }
 
     public static void LangaugeInitialize()
     {
-        currentLanguage = PlayerPrefs.GetString("currentLanguage", "Korean");
+        currentLanguage = PlayerPrefs.GetString("currentLanguage", "English");
         PlayerPrefs.SetString("currentLanguage",currentLanguage);
         PlayerPrefs.Save();
         Invoke_languageChangeEvent(currentLanguage);
