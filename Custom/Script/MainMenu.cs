@@ -30,6 +30,10 @@ public class MainMenu : MonoBehaviour , AlertCallBack
     [Space]
     public TextMeshProUGUI explainText;
     string[] explaintexts = {"대규모 도굴은 여러 층을 클리어 할 수록 아이템을 얻어가며 최종 보물을 얻는 것이 목표입니다", "소규모 도굴은 딱 한층만 최대한 빠르게 클리어 해 보물을 얻는 것이 목표입니다" };
+    string[] explaintextsEnglish = {
+    "The goal of a large-scale excavation is to obtain items while clearing multiple floors and ultimately acquire the final treasure.",
+    "The objective of a small-scale excavation is to clear just one floor as quickly as possible to obtain the treasure."
+};
 
     string[] loadAdventureSceneName = {"Cave Dungeon", "Crypt Dungeon", "Ruin Dungeon" };
     Animator animator;
@@ -100,7 +104,14 @@ public class MainMenu : MonoBehaviour , AlertCallBack
         StageInformationManager.changeGameMode((GameModeType)num);
         if(num > 1) return;
         difficultyPanel.color = difficultyPanelColors[num];
-        explainText.text = explaintexts[num];
+        if(LanguageManager.currentLanguage == "English")
+        {
+            explainText.text = explaintextsEnglish[num];
+        }else
+        {
+            explainText.text = explaintexts[num];
+        }
+        
     }
 
     int currentShowFlag = 0; // 0 : none, 1 : tutorial, 2 : stage, 3 : setting 
