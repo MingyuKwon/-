@@ -51,8 +51,21 @@ public class TutorialLangaugeManager : MonoBehaviour
     "You can mark it if you're unsure whether something under a rock is a trap or a treasure.",
     "You can mark the presence of a trap under a rock.",
     };
-    private string[] tutorial3TitleStringEnglish;
-    private string[] tutorial3TextStringEnglish;
+    private string[] tutorial3TitleStringEnglish= {
+    "Useable Items",
+    "Item Description",
+    };
+    private string[] tutorial3TextStringEnglish = {
+    "These are consumable items that can be used to complete stages. The quantity increases each time you complete a stage or find a treasure.",
+    "Can be used at the player's location. Recovers 1 health.",
+    "Before using magnifying glass",
+    "After using magnifying glass",
+    "Can be used at the player's location with a number. It separates the combined (treasure + trap) number into individual counts.",
+    "Can be used on rocks near the player. Determines whether there is a treasure under the rock. However, if it indicates no treasure, it's unclear whether it's empty or a trap.",
+    "There is a treasure",
+    "There is no treasure",
+    "Can be used on rocks near the player. Removes the rock, including any traps underneath. Unlimited use, but removing a treasure results in game over.",
+    };
     private string[] tutorial4TitleStringEnglish;
     private string[] tutorial4TextStringEnglish;
 
@@ -88,8 +101,21 @@ public class TutorialLangaugeManager : MonoBehaviour
         "바위 아래 뭔가 있지만, 함정인지 보물인지 모르겠는 경우 표시 할 수 있습니다 ",
         "바위 아래에 함정이 있는 것을 표시할 수 있습니다.",
     };
-    private string[] tutorial3TitleStringKorean;
-    private string[] tutorial3TextStringKorean;
+    private string[] tutorial3TitleStringKorean= {
+        "사용 아이템",
+        "아이템 설명",
+    };
+    private string[] tutorial3TextStringKorean= {
+        "스테이지를 깨기 위해서 사용 할 수 있는 소비형 아이템 입니다. 각 스테이지를 완료하거나, 보물을 찾을 때 마다 개수가 추가됩니다.",
+        "플레이어 위치에서 사용 가능. 체력 1을 회복합니다 ",
+        "돋보기 사용 전 ",
+        "돋보기 사용 후 ",
+        "숫자가 적혀 있는 플레이어 위치에서 사용 가능. 기존에 숫자가 (보물 + 함정) 통합되어서 보이던 것이 분리되서 보이게 만들어 줍니다 ",
+        "플레이어 주변 바위에 사용 가능. 바위 아래에 보물이 있는지 없는지를 판별 합니다. 다만, 보물이 없다고 표시 된 경우에, 아무것도 없는 것인지, 함정이 있는 것인지는 알 수 없습니다.",
+        "보물이 있습니다 ",
+        "보물이 없습니다 ",
+        "플레이어 주변 바위에 사용가능. 바위를 아래에 있는 함정을 포함해서 제거합니다. 무제한으로 사용할 수 있는 대신, 보물을 제거하게 되면 게임 오버 입니다",
+    };
     private string[] tutorial4TitleStringKorean;
     private string[] tutorial4TextStringKorean;
 

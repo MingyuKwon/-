@@ -8250,8 +8250,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 24
+  m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -8599,7 +8599,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6567628089730371681
 RectTransform:
   m_ObjectHideFlags: 0
@@ -19250,7 +19250,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -62.9, y: 100.000015}
+  m_AnchoredPosition: {x: -62.89985, y: 100.00004}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3729719709025031153
@@ -30932,8 +30932,19 @@ MonoBehaviour:
   - {fileID: 659925825237864155}
   - {fileID: 3301577435597884570}
   - {fileID: 8199316955031174255}
-  tutorial3Title: []
-  tutorial3Text: []
+  tutorial3Title:
+  - {fileID: 6913533421646131457}
+  - {fileID: 4644651805683351962}
+  tutorial3Text:
+  - {fileID: 8419985889551595228}
+  - {fileID: 7860235928552560726}
+  - {fileID: 4766478683025509497}
+  - {fileID: 1631514295070013572}
+  - {fileID: 2928443924451418893}
+  - {fileID: 7020781298997396488}
+  - {fileID: 8088457201269131614}
+  - {fileID: 3125183021485308491}
+  - {fileID: 1877718777358870865}
   tutorial4Title: []
   tutorial4Text: []
 --- !u!222 &1671441998130462778
