@@ -384,6 +384,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8116447808752611720, guid: 7630ea11dd9791a46a9f80ee23814fab, type: 3}
+      propertyPath: tutorialLineEnglish
+      value: 
+      objectReference: {fileID: 11400000, guid: 56cd16d7c3a1f624997608ea1eb29373, type: 2}
     - target: {fileID: 8116447808752611726, guid: 7630ea11dd9791a46a9f80ee23814fab, type: 3}
       propertyPath: m_Name
       value: Tutorial Guide

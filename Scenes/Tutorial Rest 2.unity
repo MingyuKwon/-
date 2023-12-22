@@ -400,6 +400,10 @@ PrefabInstance:
       propertyPath: tutorialIndex
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 8116447808752611720, guid: 7630ea11dd9791a46a9f80ee23814fab, type: 3}
+      propertyPath: tutorialLineEnglish
+      value: 
+      objectReference: {fileID: 11400000, guid: e0f716c23bde2b34dbcf4a12e52e27b5, type: 2}
     - target: {fileID: 8116447808752611726, guid: 7630ea11dd9791a46a9f80ee23814fab, type: 3}
       propertyPath: m_Name
       value: Tutorial Guide

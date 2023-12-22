@@ -103,6 +103,7 @@ public class OptionPanel : MonoBehaviour
     {
         string[] strings = {"Korean", "English"};
         int value = dropdown.value;
+        LanguageManager.SaveLanguage(strings[value]);
         LanguageManager.Invoke_languageChangeEvent(strings[value]);
     }
 

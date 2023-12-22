@@ -46,6 +46,7 @@ public class NoticeUI : MonoBehaviour, IPointerClickHandler
 
     public void showNotice(string[] texts, bool isTyping, int panelWidth, int panelHeight)
     {
+
         if(texts == null) // 이건 Notice를 닫기를 원할 떄
         {
             noticePanel.gameObject.SetActive(false);
@@ -56,6 +57,7 @@ public class NoticeUI : MonoBehaviour, IPointerClickHandler
             noticePanel.gameObject.SetActive(true);
             callCount = 0;
             rectTransform.sizeDelta = new Vector2(panelWidth, panelHeight);
+            Debug.Log(LanguageManager.currentLanguage);
 
             if(isTyping)
             {
@@ -64,14 +66,7 @@ public class NoticeUI : MonoBehaviour, IPointerClickHandler
                 StartCoroutine(Typing(texts));
             }else
             {
-                if(LanguageManager.currentLanguage == "English")
-                {
-                    str.text = texts[0];
-                }else
-                {
-                    str.text = texts[1];
-                }
-                
+                str.text = texts[0];   
             }
             
         }

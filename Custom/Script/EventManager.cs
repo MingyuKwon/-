@@ -282,6 +282,12 @@ public class LanguageManager{
         PlayerPrefs.Save();
         Invoke_languageChangeEvent(currentLanguage);
     }
+
+    public static void SaveLanguage(string s)
+    {
+        PlayerPrefs.SetString("currentLanguage",s);
+        PlayerPrefs.Save();
+    }
 }
 
 public class EventManager : MonoBehaviour

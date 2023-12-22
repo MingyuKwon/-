@@ -12,6 +12,7 @@ public class TutorialGuide : MonoBehaviour
     [Space]
     [Space]
     public Line tutorialLine;
+    public Line tutorialLineEnglish;
 
     Line currentLine;
     int stringCount;
@@ -20,7 +21,7 @@ public class TutorialGuide : MonoBehaviour
     void Start()
     {
         tutorialTextindex = 0;
-        currentLine = tutorialLine;
+        currentLine = tutorialLineEnglish;
 
         stringCount = currentLine.stringCount;
 
@@ -36,6 +37,15 @@ public class TutorialGuide : MonoBehaviour
 
     private void TutorialShow()
     {
+        if(LanguageManager.currentLanguage == "English")
+        {
+            currentLine = tutorialLineEnglish;
+        }else
+        {
+            currentLine = tutorialLine;
+        }
+        stringCount = currentLine.stringCount;
+
         if( tutorialTextindex < stringCount  && tutorialTextindex == 0)
         {
             EventManager.instance.Invoke_showNoticeUIEvent(currentLine.line1, true, 1800, 250);
