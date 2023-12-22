@@ -35,8 +35,22 @@ public class TutorialLangaugeManager : MonoBehaviour
     "If the time limit is exceeded, it's game over.",
     "Removing a treasure while trying to clear a trap results in game over.",
     };
-    private string[] tutorial2TitleStringEnglish;
-    private string[] tutorial2TextStringEnglish;
+    private string[] tutorial2TitleStringEnglish = {
+    "Mouse Cursor",
+    "Left Click",
+    "Wheel Click",
+    "Right Click",
+    };
+    private string[] tutorial2TextStringEnglish = {
+    "Displays the item window at the cursor position. Click the wheel again to close it.",
+    "This shows a highlighted line at the mouse position. The mouse cursor is activated only in places where the player can move.",
+    "Left-clicking the mouse allows you to move according to the cursor's position or clear a rock.",
+    "If the cursor is in a spot without a rock, you can move to that position.",
+    "If the cursor is on a rock and the rock is right next to the player, you can dig out the rock to check what's underneath.",
+    "Right-clicking the mouse allows you to place a flag on the rock at the cursor's position. The flag changes shape each time you right-click.",
+    "You can mark it if you're unsure whether something under a rock is a trap or a treasure.",
+    "You can mark the presence of a trap under a rock.",
+    };
     private string[] tutorial3TitleStringEnglish;
     private string[] tutorial3TextStringEnglish;
     private string[] tutorial4TitleStringEnglish;
@@ -58,8 +72,22 @@ public class TutorialLangaugeManager : MonoBehaviour
         "시간제한을 넘기게 되면 게임 오버가 됩니다.",
         "함정을 제거하려다 보물을 제거하면 게임 오버입니다.",
     };
-    private string[] tutorial2TitleStringKorean;
-    private string[] tutorial2TextStringKorean;
+    private string[] tutorial2TitleStringKorean = {
+        "마우스 커서",
+        "좌클릭",
+        "휠클릭",
+        "우클릭",
+    };
+    private string[] tutorial2TextStringKorean = {
+        "커서 위치에 아이템 창을 띄웁니다 . 다시 닫고 싶으면 휠을 다시 클릭하면 됩니다 ",
+        "마우스 위치에 표시 되는 강조 선입니다. 마우스 커서는 플레이어가 이동해서 갈 수 있는 곳에만 활성화 됩니다 ",
+        "마우스 좌클릭을 하면 커서의 위치에 따라 이동하거나, 바위를 치울 수 있습니다 ",
+        "커서가 바위가 없는 곳에 있다면, 해당 위치로 이동 할 수 있습니다",
+        "커서가 바위 위치에 있고, 바위가 플레이어 바로 옆에 있다면, 바위를 퍼내 바위 밑에 뭐가 있는지 확인 할 수 있습니다 ",
+        "마우스 우클릭을 하면 커서의 위치의 바위에 깃발을 세울 수 있습니다. 깃발은 우클릭을 누를 때 마다 모양이 바뀝니다 ",
+        "바위 아래 뭔가 있지만, 함정인지 보물인지 모르겠는 경우 표시 할 수 있습니다 ",
+        "바위 아래에 함정이 있는 것을 표시할 수 있습니다.",
+    };
     private string[] tutorial3TitleStringKorean;
     private string[] tutorial3TextStringKorean;
     private string[] tutorial4TitleStringKorean;

@@ -8599,7 +8599,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &6567628089730371681
 RectTransform:
   m_ObjectHideFlags: 0
@@ -24519,8 +24519,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -30, y: -40}
-  m_SizeDelta: {x: 400, y: 100}
+  m_AnchoredPosition: {x: -55, y: -40}
+  m_SizeDelta: {x: 900, y: 100}
   m_Pivot: {x: 1, y: 1}
 --- !u!222 &4973532722883482020
 CanvasRenderer:
@@ -24584,7 +24584,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 1
-  m_HorizontalAlignment: 2
+  m_HorizontalAlignment: 4
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -29823,8 +29823,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -30, y: -40}
-  m_SizeDelta: {x: 400, y: 100}
+  m_AnchoredPosition: {x: -55, y: -40}
+  m_SizeDelta: {x: 900, y: 100}
   m_Pivot: {x: 1, y: 1}
 --- !u!222 &2017929434248296679
 CanvasRenderer:
@@ -29881,14 +29881,14 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 40
-  m_fontSizeBase: 40
+  m_fontSize: 60
+  m_fontSizeBase: 60
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 1
-  m_HorizontalAlignment: 2
+  m_HorizontalAlignment: 4
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -30854,9 +30854,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8206932736049484415}
+  - component: {fileID: 9063777730359247032}
   - component: {fileID: 1671441998130462778}
   - component: {fileID: 4494722703708351684}
-  - component: {fileID: 9063777730359247032}
   m_Layer: 5
   m_Name: Tutorial
   m_TagString: Untagged
@@ -30892,6 +30892,50 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &9063777730359247032
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8662270511846397253}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77b7bf04f05c197439264b3ed8c47cc3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tutorial1Title:
+  - {fileID: 5191569234912984304}
+  - {fileID: 1576986720233326965}
+  - {fileID: 6628322354874321145}
+  - {fileID: 1833746944917754621}
+  tutorial1Text:
+  - {fileID: 7408967068603072809}
+  - {fileID: 4146463733951477311}
+  - {fileID: 7850812929943191015}
+  - {fileID: 1056575946191337872}
+  - {fileID: 5494126524405883712}
+  - {fileID: 2363852780446586679}
+  - {fileID: 8562216671956471469}
+  - {fileID: 846036597450474677}
+  tutorial2Title:
+  - {fileID: 8909912898916515001}
+  - {fileID: 2255077634094757295}
+  - {fileID: 122041311993457297}
+  - {fileID: 6873137125573060480}
+  tutorial2Text:
+  - {fileID: 3092955872262121320}
+  - {fileID: 8771711626844412359}
+  - {fileID: 4159783366515580087}
+  - {fileID: 7989830363635866810}
+  - {fileID: 5075886771181362276}
+  - {fileID: 659925825237864155}
+  - {fileID: 3301577435597884570}
+  - {fileID: 8199316955031174255}
+  tutorial3Title: []
+  tutorial3Text: []
+  tutorial4Title: []
+  tutorial4Text: []
 --- !u!222 &1671441998130462778
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -30920,38 +30964,6 @@ MonoBehaviour:
   previousButton: {fileID: 1591064430110316113}
   nextButton: {fileID: 1366856277633667771}
   indexShowText: {fileID: 2612637153093582246}
---- !u!114 &9063777730359247032
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8662270511846397253}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77b7bf04f05c197439264b3ed8c47cc3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tutorial1Title:
-  - {fileID: 5191569234912984304}
-  - {fileID: 1576986720233326965}
-  - {fileID: 6628322354874321145}
-  - {fileID: 1833746944917754621}
-  tutorial1Text:
-  - {fileID: 7408967068603072809}
-  - {fileID: 4146463733951477311}
-  - {fileID: 7850812929943191015}
-  - {fileID: 1056575946191337872}
-  - {fileID: 5494126524405883712}
-  - {fileID: 2363852780446586679}
-  - {fileID: 8562216671956471469}
-  - {fileID: 846036597450474677}
-  tutorial2Title: []
-  tutorial2Text: []
-  tutorial3Title: []
-  tutorial3Text: []
-  tutorial4Title: []
-  tutorial4Text: []
 --- !u!1 &8662553228817655944
 GameObject:
   m_ObjectHideFlags: 0
@@ -31950,8 +31962,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -30, y: -40}
-  m_SizeDelta: {x: 400, y: 100}
+  m_AnchoredPosition: {x: -55, y: -40}
+  m_SizeDelta: {x: 900, y: 100}
   m_Pivot: {x: 1, y: 1}
 --- !u!222 &3895673511769664071
 CanvasRenderer:
@@ -32015,7 +32027,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 1
-  m_HorizontalAlignment: 2
+  m_HorizontalAlignment: 4
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -32303,15 +32315,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 224264056157746344, guid: e896f501308d3d046b9419145d54bcc2, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224264056157746344, guid: e896f501308d3d046b9419145d54bcc2, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224264056157746344, guid: e896f501308d3d046b9419145d54bcc2, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: -17
       objectReference: {fileID: 0}
     - target: {fileID: 224426042698572568, guid: e896f501308d3d046b9419145d54bcc2, type: 3}
       propertyPath: m_Pivot.x
@@ -33255,15 +33267,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 224264056157746344, guid: e896f501308d3d046b9419145d54bcc2, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224264056157746344, guid: e896f501308d3d046b9419145d54bcc2, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224264056157746344, guid: e896f501308d3d046b9419145d54bcc2, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: -17
       objectReference: {fileID: 0}
     - target: {fileID: 224426042698572568, guid: e896f501308d3d046b9419145d54bcc2, type: 3}
       propertyPath: m_Pivot.x
