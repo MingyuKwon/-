@@ -124,9 +124,11 @@ public class MainMenu : MonoBehaviour , AlertCallBack
         if(currentShowFlag != 0)
         {
             animator.SetTrigger("ClosePanel");
+            
             currentShowFlag = 0;
         }else
         {
+            ChangeModeNum((int)StageInformationManager.getGameMode());
             animator.SetTrigger("StageShow");
             currentShowFlag = 2;
         }
