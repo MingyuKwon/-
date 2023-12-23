@@ -575,7 +575,14 @@ public class InGameUI : MonoBehaviour, AlertCallBack
             stageType.text = KoreanStage[stagetype];
             width.text = "너비 : " + StageInformationManager.NextWidth.ToString();
             height.text = "높이 : " + StageInformationManager.NextHeight.ToString();
-            stageIndex.text = "레벨 " + ((StageInformationManager.currentStageIndex + 1).ToString());
+            if(StageInformationManager.getGameMode() == GameModeType.stage)
+            {
+                stageIndex.text = "스테이지";
+            }else
+            {
+                stageIndex.text = "레벨 " + ((StageInformationManager.currentStageIndex + 1).ToString());
+            }
+            
             left.text = "남은 수";
             stagePer.text = "스테이지 마다";
         }else if(LanguageManager.currentLanguage == "English")
@@ -585,7 +592,14 @@ public class InGameUI : MonoBehaviour, AlertCallBack
             stageType.text = EnglishStage[stagetype];
             width.text = "Width : " + StageInformationManager.NextWidth.ToString();
             height.text = "Height : " + StageInformationManager.NextHeight.ToString();
-            stageIndex.text = "Level " + ((StageInformationManager.currentStageIndex + 1).ToString());
+            if(StageInformationManager.getGameMode() == GameModeType.stage)
+            {
+                stageIndex.text = "STAGE";
+            }else
+            {
+                stageIndex.text = "Level " + ((StageInformationManager.currentStageIndex + 1).ToString());
+            }
+            
             left.text = "Left";
             stagePer.text = "stage per";
         }
